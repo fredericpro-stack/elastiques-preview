@@ -4,30 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELITEBAND - Équipement Professionnel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --primary: #0F0F0F;
-            --secondary: #1C1C1C;
-            --gold: #D4AF37;
-            --gold-dark: #B8972E;
+            --primary: #0A0A0A;
+            --secondary: #141414;
+            --gold: #C9A962;
+            --gold-light: #D4B978;
+            --gold-dark: #B89B4E;
             --white: #FFFFFF;
-            --light: #F5F5F5;
-            --gray: #6B7280;
-            --gray-dark: #374151;
+            --off-white: #F5F5F5;
+            --gray-100: #E5E5E5;
+            --gray-200: #CCCCCC;
+            --gray-300: #999999;
+            --gray-400: #666666;
+            --gray-500: #4D4D4D;
+            --gray-600: #333333;
+            --shadow-gold: 0 8px 32px rgba(201,169,98,0.25);
         }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Lato', sans-serif; color: var(--primary); line-height: 1.6; }
-        h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        html { scroll-behavior: smooth; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            color: var(--gray-600); 
+            line-height: 1.6;
+            background: var(--white);
+        }
+        
+        h1, h2, h3, h4 { 
+            font-family: 'Syne', sans-serif; 
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
         
         /* Header */
         header {
             background: var(--primary);
-            padding: 20px 0;
-            position: sticky;
+            padding: 24px 0;
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            z-index: 1000;
         }
         .header-inner {
             display: flex;
@@ -35,425 +58,600 @@
             align-items: center;
         }
         .logo {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
             color: var(--gold);
             text-decoration: none;
-            letter-spacing: 4px;
+            letter-spacing: 0.15em;
         }
-        nav { display: flex; gap: 40px; }
+        nav { display: flex; gap: 48px; }
         nav a { 
-            color: var(--white); 
+            color: var(--gray-300); 
             text-decoration: none; 
             font-size: 0.85rem;
-            letter-spacing: 1px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
+            transition: color 0.3s;
         }
         nav a:hover { color: var(--gold); }
-        .cart-icon {
-            color: var(--gold);
+        .header-actions { display: flex; align-items: center; gap: 24px; }
+        .cart-btn {
+            color: var(--white);
             text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.2s;
         }
+        .cart-btn:hover { color: var(--gold); }
         
         /* Hero */
         .hero {
-            background: var(--primary);
-            color: var(--white);
             min-height: 100vh;
+            background: var(--primary);
             display: flex;
             align-items: center;
             position: relative;
+            overflow: hidden;
+            padding-top: 100px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80') center/cover;
+            opacity: 0.4;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, transparent 30%);
         }
         .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 20px;
+            position: relative;
+            z-index: 1;
+            max-width: 650px;
+            padding: 80px 0;
+        }
+        .hero-tag {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gold);
         }
         .hero h1 {
-            font-size: 5rem;
-            line-height: 1;
-            margin-bottom: 25px;
-            letter-spacing: 8px;
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.05;
+            color: var(--white);
+            margin-bottom: 32px;
         }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--gray);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
+        .hero h1 span {
+            display: block;
+            color: var(--gold);
+        }
+        .hero-text {
+            font-size: 1.15rem;
+            color: var(--gray-300);
+            margin-bottom: 48px;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+        .hero-btns {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 64px;
         }
         .btn {
-            padding: 18px 50px;
-            border-radius: 0;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
+            padding: 20px 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
         }
         .btn-gold {
             background: var(--gold);
             color: var(--primary);
         }
-        .btn-gold:hover { background: var(--gold-dark); }
+        .btn-gold:hover { 
+            background: var(--gold-light);
+            box-shadow: var(--shadow-gold);
+            transform: translateY(-2px);
+        }
         .btn-outline {
-            border: 1px solid var(--white);
-            color: var(--white);
             background: transparent;
+            color: var(--white);
+            border: 1px solid var(--gray-500);
         }
-        .btn-outline:hover { background: var(--white); color: var(--primary); }
-        .hero-image {
-            margin-top: 60px;
+        .btn-outline:hover { 
+            border-color: var(--gold);
+            color: var(--gold);
         }
-        .hero-placeholder {
-            border: 1px solid var(--gray-dark);
-            padding: 100px 50px;
-            max-width: 500px;
-            margin: 0 auto;
+        .hero-stats {
+            display: flex;
+            gap: 64px;
+        }
+        .hero-stat {
+            text-align: left;
+        }
+        .hero-stat h3 {
+            font-size: 3rem;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+        .hero-stat h3 span { color: var(--gold); }
+        .hero-stat p {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
         
-        /* Stats */
+        /* Marquee */
+        .marquee {
+            background: var(--gold);
+            padding: 16px 0;
+            overflow: hidden;
+        }
+        .marquee-content {
+            display: flex;
+            gap: 64px;
+            animation: scroll 20s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Stats Section */
         .stats {
-            background: var(--white);
-            padding: 50px 0;
+            padding: 100px 0;
+            background: var(--off-white);
         }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+            gap: 48px;
+        }
+        .stat-item {
             text-align: center;
+            padding: 40px;
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            transition: all 0.3s;
         }
-        .stat h3 {
-            font-size: 3rem;
+        .stat-item:hover {
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+        .stat-item h3 {
+            font-size: 3.5rem;
             color: var(--primary);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
-        .stat p {
-            color: var(--gray);
+        .stat-item p {
+            font-size: 0.85rem;
+            color: var(--gray-400);
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            letter-spacing: 0.1em;
         }
         
-        /* Product Hero */
-        .product-hero {
-            padding: 100px 0;
+        /* Products */
+        .products {
+            padding: 120px 0;
+            background: var(--white);
         }
-        .product-hero-grid {
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 64px;
+        }
+        .section-tag {
+            color: var(--gold);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary);
+        }
+        .section-link {
+            color: var(--gray-400);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .section-link:hover { color: var(--gold); }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        .product-card {
+            position: relative;
+            background: var(--off-white);
+            overflow: hidden;
+            transition: all 0.5s;
+        }
+        .product-card:hover {
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        }
+        .product-image {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+        .product-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .product-card:hover .product-overlay { opacity: 1; }
+        .product-actions {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            display: flex;
+            gap: 12px;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s;
+        }
+        .product-card:hover .product-actions {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .product-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 16px;
+        }
+        .product-info {
+            padding: 28px;
+            background: var(--white);
+        }
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+        .product-info h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray-400);
+            font-size: 0.85rem;
+        }
+        .product-rating i { color: var(--gold); }
+        
+        /* Quality Section */
+        .quality {
+            padding: 140px 0;
+            background: var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        .quality::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--gray-600), transparent);
+        }
+        .quality-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+        }
+        .quality-item {
+            padding: 60px;
+            border: 1px solid var(--gray-600);
+            transition: all 0.4s;
+        }
+        .quality-item:hover {
+            border-color: var(--gold);
+            background: rgba(201,169,98,0.05);
+        }
+        .quality-icon {
+            width: 64px;
+            height: 64px;
+            border: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 32px;
+        }
+        .quality-item h3 {
+            font-size: 1.75rem;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        .quality-item p {
+            color: var(--gray-400);
+            line-height: 1.8;
+        }
+        
+        /* B2B Section */
+        .b2b {
+            padding: 120px 0;
+            background: var(--off-white);
+        }
+        .b2b-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 80px;
             align-items: center;
         }
-        .product-hero-image {
-            background: var(--light);
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 6rem;
-        }
-        .product-hero-content h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-        }
-        .product-hero-content > p {
-            color: var(--gray);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
-        .product-features {
-            margin-bottom: 30px;
-        }
-        .product-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--light);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .product-features li::before {
-            content: '—';
-            color: var(--gold);
-        }
-        .product-price {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            color: var(--gray);
-        }
-        .product-price span {
-            font-size: 1.5rem;
+        .b2b-content .section-tag { margin-bottom: 16px; }
+        .b2b-content h2 {
+            font-size: 2.75rem;
             color: var(--primary);
-            font-weight: 700;
+            margin-bottom: 24px;
         }
-        
-        /* Products */
-        .products {
-            background: var(--light);
-            padding: 100px 0;
-        }
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 60px;
-            letter-spacing: 4px;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-        .product-card {
-            background: var(--white);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-        .product-image {
-            background: var(--light);
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-        }
-        .product-info {
-            padding: 30px;
-            text-align: center;
-            border-top: 1px solid var(--light);
-        }
-        .product-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            letter-spacing: 2px;
-        }
-        .product-desc {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-        .product-price-card {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .btn-add {
-            width: 100%;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .btn-add:hover { background: var(--gold); color: var(--primary); }
-        
-        /* Quality */
-        .quality {
-            background: var(--primary);
-            color: var(--white);
-            padding: 100px 0;
-        }
-        .quality .section-title { color: var(--white); }
-        .quality-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 50px;
-            margin-top: 60px;
-        }
-        .quality-item {
-            border: 1px solid var(--gray-dark);
-            padding: 40px;
-        }
-        .quality-item h3 {
-            color: var(--gold);
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-        }
-        .quality-item p {
-            color: var(--gray);
+        .b2b-content > p {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
             line-height: 1.8;
         }
-        
-        /* B2B */
-        .b2b {
-            padding: 100px 0;
-            text-align: center;
-        }
-        .b2b-subtitle {
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto 50px;
-        }
-        .b2b-grid {
+        .b2b-features {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto 50px;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
         }
-        .b2b-item {
-            border: 1px solid var(--light);
-            padding: 30px 20px;
+        .b2b-feature {
+            padding: 24px;
+            background: var(--white);
+            border: 1px solid var(--gray-100);
         }
-        .b2b-item h4 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+        .b2b-feature h4 {
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin-bottom: 4px;
         }
-        .b2b-item p {
-            color: var(--gray);
+        .b2b-feature p {
             font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+        .b2b-image img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
         }
         
         /* Testimonials */
         .testimonials {
-            background: var(--light);
-            padding: 100px 0;
+            padding: 120px 0;
+            background: var(--white);
+        }
+        .testimonials .section-header {
+            text-align: center;
+            display: block;
+            margin-bottom: 80px;
         }
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
         }
-        .testimonial {
-            background: var(--white);
-            padding: 40px;
-            border-left: 3px solid var(--gold);
+        .testimonial-card {
+            padding: 48px;
+            border: 1px solid var(--gray-100);
+            position: relative;
         }
-        .testimonial p {
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-bottom: 25px;
-            line-height: 1.8;
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 32px;
+            right: 48px;
+            font-size: 6rem;
+            color: var(--gray-100);
+            font-family: Georgia, serif;
+            line-height: 1;
         }
-        .testimonial-author h4 {
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+        .testimonial-card p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: var(--gray-600);
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
         }
-        .testimonial-author span {
-            color: var(--gray);
-            font-size: 0.85rem;
-        }
-        
-        /* Guarantees */
-        .guarantees {
-            background: var(--primary);
-            color: var(--white);
-            padding: 80px 0;
-        }
-        .guarantees .section-title { color: var(--white); }
-        .guarantees-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
+        .testimonial-author {
+            display: flex;
+            align-items: center;
             gap: 20px;
-            text-align: center;
-            margin-top: 50px;
         }
-        .guarantee {
-            padding: 20px;
-            border: 1px solid var(--gray-dark);
+        .testimonial-author img {
+            width: 64px;
+            height: 64px;
+            object-fit: cover;
         }
-        .guarantee-icon { font-size: 2rem; margin-bottom: 15px; }
-        .guarantee h4 {
+        .author-info h4 {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+        .author-info span {
             font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-        .guarantee p {
-            color: var(--gray);
-            font-size: 0.75rem;
+            color: var(--gray-400);
         }
         
         /* CTA */
         .cta {
+            padding: 160px 0;
             background: var(--gold);
-            padding: 80px 0;
             text-align: center;
         }
         .cta h2 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             color: var(--primary);
-            margin-bottom: 30px;
-            letter-spacing: 4px;
+            margin-bottom: 24px;
         }
-        .btn-black {
+        .cta p {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            margin-bottom: 48px;
+        }
+        .cta .btn-dark {
             background: var(--primary);
             color: var(--white);
+            padding: 24px 56px;
         }
-        .btn-black:hover { background: var(--secondary); }
+        .cta .btn-dark:hover {
+            background: var(--secondary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
         
         /* Footer */
         footer {
             background: var(--primary);
-            color: var(--white);
-            padding: 60px 0 30px;
+            color: var(--gray-400);
+            padding: 80px 0 40px;
         }
         .footer-grid {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 50px;
+            gap: 80px;
+            margin-bottom: 80px;
         }
-        .footer-brand .logo { margin-bottom: 15px; display: block; }
-        .footer-brand p { color: var(--gray); font-size: 0.9rem; }
+        .footer-brand .logo {
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+        .footer-brand p { line-height: 1.8; }
         .footer-col h4 {
             color: var(--gold);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
         }
         .footer-col ul { list-style: none; }
-        .footer-col li { margin-bottom: 10px; }
-        .footer-col a { color: var(--gray); text-decoration: none; font-size: 0.85rem; }
+        .footer-col li { margin-bottom: 16px; }
+        .footer-col a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
         .footer-col a:hover { color: var(--gold); }
         .footer-bottom {
-            border-top: 1px solid var(--gray-dark);
-            padding-top: 30px;
+            border-top: 1px solid var(--gray-600);
+            padding-top: 40px;
             display: flex;
             justify-content: space-between;
-            color: var(--gray);
-            font-size: 0.8rem;
+            align-items: center;
+            font-size: 0.85rem;
         }
         
-        /* Back button */
+        /* Back Button */
         .back-btn {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: 32px;
+            left: 32px;
             background: var(--gold);
             color: var(--primary);
-            padding: 12px 25px;
+            padding: 16px 28px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
             z-index: 1000;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
         }
-        .back-btn:hover { background: var(--gold-dark); }
+        .back-btn:hover { 
+            background: var(--primary);
+            color: var(--gold);
+        }
         
         /* Mobile */
+        @media (max-width: 1024px) {
+            .hero-content { max-width: 100%; }
+            .hero::before, .hero::after { width: 100%; opacity: 0.2; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .quality-grid, .b2b-grid, .testimonials-grid { grid-template-columns: 1fr; }
+        }
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .stats-grid, .products-grid, .quality-grid, 
-            .testimonials-grid, .footer-grid { 
-                grid-template-columns: 1fr; 
-            }
-            .product-hero-grid { grid-template-columns: 1fr; }
-            .guarantees-grid { grid-template-columns: repeat(2, 1fr); }
-            .b2b-grid { grid-template-columns: repeat(2, 1fr); }
             nav { display: none; }
+            .container { padding: 0 24px; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-stats { flex-direction: column; gap: 24px; }
+            .stats-grid, .products-grid { grid-template-columns: 1fr; }
+            .b2b-features { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
 </head>
@@ -464,69 +662,83 @@
             <a href="#" class="logo">ELITEBAND</a>
             <nav>
                 <a href="#">Collection</a>
-                <a href="#">Pro</a>
-                <a href="#">Programmes</a>
+                <a href="#">Professionnels</a>
+                <a href="#">À propos</a>
                 <a href="#">Contact</a>
             </nav>
-            <a href="#" class="cart-icon">🛒</a>
+            <div class="header-actions">
+                <a href="#" class="cart-btn"><i class="fas fa-shopping-bag"></i></a>
+            </div>
         </div>
     </header>
 
     <!-- Hero -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>L'EXCELLENCE<br>À DOMICILE.</h1>
-            <p>Équipement professionnel. Performance. Sans compromis.</p>
-            <a href="#" class="btn btn-gold">DÉCOUVRIR</a>
-            <div class="hero-image">
-                <div class="hero-placeholder">
-                    <div style="font-size: 4rem; color: var(--gold);">⚡</div>
-                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.85rem;">PHOTO STUDIO : ÉLASTIQUES PREMIUM</p>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-tag">Équipement Professionnel</div>
+                <h1>L'excellence<br><span>à domicile.</span></h1>
+                <p class="hero-text">Matériel de musculation haut de gamme. Conçu pour les athlètes exigeants. Approuvé par les professionnels de santé.</p>
+                <div class="hero-btns">
+                    <a href="#" class="btn btn-gold">
+                        Découvrir
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        Espace Pro
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <h3>50<span>kg</span></h3>
+                        <p>Résistance max</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>2<span>ans</span></h3>
+                        <p>Garantie</p>
+                    </div>
+                    <div class="hero-stat">
+                        <h3>CE</h3>
+                        <p>Certifié</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span class="marquee-item"><i class="fas fa-medal"></i> Qualité Premium</span>
+            <span class="marquee-item"><i class="fas fa-truck-fast"></i> Livraison Express</span>
+            <span class="marquee-item"><i class="fas fa-shield"></i> Garantie 2 ans</span>
+            <span class="marquee-item"><i class="fas fa-certificate"></i> Certifié CE</span>
+            <span class="marquee-item"><i class="fas fa-medal"></i> Qualité Premium</span>
+            <span class="marquee-item"><i class="fas fa-truck-fast"></i> Livraison Express</span>
+            <span class="marquee-item"><i class="fas fa-shield"></i> Garantie 2 ans</span>
+            <span class="marquee-item"><i class="fas fa-certificate"></i> Certifié CE</span>
+        </div>
+    </div>
 
     <!-- Stats -->
     <section class="stats">
         <div class="container">
             <div class="stats-grid">
-                <div class="stat">
-                    <h3>50KG</h3>
-                    <p>Résistance max</p>
+                <div class="stat-item">
+                    <h3>15K+</h3>
+                    <p>Clients</p>
                 </div>
-                <div class="stat">
+                <div class="stat-item">
                     <h3>200+</h3>
-                    <p>Exercices possibles</p>
+                    <p>Exercices</p>
                 </div>
-                <div class="stat">
-                    <h3>CE</h3>
-                    <p>Certifié</p>
+                <div class="stat-item">
+                    <h3>4.9</h3>
+                    <p>Note moyenne</p>
                 </div>
-                <div class="stat">
-                    <h3>2 ANS</h3>
-                    <p>Garantie</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Hero -->
-    <section class="product-hero">
-        <div class="container">
-            <div class="product-hero-grid">
-                <div class="product-hero-image">🎗️</div>
-                <div class="product-hero-content">
-                    <h2>COLLECTION PRO</h2>
-                    <p>Latex premium haute résistance. Testé par des athlètes. Approuvé par des kinésithérapeutes.</p>
-                    <ul class="product-features">
-                        <li>5 niveaux de résistance</li>
-                        <li>Latex 100% naturel</li>
-                        <li>Coutures renforcées</li>
-                        <li>Guide expert inclus</li>
-                    </ul>
-                    <p class="product-price">À partir de <span>24,90€</span></p>
-                    <a href="#" class="btn btn-gold">VOIR LA COLLECTION</a>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Pros équipés</p>
                 </div>
             </div>
         </div>
@@ -535,33 +747,75 @@
     <!-- Products -->
     <section class="products">
         <div class="container">
-            <h2 class="section-title">NOS RÉFÉRENCES</h2>
+            <div class="section-header">
+                <div>
+                    <div class="section-tag">Collection</div>
+                    <h2 class="section-title">Nos références</h2>
+                </div>
+                <a href="#" class="section-link">
+                    Voir tout
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
             <div class="products-grid">
                 <div class="product-card">
-                    <div class="product-image">🎗️</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=800&q=80" alt="Pack Essentiel">
+                        <div class="product-overlay"></div>
+                        <div class="product-actions">
+                            <a href="#" class="btn btn-gold">Ajouter</a>
+                        </div>
+                    </div>
                     <div class="product-info">
-                        <h3>PACK ESSENTIEL</h3>
-                        <p class="product-desc">5 bandes résistance</p>
-                        <div class="product-price-card">24,90€</div>
-                        <button class="btn-add">Acheter</button>
+                        <div class="product-category">Bandes</div>
+                        <h3>Pack Essentiel</h3>
+                        <div class="product-footer">
+                            <span class="product-price">24,90€</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9 (423)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="product-card">
-                    <div class="product-image">🔗</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80" alt="Kit Performance">
+                        <div class="product-overlay"></div>
+                        <div class="product-actions">
+                            <a href="#" class="btn btn-gold">Ajouter</a>
+                        </div>
+                    </div>
                     <div class="product-info">
-                        <h3>KIT PERFORMANCE</h3>
-                        <p class="product-desc">11 pièces tout inclus</p>
-                        <div class="product-price-card">44,90€</div>
-                        <button class="btn-add">Acheter</button>
+                        <div class="product-category">Kit complet</div>
+                        <h3>Kit Performance</h3>
+                        <div class="product-footer">
+                            <span class="product-price">44,90€</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8 (287)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="product-card">
-                    <div class="product-image">🎁</div>
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80" alt="Set Ultimate">
+                        <div class="product-overlay"></div>
+                        <div class="product-actions">
+                            <a href="#" class="btn btn-gold">Ajouter</a>
+                        </div>
+                    </div>
                     <div class="product-info">
-                        <h3>SET ULTIMATE</h3>
-                        <p class="product-desc">21 pièces collection complète</p>
-                        <div class="product-price-card">89,90€</div>
-                        <button class="btn-add">Acheter</button>
+                        <div class="product-category">Collection</div>
+                        <h3>Set Ultimate</h3>
+                        <div class="product-footer">
+                            <span class="product-price">89,90€</span>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9 (156)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -571,15 +825,16 @@
     <!-- Quality -->
     <section class="quality">
         <div class="container">
-            <h2 class="section-title">LA DIFFÉRENCE EST DANS LES DÉTAILS.</h2>
             <div class="quality-grid">
                 <div class="quality-item">
-                    <h3>LATEX PREMIUM</h3>
-                    <p>100% naturel, résistance optimale, souplesse préservée après des milliers d'utilisations. Nos bandes sont testées pour résister à plus de 10 000 étirements.</p>
+                    <div class="quality-icon"><i class="fas fa-gem"></i></div>
+                    <h3>Latex Premium</h3>
+                    <p>100% naturel, résistance optimale. Nos bandes conservent leur souplesse après des milliers d'utilisations. Chaque lot est testé individuellement.</p>
                 </div>
                 <div class="quality-item">
-                    <h3>FINITIONS RENFORCÉES</h3>
-                    <p>Double couture sur les points de tension. Conçu pour durer, pas pour casser. Chaque produit passe un contrôle qualité individuel.</p>
+                    <div class="quality-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Finitions Renforcées</h3>
+                    <p>Double couture sur les points de tension. Conçu pour durer, pas pour casser. Garantie fabricant 2 ans extensible.</p>
                 </div>
             </div>
         </div>
@@ -588,87 +843,65 @@
     <!-- B2B -->
     <section class="b2b">
         <div class="container">
-            <h2 class="section-title">ESPACE PROFESSIONNEL</h2>
-            <p class="b2b-subtitle">Coachs, kinésithérapeutes, salles de sport : bénéficiez de tarifs dédiés et d'un accompagnement personnalisé.</p>
             <div class="b2b-grid">
-                <div class="b2b-item">
-                    <h4>-20%</h4>
-                    <p>dès 10 unités</p>
+                <div class="b2b-content">
+                    <div class="section-tag">Espace Pro</div>
+                    <h2>Professionnels de santé</h2>
+                    <p>Coachs, kinésithérapeutes, préparateurs physiques : bénéficiez de tarifs dégressifs et d'un accompagnement dédié.</p>
+                    <div class="b2b-features">
+                        <div class="b2b-feature">
+                            <h4>-20%</h4>
+                            <p>Dès 10 unités</p>
+                        </div>
+                        <div class="b2b-feature">
+                            <h4>-30%</h4>
+                            <p>Dès 50 unités</p>
+                        </div>
+                        <div class="b2b-feature">
+                            <h4>Facture</h4>
+                            <p>Automatique</p>
+                        </div>
+                        <div class="b2b-feature">
+                            <h4>Livraison</h4>
+                            <p>Prioritaire</p>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-gold">Demander un devis</a>
                 </div>
-                <div class="b2b-item">
-                    <h4>-30%</h4>
-                    <p>dès 50 unités</p>
-                </div>
-                <div class="b2b-item">
-                    <h4>FACTURE</h4>
-                    <p>automatique</p>
-                </div>
-                <div class="b2b-item">
-                    <h4>LIVRAISON</h4>
-                    <p>prioritaire</p>
+                <div class="b2b-image">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80" alt="Professionnel">
                 </div>
             </div>
-            <a href="#" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary);">DEMANDER UN DEVIS PRO</a>
         </div>
     </section>
 
     <!-- Testimonials -->
     <section class="testimonials">
         <div class="container">
-            <h2 class="section-title">ILS NOUS FONT CONFIANCE</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial">
-                    <p>"La qualité est incomparable avec ce que j'utilisais avant. Mes patients sentent la différence dès la première séance."</p>
-                    <div class="testimonial-author">
-                        <h4>DR. LAURENT M.</h4>
-                        <span>Kinésithérapeute, Bordeaux</span>
-                    </div>
-                </div>
-                <div class="testimonial">
-                    <p>"J'équipe tous mes clients avec ces bandes. Le rapport qualité/prix est imbattable pour du matériel professionnel."</p>
-                    <div class="testimonial-author">
-                        <h4>MARC D.</h4>
-                        <span>Coach sportif, Paris</span>
-                    </div>
-                </div>
+            <div class="section-header">
+                <div class="section-tag">Témoignages</div>
+                <h2 class="section-title">Ils nous font confiance</h2>
             </div>
-        </div>
-    </section>
-
-    <!-- Guarantees -->
-    <section class="guarantees">
-        <div class="container">
-            <h2 class="section-title">NOS ENGAGEMENTS</h2>
-            <div class="guarantees-grid">
-                <div class="guarantee">
-                    <div class="guarantee-icon">🏆</div>
-                    <h4>QUALITÉ PRO</h4>
-                    <p>Certifié CE/RoHS</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"La qualité est incomparable avec ce que j'utilisais avant. Mes patients sentent la différence dès la première séance de rééducation."</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&q=80" alt="Dr. Laurent">
+                        <div class="author-info">
+                            <h4>Dr. Laurent M.</h4>
+                            <span>Kinésithérapeute, Bordeaux</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="guarantee">
-                    <div class="guarantee-icon">🔄</div>
-                    <h4>RETOUR 30J</h4>
-                    <p>Sans question</p>
-                </div>
-                <div class="guarantee">
-                    <div class="guarantee-icon">📦</div>
-                    <h4>EXPRESS</h4>
-                    <p>24-48h France</p>
-                </div>
-                <div class="guarantee">
-                    <div class="guarantee-icon">🛡️</div>
-                    <h4>GARANTIE 2 ANS</h4>
-                    <p>Extension possible</p>
-                </div>
-                <div class="guarantee">
-                    <div class="guarantee-icon">💳</div>
-                    <h4>PAIEMENT</h4>
-                    <p>100% sécurisé</p>
-                </div>
-                <div class="guarantee">
-                    <div class="guarantee-icon">💬</div>
-                    <h4>SUPPORT</h4>
-                    <p>Expert dédié</p>
+                <div class="testimonial-card">
+                    <p>"J'équipe tous mes clients avec ces bandes. Le rapport qualité/prix est imbattable pour du matériel vraiment professionnel."</p>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Marc">
+                        <div class="author-info">
+                            <h4>Marc D.</h4>
+                            <span>Coach sportif, Paris</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -677,8 +910,9 @@
     <!-- CTA -->
     <section class="cta">
         <div class="container">
-            <h2>PRÊT À PASSER AU NIVEAU SUPÉRIEUR ?</h2>
-            <a href="#" class="btn btn-black">DÉCOUVRIR LA COLLECTION</a>
+            <h2>Prêt à passer au niveau supérieur ?</h2>
+            <p>Rejoignez plus de 15 000 sportifs qui nous font confiance.</p>
+            <a href="#" class="btn btn-dark">Découvrir la collection</a>
         </div>
     </section>
 
@@ -691,7 +925,7 @@
                     <p>L'excellence à domicile. Équipement professionnel pour athlètes exigeants.</p>
                 </div>
                 <div class="footer-col">
-                    <h4>COLLECTION</h4>
+                    <h4>Collection</h4>
                     <ul>
                         <li><a href="#">Bandes</a></li>
                         <li><a href="#">Kits</a></li>
@@ -699,7 +933,7 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>PRO</h4>
+                    <h4>Pro</h4>
                     <ul>
                         <li><a href="#">Tarifs volume</a></li>
                         <li><a href="#">Devis</a></li>
@@ -707,7 +941,7 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>SERVICE</h4>
+                    <h4>Service</h4>
                     <ul>
                         <li><a href="#">Livraison</a></li>
                         <li><a href="#">Retours</a></li>
@@ -717,12 +951,15 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2026 ELITEBAND — Équipement professionnel</p>
-                <p>💳 Paiement 100% sécurisé</p>
+                <p>Paiement 100% sécurisé</p>
             </div>
         </div>
     </footer>
 
     <!-- Back Button -->
-    <a href="index.html" class="back-btn">← RETOUR</a>
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Retour
+    </a>
 </body>
 </html>

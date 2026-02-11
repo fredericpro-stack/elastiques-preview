@@ -3,152 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preview Pages d'Accueil - Élastiques Musculation</title>
+    <title>3 Versions de Pages d'Accueil - Élastiques Musculation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0F0E17 0%, #1A1A2E 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 60px 24px;
+            color: white;
         }
+        
+        h1, h2 { font-family: 'Space Grotesk', sans-serif; }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
-        h1 {
-            color: white;
+        
+        .header {
             text-align: center;
-            font-size: 2rem;
-            margin-bottom: 10px;
+            margin-bottom: 60px;
         }
-        .subtitle {
-            color: #888;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .versions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-        .card-header {
-            padding: 30px;
-            text-align: center;
-        }
-        .card-header.v1 { background: linear-gradient(135deg, #FF6B35, #1A1A2E); }
-        .card-header.v2 { background: linear-gradient(135deg, #10B981, #065F46); }
-        .card-header.v3 { background: linear-gradient(135deg, #1C1C1C, #D4AF37); }
-        .card-header h2 {
-            color: white;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-        .card-header .tag {
-            color: rgba(255,255,255,0.8);
-            font-size: 0.9rem;
-        }
-        .card-body {
-            padding: 25px;
-        }
-        .card-body ul {
-            list-style: none;
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,107,53,0.15);
+            border: 1px solid rgba(255,107,53,0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #FF6B35;
             margin-bottom: 20px;
         }
-        .card-body li {
-            padding: 8px 0;
-            color: #555;
-            border-bottom: 1px solid #eee;
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
         }
-        .card-body li:last-child { border: none; }
-        .btn {
-            display: block;
-            text-align: center;
-            padding: 15px 25px;
+        
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .versions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.3);
+        }
+        
+        .card-visual {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+        
+        .card:hover .card-visual img {
+            transform: scale(1.05);
+        }
+        
+        .card-visual::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(15,14,23,0.9) 100%);
+        }
+        
+        .version-tag {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 8px 16px;
             border-radius: 8px;
-            text-decoration: none;
+            font-size: 0.75rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            z-index: 1;
+        }
+        
+        .v1 .version-tag { background: #FF6B35; color: white; }
+        .v2 .version-tag { background: #10B981; color: white; }
+        .v3 .version-tag { background: #C9A962; color: #0A0A0A; }
+        
+        .card-content {
+            padding: 32px;
+        }
+        
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .v1 .card-title { color: #FF6B35; }
+        .v2 .card-title { color: #10B981; }
+        .v3 .card-title { color: #C9A962; }
+        
+        .card-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 28px;
+        }
+        
+        .card-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            color: #999;
+        }
+        
+        .card-features li:last-child { border: none; }
+        
+        .card-features i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .v1 .card-features i { color: #FF6B35; }
+        .v2 .card-features i { color: #10B981; }
+        .v3 .card-features i { color: #C9A962; }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
             transition: all 0.3s;
         }
-        .btn.v1 { background: #FF6B35; color: white; }
-        .btn.v2 { background: #10B981; color: white; }
-        .btn.v3 { background: #0F0F0F; color: #D4AF37; }
-        .btn:hover { opacity: 0.9; transform: scale(1.02); }
+        
+        .v1 .btn { 
+            background: linear-gradient(135deg, #FF6B35, #FF8B5E); 
+            color: white;
+            box-shadow: 0 8px 24px rgba(255,107,53,0.3);
+        }
+        .v2 .btn { 
+            background: linear-gradient(135deg, #10B981, #34D399); 
+            color: white;
+            box-shadow: 0 8px 24px rgba(16,185,129,0.3);
+        }
+        .v3 .btn { 
+            background: linear-gradient(135deg, #C9A962, #D4B978); 
+            color: #0A0A0A;
+            box-shadow: 0 8px 24px rgba(201,169,98,0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .v1 .btn:hover { box-shadow: 0 12px 32px rgba(255,107,53,0.4); }
+        .v2 .btn:hover { box-shadow: 0 12px 32px rgba(16,185,129,0.4); }
+        .v3 .btn:hover { box-shadow: 0 12px 32px rgba(201,169,98,0.4); }
+        
         .footer {
             text-align: center;
-            color: #666;
-            margin-top: 40px;
-            padding: 20px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .footer p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 900px) {
+            .versions { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎨 3 Versions de Pages d'Accueil</h1>
-        <p class="subtitle">Projet E-commerce Élastiques Musculation</p>
+        <div class="header">
+            <div class="badge">
+                <i class="fas fa-palette"></i>
+                Projet E-commerce
+            </div>
+            <h1>3 Versions de Pages d'Accueil</h1>
+            <p class="subtitle">Élastiques de Musculation · Choisissez votre design préféré</p>
+        </div>
         
         <div class="versions">
-            <div class="card">
-                <div class="card-header v1">
-                    <h2>🔥 VERSION 1</h2>
-                    <span class="tag">ENERGY - Orange & Noir</span>
+            <div class="card v1">
+                <div class="card-visual">
+                    <img src="https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=600&q=80" alt="Energy">
+                    <span class="version-tag">Version 1</span>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li>🎯 <strong>Cible:</strong> Hommes 25-40 ans</li>
-                        <li>🎨 <strong>Style:</strong> Dynamique, action</li>
-                        <li>📝 <strong>Ton:</strong> Motivant, direct</li>
-                        <li>🏷️ <strong>Nom:</strong> BANDFIT.fr</li>
+                <div class="card-content">
+                    <h2 class="card-title">BANDFIT · Energy</h2>
+                    <p class="card-subtitle">Orange & Noir · Dynamique et puissant</p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-bullseye"></i> Cible : Hommes 25-40 ans</li>
+                        <li><i class="fas fa-bolt"></i> Style : Dynamique, action</li>
+                        <li><i class="fas fa-comment"></i> Ton : Motivant, direct</li>
                     </ul>
-                    <a href="v1-energy.html" class="btn v1">VOIR LA PAGE →</a>
+                    <a href="v1-energy.html" class="btn">
+                        Voir le design
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-header v2">
-                    <h2>🌿 VERSION 2</h2>
-                    <span class="tag">ZEN POWER - Vert & Blanc</span>
+            
+            <div class="card v2">
+                <div class="card-visual">
+                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Zen">
+                    <span class="version-tag">Version 2</span>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li>🎯 <strong>Cible:</strong> Femmes 25-45 ans</li>
-                        <li>🎨 <strong>Style:</strong> Naturel, aéré</li>
-                        <li>📝 <strong>Ton:</strong> Bienveillant, doux</li>
-                        <li>🏷️ <strong>Nom:</strong> FLEXZEN.fr</li>
+                <div class="card-content">
+                    <h2 class="card-title">FLEXZEN · Zen Power</h2>
+                    <p class="card-subtitle">Vert & Blanc · Naturel et apaisant</p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-bullseye"></i> Cible : Femmes 25-45 ans</li>
+                        <li><i class="fas fa-leaf"></i> Style : Naturel, aéré</li>
+                        <li><i class="fas fa-heart"></i> Ton : Bienveillant, doux</li>
                     </ul>
-                    <a href="v2-zen.html" class="btn v2">VOIR LA PAGE →</a>
+                    <a href="v2-zen.html" class="btn">
+                        Voir le design
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-header v3">
-                    <h2>⚫ VERSION 3</h2>
-                    <span class="tag">PREMIUM BLACK - Noir & Or</span>
+            
+            <div class="card v3">
+                <div class="card-visual">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" alt="Premium">
+                    <span class="version-tag">Version 3</span>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li>🎯 <strong>Cible:</strong> Pros 30-50 ans</li>
-                        <li>🎨 <strong>Style:</strong> Luxe, minimaliste</li>
-                        <li>📝 <strong>Ton:</strong> Confiant, expert</li>
-                        <li>🏷️ <strong>Nom:</strong> ELITEBAND.fr</li>
+                <div class="card-content">
+                    <h2 class="card-title">ELITEBAND · Premium</h2>
+                    <p class="card-subtitle">Noir & Or · Luxe accessible</p>
+                    <ul class="card-features">
+                        <li><i class="fas fa-bullseye"></i> Cible : Pros 30-50 ans</li>
+                        <li><i class="fas fa-gem"></i> Style : Minimaliste, élégant</li>
+                        <li><i class="fas fa-crown"></i> Ton : Confiant, expert</li>
                     </ul>
-                    <a href="v3-premium.html" class="btn v3">VOIR LA PAGE →</a>
+                    <a href="v3-premium.html" class="btn">
+                        Voir le design
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </div>
-
+        
         <div class="footer">
-            <p>Projet Niche E-commerce • Février 2026</p>
+            <p>Projet Niche E-commerce · Février 2026</p>
         </div>
     </div>
 </body>
