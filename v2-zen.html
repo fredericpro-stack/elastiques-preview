@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLEXZEN - Élastiques Musculation Bien-être</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10B981;
+            --primary-dark: #059669;
+            --secondary: #065F46;
+            --accent: #F59E0B;
+            --dark: #1F2937;
+            --light: #FAFAFA;
+            --light-green: #ECFDF5;
+            --gray: #6B7280;
+            --success: #34D399;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Open Sans', sans-serif; color: var(--dark); line-height: 1.7; background: var(--light); }
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Announcement */
+        .announcement {
+            background: var(--light-green);
+            color: var(--secondary);
+            text-align: center;
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+        
+        /* Header */
+        header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        nav { display: flex; gap: 35px; }
+        nav a { 
+            color: var(--dark); 
+            text-decoration: none; 
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        nav a:hover { color: var(--primary); }
+        .cart-icon {
+            color: var(--primary);
+            font-size: 1.3rem;
+            text-decoration: none;
+        }
+        
+        /* Hero */
+        .hero {
+            background: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+        .hero h1 span { color: var(--primary); display: block; }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 35px;
+        }
+        .btn {
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .hero-rating {
+            margin-top: 30px;
+            color: var(--gray);
+        }
+        .stars { color: var(--accent); }
+        .hero-image {
+            margin-top: 60px;
+        }
+        .hero-placeholder {
+            background: var(--light-green);
+            border-radius: 30px;
+            padding: 80px 50px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Trust Bar */
+        .trust-bar {
+            background: var(--light-green);
+            padding: 35px 0;
+        }
+        .trust-items {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .trust-icon { font-size: 1.8rem; }
+        .trust-text { font-weight: 600; color: var(--dark); font-size: 0.95rem; }
+        
+        /* Section */
+        section { padding: 80px 0; }
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+        
+        /* For You Section */
+        .for-you {
+            background: white;
+        }
+        .for-you-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .for-you-content p {
+            font-size: 1.15rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .for-you-content p strong {
+            color: var(--dark);
+        }
+        
+        /* Products */
+        .products {
+            background: var(--light);
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .product-image {
+            background: var(--light-green);
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        .product-info { padding: 25px; text-align: center; }
+        .product-info h3 { margin-bottom: 8px; font-weight: 600; }
+        .product-desc { color: var(--gray); font-size: 0.9rem; margin-bottom: 15px; }
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .btn-add {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-add:hover { background: var(--primary-dark); }
+        .see-all { text-align: center; }
+        .see-all a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        /* Benefits */
+        .benefits {
+            background: white;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .benefit-card {
+            background: var(--light-green);
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .benefit-icon { font-size: 2.5rem; }
+        .benefit-content h3 { margin-bottom: 8px; font-weight: 600; }
+        .benefit-content p { color: var(--gray); font-size: 0.95rem; }
+        
+        /* Testimonials */
+        .testimonials {
+            background: var(--light);
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .testimonial-stars { color: var(--accent); margin-bottom: 15px; }
+        .testimonial p {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .author-avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .author-info h4 { font-size: 0.9rem; }
+        .author-info span { color: var(--gray); font-size: 0.8rem; }
+        
+        /* Program Section */
+        .program {
+            background: var(--light-green);
+        }
+        .program-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .program-list {
+            text-align: left;
+            display: inline-block;
+            margin: 30px 0;
+        }
+        .program-list li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+        }
+        .check { color: var(--primary); font-size: 1.3rem; }
+        
+        /* Instagram */
+        .instagram {
+            background: white;
+            text-align: center;
+        }
+        .insta-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin: 40px 0;
+        }
+        .insta-item {
+            background: var(--light);
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        /* FAQ */
+        .faq {
+            background: var(--light);
+        }
+        .faq-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 20px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-question:hover { background: var(--light-green); }
+        
+        /* Footer */
+        footer {
+            background: white;
+            padding: 60px 0 30px;
+            border-top: 1px solid #eee;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        .footer-brand .logo { margin-bottom: 15px; display: block; }
+        .footer-brand p { color: var(--gray); }
+        .footer-col h4 {
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: var(--dark);
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { color: var(--gray); text-decoration: none; font-size: 0.9rem; }
+        .footer-col a:hover { color: var(--primary); }
+        .footer-bottom {
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        /* Back button */
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .back-btn:hover { background: var(--primary); }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .products-grid, .benefits-grid, .testimonials-grid, .footer-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .hero h1 { font-size: 2rem; }
+            nav { display: none; }
+            .trust-items { grid-template-columns: repeat(2, 1fr); }
+            .insta-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Announcement -->
+    <div class="announcement">
+        ✨ Livraison offerte dès 29€ | Programme bien-être inclus avec chaque commande
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">🌿 FLEXZEN</a>
+            <nav>
+                <a href="#">Boutique</a>
+                <a href="#">Bien-être</a>
+                <a href="#">Programmes</a>
+                <a href="#">Contact</a>
+            </nav>
+            <a href="#" class="cart-icon">🛒</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>
+                Votre corps.
+                <span>Votre rythme.</span>
+                Votre salon.
+            </h1>
+            <p>Retrouvez la forme en douceur avec nos élastiques de musculation premium. Programme bien-être inclus.</p>
+            <a href="#" class="btn btn-primary">🌿 Découvrir la collection</a>
+            <div class="hero-rating">
+                <span class="stars">⭐⭐⭐⭐⭐</span> 4.9/5 • Plus de 2 500 femmes conquises
+            </div>
+            <div class="hero-image">
+                <div class="hero-placeholder">
+                    <div style="font-size: 5rem;">🧘‍♀️</div>
+                    <p style="margin-top: 20px; color: var(--gray);">Photo: Femme dans salon lumineux avec plantes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="container">
+            <div class="trust-items">
+                <div class="trust-item">
+                    <span class="trust-icon">🌱</span>
+                    <span class="trust-text">Latex 100% Naturel</span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon">✨</span>
+                    <span class="trust-text">Programme Inclus</span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon">🚚</span>
+                    <span class="trust-text">Livraison Rapide</span>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon">💚</span>
+                    <span class="trust-text">Satisfaite ou Remboursée</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- For You -->
+    <section class="for-you">
+        <div class="container">
+            <h2 class="section-title">Pensé pour vous, testé par vous</h2>
+            <div class="for-you-content">
+                <p>Nous savons que vous <strong>manquez de temps</strong>.</p>
+                <p>Que la salle de sport peut être <strong>intimidante</strong>.</p>
+                <p>Que vous voulez des <strong>résultats sans vous épuiser</strong>.</p>
+                <p style="margin-top: 30px;">C'est pour ça que nous avons créé des kits complets avec tout ce qu'il faut pour s'entraîner chez soi, à son rythme, en <strong>20 minutes par jour</strong>.</p>
+                <a href="#" class="btn btn-primary" style="margin-top: 30px;">Trouver mon kit idéal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">✨ Nos Essentiels</h2>
+            <p class="section-subtitle">Sélectionnés avec soin pour vous accompagner dans votre parcours bien-être</p>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">🎗️</div>
+                    <div class="product-info">
+                        <h3>Pack Découverte</h3>
+                        <p class="product-desc">Idéal pour commencer en douceur</p>
+                        <div class="product-price">24,90€</div>
+                        <button class="btn-add">Découvrir</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🍑</div>
+                    <div class="product-info">
+                        <h3>Booty Bands Premium</h3>
+                        <p class="product-desc">Fessiers de rêve garantis</p>
+                        <div class="product-price">19,90€</div>
+                        <button class="btn-add">Découvrir</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🧘</div>
+                    <div class="product-info">
+                        <h3>Kit Yoga Complet</h3>
+                        <p class="product-desc">Yoga + Pilates, tout inclus</p>
+                        <div class="product-price">39,90€</div>
+                        <button class="btn-add">Découvrir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="see-all">
+                <a href="#">Voir toute la collection →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Pourquoi nos élastiques ?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🕐</div>
+                    <div class="benefit-content">
+                        <h3>20 min/jour suffisent</h3>
+                        <p>Routines courtes mais efficaces pour votre emploi du temps chargé</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏠</div>
+                    <div class="benefit-content">
+                        <h3>Chez vous, quand vous voulez</h3>
+                        <p>Fini les contraintes horaires et les trajets à la salle</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💪</div>
+                    <div class="benefit-content">
+                        <h3>Résultats prouvés</h3>
+                        <p>Changements visibles dès 2-3 semaines de pratique</p>
+                    </div>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧘</div>
+                    <div class="benefit-content">
+                        <h3>Doux pour les articulations</h3>
+                        <p>Contrairement aux poids traditionnels, zéro impact</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">💚 Elles en parlent</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Maman de 2 enfants, je n'avais plus le temps d'aller à la salle. Maintenant je m'entraîne pendant leur sieste. J'ai retrouvé ma ligne d'avant grossesse !"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👩</div>
+                        <div class="author-info">
+                            <h4>Claire</h4>
+                            <span>38 ans, Nantes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Je fais du yoga depuis 3 ans. Les bandes ont complètement transformé ma pratique. Plus de force, plus de souplesse."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">🧘‍♀️</div>
+                        <div class="author-info">
+                            <h4>Julie</h4>
+                            <span>31 ans, Bordeaux</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p>"J'avais peur que ce soit compliqué. Le programme inclus m'a tout expliqué pas à pas. En 1 mois mes fessiers ont changé !"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">💃</div>
+                        <div class="author-info">
+                            <h4>Emma</h4>
+                            <span>26 ans, Lyon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program -->
+    <section class="program">
+        <div class="container">
+            <div class="program-content">
+                <h2 class="section-title">🎁 Votre Programme Bien-être Offert</h2>
+                <p class="section-subtitle">Avec chaque commande, recevez votre programme complet</p>
+                <ul class="program-list">
+                    <li><span class="check">✓</span> Programme 4 semaines personnalisé</li>
+                    <li><span class="check">✓</span> Accès aux vidéos d'exercices</li>
+                    <li><span class="check">✓</span> Guide des niveaux de résistance</li>
+                    <li><span class="check">✓</span> Planning hebdomadaire</li>
+                    <li><span class="check">✓</span> Conseils récupération & étirements</li>
+                </ul>
+                <a href="#" class="btn btn-primary">🌿 Commencer mon parcours</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram -->
+    <section class="instagram">
+        <div class="container">
+            <h2 class="section-title">Rejoignez la communauté</h2>
+            <p class="section-subtitle">@flexzen.fr • Partagez vos progrès avec #FlexZenLife</p>
+            <div class="insta-grid">
+                <div class="insta-item">📷</div>
+                <div class="insta-item">📷</div>
+                <div class="insta-item">📷</div>
+                <div class="insta-item">📷</div>
+                <div class="insta-item">📷</div>
+                <div class="insta-item">📷</div>
+            </div>
+            <a href="#" class="btn btn-primary">Nous suivre sur Instagram</a>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Vos questions fréquentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">Quelle résistance choisir pour débuter ? <span>▶</span></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Combien de temps avant de voir des résultats ? <span>▶</span></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Les élastiques sont-ils adaptés au yoga ? <span>▶</span></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Comment entretenir mes bandes ? <span>▶</span></div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Livraison et retours ? <span>▶</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">🌿 FLEXZEN</a>
+                    <p>Prenez soin de vous. Élastiques de musculation premium pour votre bien-être quotidien.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Boutique</h4>
+                    <ul>
+                        <li><a href="#">Élastiques</a></li>
+                        <li><a href="#">Booty Bands</a></li>
+                        <li><a href="#">Accessoires</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Bien-être</h4>
+                    <ul>
+                        <li><a href="#">Programmes</a></li>
+                        <li><a href="#">Conseils</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Suivez-nous</h4>
+                    <ul>
+                        <li><a href="#">📷 Instagram</a></li>
+                        <li><a href="#">📌 Pinterest</a></li>
+                        <li><a href="#">📺 YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 FLEXZEN • 💳 Paiement sécurisé • 🌱 Emballage éco-responsable</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-btn">← Retour</a>
+</body>
+</html>

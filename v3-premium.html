@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELITEBAND - Équipement Professionnel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F0F0F;
+            --secondary: #1C1C1C;
+            --gold: #D4AF37;
+            --gold-dark: #B8972E;
+            --white: #FFFFFF;
+            --light: #F5F5F5;
+            --gray: #6B7280;
+            --gray-dark: #374151;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; color: var(--primary); line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header {
+            background: var(--primary);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 4px;
+        }
+        nav { display: flex; gap: 40px; }
+        nav a { 
+            color: var(--white); 
+            text-decoration: none; 
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        nav a:hover { color: var(--gold); }
+        .cart-icon {
+            color: var(--gold);
+            text-decoration: none;
+        }
+        
+        /* Hero */
+        .hero {
+            background: var(--primary);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 25px;
+            letter-spacing: 8px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+        .btn {
+            padding: 18px 50px;
+            border-radius: 0;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: var(--primary);
+        }
+        .btn-gold:hover { background: var(--gold-dark); }
+        .btn-outline {
+            border: 1px solid var(--white);
+            color: var(--white);
+            background: transparent;
+        }
+        .btn-outline:hover { background: var(--white); color: var(--primary); }
+        .hero-image {
+            margin-top: 60px;
+        }
+        .hero-placeholder {
+            border: 1px solid var(--gray-dark);
+            padding: 100px 50px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Stats */
+        .stats {
+            background: var(--white);
+            padding: 50px 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        .stat h3 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .stat p {
+            color: var(--gray);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        /* Product Hero */
+        .product-hero {
+            padding: 100px 0;
+        }
+        .product-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .product-hero-image {
+            background: var(--light);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+        .product-hero-content h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+        .product-hero-content > p {
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        .product-features {
+            margin-bottom: 30px;
+        }
+        .product-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .product-features li::before {
+            content: '—';
+            color: var(--gold);
+        }
+        .product-price {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--gray);
+        }
+        .product-price span {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Products */
+        .products {
+            background: var(--light);
+            padding: 100px 0;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 4px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .product-card {
+            background: var(--white);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .product-image {
+            background: var(--light);
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+        .product-info {
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid var(--light);
+        }
+        .product-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        .product-desc {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        .product-price-card {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .btn-add {
+            width: 100%;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-add:hover { background: var(--gold); color: var(--primary); }
+        
+        /* Quality */
+        .quality {
+            background: var(--primary);
+            color: var(--white);
+            padding: 100px 0;
+        }
+        .quality .section-title { color: var(--white); }
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            margin-top: 60px;
+        }
+        .quality-item {
+            border: 1px solid var(--gray-dark);
+            padding: 40px;
+        }
+        .quality-item h3 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .quality-item p {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+        
+        /* B2B */
+        .b2b {
+            padding: 100px 0;
+            text-align: center;
+        }
+        .b2b-subtitle {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 50px;
+        }
+        .b2b-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto 50px;
+        }
+        .b2b-item {
+            border: 1px solid var(--light);
+            padding: 30px 20px;
+        }
+        .b2b-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .b2b-item p {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background: var(--light);
+            padding: 100px 0;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .testimonial {
+            background: var(--white);
+            padding: 40px;
+            border-left: 3px solid var(--gold);
+        }
+        .testimonial p {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        .testimonial-author h4 {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        .testimonial-author span {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        /* Guarantees */
+        .guarantees {
+            background: var(--primary);
+            color: var(--white);
+            padding: 80px 0;
+        }
+        .guarantees .section-title { color: var(--white); }
+        .guarantees-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .guarantee {
+            padding: 20px;
+            border: 1px solid var(--gray-dark);
+        }
+        .guarantee-icon { font-size: 2rem; margin-bottom: 15px; }
+        .guarantee h4 {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .guarantee p {
+            color: var(--gray);
+            font-size: 0.75rem;
+        }
+        
+        /* CTA */
+        .cta {
+            background: var(--gold);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+        }
+        .btn-black {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .btn-black:hover { background: var(--secondary); }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        .footer-brand .logo { margin-bottom: 15px; display: block; }
+        .footer-brand p { color: var(--gray); font-size: 0.9rem; }
+        .footer-col h4 {
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { color: var(--gray); text-decoration: none; font-size: 0.85rem; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid var(--gray-dark);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        
+        /* Back button */
+        .back-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--gold);
+            color: var(--primary);
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            z-index: 1000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+        }
+        .back-btn:hover { background: var(--gold-dark); }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .stats-grid, .products-grid, .quality-grid, 
+            .testimonials-grid, .footer-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .product-hero-grid { grid-template-columns: 1fr; }
+            .guarantees-grid { grid-template-columns: repeat(2, 1fr); }
+            .b2b-grid { grid-template-columns: repeat(2, 1fr); }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">ELITEBAND</a>
+            <nav>
+                <a href="#">Collection</a>
+                <a href="#">Pro</a>
+                <a href="#">Programmes</a>
+                <a href="#">Contact</a>
+            </nav>
+            <a href="#" class="cart-icon">🛒</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>L'EXCELLENCE<br>À DOMICILE.</h1>
+            <p>Équipement professionnel. Performance. Sans compromis.</p>
+            <a href="#" class="btn btn-gold">DÉCOUVRIR</a>
+            <div class="hero-image">
+                <div class="hero-placeholder">
+                    <div style="font-size: 4rem; color: var(--gold);">⚡</div>
+                    <p style="margin-top: 20px; color: var(--gray); font-size: 0.85rem;">PHOTO STUDIO : ÉLASTIQUES PREMIUM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>50KG</h3>
+                    <p>Résistance max</p>
+                </div>
+                <div class="stat">
+                    <h3>200+</h3>
+                    <p>Exercices possibles</p>
+                </div>
+                <div class="stat">
+                    <h3>CE</h3>
+                    <p>Certifié</p>
+                </div>
+                <div class="stat">
+                    <h3>2 ANS</h3>
+                    <p>Garantie</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="product-hero-grid">
+                <div class="product-hero-image">🎗️</div>
+                <div class="product-hero-content">
+                    <h2>COLLECTION PRO</h2>
+                    <p>Latex premium haute résistance. Testé par des athlètes. Approuvé par des kinésithérapeutes.</p>
+                    <ul class="product-features">
+                        <li>5 niveaux de résistance</li>
+                        <li>Latex 100% naturel</li>
+                        <li>Coutures renforcées</li>
+                        <li>Guide expert inclus</li>
+                    </ul>
+                    <p class="product-price">À partir de <span>24,90€</span></p>
+                    <a href="#" class="btn btn-gold">VOIR LA COLLECTION</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">NOS RÉFÉRENCES</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">🎗️</div>
+                    <div class="product-info">
+                        <h3>PACK ESSENTIEL</h3>
+                        <p class="product-desc">5 bandes résistance</p>
+                        <div class="product-price-card">24,90€</div>
+                        <button class="btn-add">Acheter</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🔗</div>
+                    <div class="product-info">
+                        <h3>KIT PERFORMANCE</h3>
+                        <p class="product-desc">11 pièces tout inclus</p>
+                        <div class="product-price-card">44,90€</div>
+                        <button class="btn-add">Acheter</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🎁</div>
+                    <div class="product-info">
+                        <h3>SET ULTIMATE</h3>
+                        <p class="product-desc">21 pièces collection complète</p>
+                        <div class="product-price-card">89,90€</div>
+                        <button class="btn-add">Acheter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quality -->
+    <section class="quality">
+        <div class="container">
+            <h2 class="section-title">LA DIFFÉRENCE EST DANS LES DÉTAILS.</h2>
+            <div class="quality-grid">
+                <div class="quality-item">
+                    <h3>LATEX PREMIUM</h3>
+                    <p>100% naturel, résistance optimale, souplesse préservée après des milliers d'utilisations. Nos bandes sont testées pour résister à plus de 10 000 étirements.</p>
+                </div>
+                <div class="quality-item">
+                    <h3>FINITIONS RENFORCÉES</h3>
+                    <p>Double couture sur les points de tension. Conçu pour durer, pas pour casser. Chaque produit passe un contrôle qualité individuel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- B2B -->
+    <section class="b2b">
+        <div class="container">
+            <h2 class="section-title">ESPACE PROFESSIONNEL</h2>
+            <p class="b2b-subtitle">Coachs, kinésithérapeutes, salles de sport : bénéficiez de tarifs dédiés et d'un accompagnement personnalisé.</p>
+            <div class="b2b-grid">
+                <div class="b2b-item">
+                    <h4>-20%</h4>
+                    <p>dès 10 unités</p>
+                </div>
+                <div class="b2b-item">
+                    <h4>-30%</h4>
+                    <p>dès 50 unités</p>
+                </div>
+                <div class="b2b-item">
+                    <h4>FACTURE</h4>
+                    <p>automatique</p>
+                </div>
+                <div class="b2b-item">
+                    <h4>LIVRAISON</h4>
+                    <p>prioritaire</p>
+                </div>
+            </div>
+            <a href="#" class="btn btn-outline" style="border-color: var(--primary); color: var(--primary);">DEMANDER UN DEVIS PRO</a>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">ILS NOUS FONT CONFIANCE</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p>"La qualité est incomparable avec ce que j'utilisais avant. Mes patients sentent la différence dès la première séance."</p>
+                    <div class="testimonial-author">
+                        <h4>DR. LAURENT M.</h4>
+                        <span>Kinésithérapeute, Bordeaux</span>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <p>"J'équipe tous mes clients avec ces bandes. Le rapport qualité/prix est imbattable pour du matériel professionnel."</p>
+                    <div class="testimonial-author">
+                        <h4>MARC D.</h4>
+                        <span>Coach sportif, Paris</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guarantees -->
+    <section class="guarantees">
+        <div class="container">
+            <h2 class="section-title">NOS ENGAGEMENTS</h2>
+            <div class="guarantees-grid">
+                <div class="guarantee">
+                    <div class="guarantee-icon">🏆</div>
+                    <h4>QUALITÉ PRO</h4>
+                    <p>Certifié CE/RoHS</p>
+                </div>
+                <div class="guarantee">
+                    <div class="guarantee-icon">🔄</div>
+                    <h4>RETOUR 30J</h4>
+                    <p>Sans question</p>
+                </div>
+                <div class="guarantee">
+                    <div class="guarantee-icon">📦</div>
+                    <h4>EXPRESS</h4>
+                    <p>24-48h France</p>
+                </div>
+                <div class="guarantee">
+                    <div class="guarantee-icon">🛡️</div>
+                    <h4>GARANTIE 2 ANS</h4>
+                    <p>Extension possible</p>
+                </div>
+                <div class="guarantee">
+                    <div class="guarantee-icon">💳</div>
+                    <h4>PAIEMENT</h4>
+                    <p>100% sécurisé</p>
+                </div>
+                <div class="guarantee">
+                    <div class="guarantee-icon">💬</div>
+                    <h4>SUPPORT</h4>
+                    <p>Expert dédié</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2>PRÊT À PASSER AU NIVEAU SUPÉRIEUR ?</h2>
+            <a href="#" class="btn btn-black">DÉCOUVRIR LA COLLECTION</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">ELITEBAND</a>
+                    <p>L'excellence à domicile. Équipement professionnel pour athlètes exigeants.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>COLLECTION</h4>
+                    <ul>
+                        <li><a href="#">Bandes</a></li>
+                        <li><a href="#">Kits</a></li>
+                        <li><a href="#">Accessoires</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>PRO</h4>
+                    <ul>
+                        <li><a href="#">Tarifs volume</a></li>
+                        <li><a href="#">Devis</a></li>
+                        <li><a href="#">Partenariat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>SERVICE</h4>
+                    <ul>
+                        <li><a href="#">Livraison</a></li>
+                        <li><a href="#">Retours</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 ELITEBAND — Équipement professionnel</p>
+                <p>💳 Paiement 100% sécurisé</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-btn">← RETOUR</a>
+</body>
+</html>
