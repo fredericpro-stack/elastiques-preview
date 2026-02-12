@@ -198,13 +198,15 @@
             right: 0;
             width: 60%;
             height: 100%;
-            background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=85') center/cover no-repeat;
+            background: url('https://images.unsplash.com/photo-1598971639058-fab3c3109a00?w=1200&q=85') center top/cover no-repeat;
             opacity: 0.5;
         }
         @media (max-width: 1023px) {
             .hero-bg-image {
                 width: 100%;
-                opacity: 0.3;
+                height: 45%;
+                top: 0;
+                opacity: 0.85;
             }
         }
         .hero-bg-gradient {
@@ -214,7 +216,7 @@
         }
         @media (max-width: 1023px) {
             .hero-bg-gradient {
-                background: linear-gradient(180deg, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.95) 100%);
+                background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.7) 35%, rgba(10,10,10,0.98) 50%, var(--black) 100%);
             }
         }
         
@@ -222,9 +224,12 @@
             position: relative;
             z-index: 10;
             width: 100%;
-            padding: 120px 0 80px;
+            padding: 40px 0 60px;
         }
         @media (min-width: 768px) {
+            .hero-content { padding: 100px 0 80px; }
+        }
+        @media (min-width: 1024px) {
             .hero-content { padding: 140px 0 100px; }
         }
         .hero-grid {
@@ -695,19 +700,18 @@
             border-radius: 24px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.04);
         }
-        .step-number {
-            width: 72px;
-            height: 72px;
+        .step-icon {
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 20px;
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Cabinet Grotesk', sans-serif;
             font-size: 2rem;
-            font-weight: 800;
             color: var(--white);
             margin: 0 auto 24px;
+            box-shadow: 0 12px 30px rgba(255,77,0,0.3);
         }
         .step-card h3 {
             font-size: 1.25rem;
@@ -843,24 +847,50 @@
         .guide { background: var(--white); }
         
         .resistance-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            max-width: 900px;
-            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            max-width: 100%;
+            overflow-x: auto;
+            padding: 16px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
         }
-        @media (min-width: 640px) {
-            .resistance-grid { grid-template-columns: repeat(3, 1fr); }
+        .resistance-grid::-webkit-scrollbar {
+            height: 6px;
         }
-        @media (min-width: 900px) {
-            .resistance-grid { grid-template-columns: repeat(5, 1fr); }
+        .resistance-grid::-webkit-scrollbar-track {
+            background: var(--gray-100);
+            border-radius: 3px;
+        }
+        .resistance-grid::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+        @media (min-width: 700px) {
+            .resistance-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 16px;
+                max-width: 900px;
+                margin: 0 auto;
+                overflow: visible;
+            }
         }
         .resistance-item {
             text-align: center;
-            padding: 28px 20px;
+            padding: 24px 20px;
             background: var(--gray-50);
             border-radius: 20px;
             transition: all 0.3s;
+            min-width: 140px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+        @media (min-width: 700px) {
+            .resistance-item {
+                min-width: auto;
+                flex-shrink: 1;
+            }
         }
         .resistance-item:hover {
             background: var(--white);
@@ -868,11 +898,11 @@
             transform: translateY(-4px);
         }
         .resistance-color {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
             margin: 0 auto 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
         .color-yellow { background: linear-gradient(135deg, #FDE047, #FACC15); }
         .color-red { background: linear-gradient(135deg, #F87171, #EF4444); }
@@ -1464,17 +1494,17 @@
             </div>
             <div class="steps-grid reveal">
                 <div class="step-card">
-                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="fas fa-box-open"></i></div>
                     <h3>Choisissez votre pack</h3>
                     <p>5 niveaux de résistance adaptés à votre niveau, du débutant au confirmé.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="fas fa-play-circle"></i></div>
                     <h3>Suivez le programme</h3>
                     <p>Programme 30 jours inclus avec vidéos explicatives. 20 min/jour suffisent.</p>
                 </div>
                 <div class="step-card">
-                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="fas fa-chart-line"></i></div>
                     <h3>Voyez les résultats</h3>
                     <p>Progression visible dès 2 semaines. Photos avant/après de nos clients.</p>
                 </div>
