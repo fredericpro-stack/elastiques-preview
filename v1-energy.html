@@ -539,45 +539,82 @@
         /* ==================== TRUST BAR ==================== */
         .trust-bar {
             background: var(--white);
-            padding: 48px 0;
+            padding: 32px 0;
             border-bottom: 1px solid var(--gray-100);
             position: relative;
             z-index: 10;
         }
+        @media (min-width: 768px) {
+            .trust-bar { padding: 48px 0; }
+        }
         .trust-bar-inner {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            gap: 16px;
         }
         @media (min-width: 768px) {
-            .trust-bar-inner { grid-template-columns: repeat(4, 1fr); }
+            .trust-bar-inner { 
+                grid-template-columns: repeat(4, 1fr); 
+                gap: 24px;
+            }
         }
         .trust-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 16px;
+            text-align: center;
+            gap: 12px;
+            padding: 20px 12px;
+            background: var(--gray-50);
+            border-radius: 16px;
+        }
+        @media (min-width: 768px) {
+            .trust-item {
+                flex-direction: row;
+                text-align: left;
+                gap: 16px;
+                padding: 0;
+                background: transparent;
+                border-radius: 0;
+            }
         }
         .trust-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--gray-50), var(--white));
-            border-radius: 16px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            font-size: 1.4rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            color: var(--white);
+            font-size: 1.2rem;
             flex-shrink: 0;
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+        @media (min-width: 768px) {
+            .trust-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 1.4rem;
+                background: linear-gradient(135deg, var(--gray-50), var(--white));
+                color: var(--primary);
+                box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            }
         }
         .trust-content h4 {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 2px;
         }
+        @media (min-width: 768px) {
+            .trust-content h4 { font-size: 0.95rem; }
+        }
         .trust-content p {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--gray-500);
+        }
+        @media (min-width: 768px) {
+            .trust-content p { font-size: 0.8rem; }
         }
 
         /* ==================== SECTIONS ==================== */
