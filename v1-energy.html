@@ -612,6 +612,69 @@
             font-weight: 500;
         }
         
+        /* ==================== AGITATE ==================== */
+        .agitate-box {
+            background: var(--gray-50);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 32px;
+            border: 2px solid var(--gray-200);
+        }
+        @media (min-width: 768px) {
+            .agitate-box { padding: 48px; }
+        }
+        .agitate-inner h3 {
+            font-size: 1.5rem;
+            color: var(--gray-800);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .agitate-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        @media (min-width: 640px) {
+            .agitate-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 900px) {
+            .agitate-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        .agitate-item {
+            text-align: center;
+            padding: 24px;
+            background: var(--white);
+            border-radius: 16px;
+            border: 1px solid var(--gray-200);
+        }
+        .agitate-item i {
+            font-size: 2rem;
+            color: #DC2626;
+            margin-bottom: 16px;
+        }
+        .agitate-item p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+        .agitate-item strong {
+            color: var(--gray-800);
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .agitate-conclusion {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--gray-700);
+            font-weight: 500;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+        
         /* ==================== HOW IT WORKS ==================== */
         .how-it-works {
             background: var(--gray-50);
@@ -1344,8 +1407,35 @@
                     <p>Pas de place pour des haltères ou un banc. Votre salon n'est pas une salle de sport.</p>
                 </div>
             </div>
+            <!-- AGITATE -->
+            <div class="agitate-box reveal">
+                <div class="agitate-inner">
+                    <h3>Et si ça continue ?</h3>
+                    <div class="agitate-grid">
+                        <div class="agitate-item">
+                            <i class="fas fa-arrow-trend-down"></i>
+                            <p><strong>-5kg de muscle</strong> perdus chaque décennie sans entraînement</p>
+                        </div>
+                        <div class="agitate-item">
+                            <i class="fas fa-euro-sign"></i>
+                            <p><strong>480€/an</strong> jetés par la fenêtre en abonnements inutilisés</p>
+                        </div>
+                        <div class="agitate-item">
+                            <i class="fas fa-battery-quarter"></i>
+                            <p><strong>Énergie en chute</strong> : fatigue chronique, moral en berne</p>
+                        </div>
+                        <div class="agitate-item">
+                            <i class="fas fa-heart-crack"></i>
+                            <p><strong>Santé à risque</strong> : +40% de risques cardiovasculaires</p>
+                        </div>
+                    </div>
+                    <p class="agitate-conclusion">Le corps qu'on n'entretient pas se dégrade. Chaque mois qui passe rend la reprise plus difficile.</p>
+                </div>
+            </div>
+
+            <!-- SOLUTION -->
             <div class="solution-box reveal">
-                <h3><i class="fas fa-check-circle"></i> La solution existe</h3>
+                <h3><i class="fas fa-check-circle"></i> La bonne nouvelle ? Il existe une solution simple.</h3>
                 <div class="solution-grid">
                     <div class="solution-item">
                         <i class="fas fa-check"></i>
