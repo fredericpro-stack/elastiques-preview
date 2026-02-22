@@ -42,8 +42,13 @@
         
         /* Gallery */
         .product-gallery {
-            position: sticky;
-            top: 120px;
+            position: relative;
+        }
+        @media (min-width: 1024px) {
+            .product-gallery {
+                position: sticky;
+                top: 120px;
+            }
         }
         .gallery-main {
             aspect-ratio: 1;
