@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO -->
+    <title>Blog Fitness & Musculation | BANDFIT</title>
+    <meta name="description" content="Conseils, exercices et programmes d'entraînement avec élastiques. Guides complets pour progresser en musculation à domicile.">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/design-system.css">
+    
+    <style>
+        .blog-page { padding-top: 120px; }
+        
+        /* Hero */
+        .blog-hero {
+            text-align: center;
+            padding: var(--space-3xl) 0;
+            margin-bottom: var(--space-2xl);
+        }
+        .blog-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: var(--space-md);
+        }
+        .blog-hero p {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Categories */
+        .blog-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-2xl);
+        }
+        .category-tag {
+            padding: 10px 20px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-full);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .category-tag:hover,
+        .category-tag.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Featured Article */
+        .featured-article {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+            background: var(--gray-50);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            margin-bottom: var(--space-3xl);
+        }
+        @media (min-width: 768px) {
+            .featured-article {
+                grid-template-columns: 1.2fr 1fr;
+            }
+        }
+        .featured-image {
+            aspect-ratio: 16/10;
+            overflow: hidden;
+        }
+        .featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-smooth);
+        }
+        .featured-article:hover .featured-image img {
+            transform: scale(1.05);
+        }
+        .featured-content {
+            padding: var(--space-xl);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .featured-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--primary);
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-md);
+            width: fit-content;
+        }
+        .featured-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: var(--space-md);
+            line-height: 1.2;
+        }
+        .featured-title a {
+            color: var(--black);
+            text-decoration: none;
+        }
+        .featured-title a:hover { color: var(--primary); }
+        .featured-excerpt {
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: var(--space-lg);
+        }
+        .featured-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            font-size: 0.9rem;
+            color: var(--gray-500);
+        }
+        .featured-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Articles Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+        }
+        @media (min-width: 768px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .articles-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Article Card */
+        .article-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--gray-100);
+            transition: all var(--transition-smooth);
+        }
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        .article-image {
+            aspect-ratio: 16/10;
+            overflow: hidden;
+        }
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-smooth);
+        }
+        .article-card:hover .article-image img {
+            transform: scale(1.05);
+        }
+        .article-content {
+            padding: var(--space-lg);
+        }
+        .article-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(255, 77, 0, 0.1);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            margin-bottom: var(--space-sm);
+        }
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            line-height: 1.3;
+        }
+        .article-title a {
+            color: var(--black);
+            text-decoration: none;
+        }
+        .article-title a:hover { color: var(--primary); }
+        .article-excerpt {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: var(--space-md);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Newsletter CTA */
+        .blog-newsletter {
+            background: linear-gradient(135deg, var(--black) 0%, var(--gray-800) 100%);
+            color: var(--white);
+            padding: var(--space-3xl);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            margin: var(--space-4xl) 0;
+        }
+        .blog-newsletter h2 {
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+        }
+        .blog-newsletter p {
+            color: var(--gray-300);
+            max-width: 500px;
+            margin: 0 auto var(--space-xl);
+        }
+        .newsletter-form {
+            display: flex;
+            gap: var(--space-sm);
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        .newsletter-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+        }
+        @media (max-width: 500px) {
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-3xl);
+        }
+        .page-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-200);
+            background: var(--white);
+            color: var(--gray-600);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="announcement">
+        <span><strong>🔥 -15%</strong> avec le code <strong>BANDFIT15</strong></span>
+    </div>
+    <header id="header" class="light">
+        <div class="container">
+            <div class="header-inner">
+                <a href="/" class="logo">BAND<span>FIT</span></a>
+                <nav class="nav-desktop">
+                    <a href="/boutique">Boutique</a>
+                    <a href="/boutique/elastiques-latex.html">Élastiques</a>
+                    <a href="/boutique/packs.html">Packs</a>
+                    <a href="/guides">Guides</a>
+                    <a href="/blog" style="color: var(--primary);">Blog</a>
+                </nav>
+                <div class="header-actions">
+                    <a href="/panier.html" class="btn-icon"><i class="fa-solid fa-bag-shopping"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="blog-page">
+        <div class="container">
+            <!-- Hero -->
+            <div class="blog-hero">
+                <h1>Le Blog <span style="color: var(--primary);">BANDFIT</span></h1>
+                <p>Conseils, exercices et programmes pour progresser avec vos élastiques de musculation</p>
+            </div>
+
+            <!-- Categories -->
+            <div class="blog-categories">
+                <button class="category-tag active">Tous</button>
+                <button class="category-tag">Exercices</button>
+                <button class="category-tag">Programmes</button>
+                <button class="category-tag">Nutrition</button>
+                <button class="category-tag">Conseils</button>
+                <button class="category-tag">Guides</button>
+            </div>
+
+            <!-- Featured Article -->
+            <article class="featured-article">
+                <div class="featured-image">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800" alt="Programme 30 jours">
+                </div>
+                <div class="featured-content">
+                    <span class="featured-tag">Programme</span>
+                    <h2 class="featured-title">
+                        <a href="/blog/programme-30-jours-elastiques.html">Programme 30 jours : Transformez votre corps avec des élastiques</a>
+                    </h2>
+                    <p class="featured-excerpt">
+                        Un programme complet pour débutants et intermédiaires. 4 séances par semaine, exercices illustrés, progression adaptée. Résultats visibles en 30 jours.
+                    </p>
+                    <div class="featured-meta">
+                        <span><i class="fa-regular fa-calendar"></i> 18 février 2026</span>
+                        <span><i class="fa-regular fa-clock"></i> 12 min de lecture</span>
+                        <span><i class="fa-regular fa-eye"></i> 3.2k vues</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Articles Grid -->
+            <div class="articles-grid">
+                <!-- Article 1 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=600" alt="Choisir son élastique">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Guide</span>
+                        <h3 class="article-title">
+                            <a href="/blog/comment-choisir-elastique-musculation.html">Comment choisir son élastique de musculation ?</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Latex, tissu, tubes ? Léger, médium, lourd ? On vous explique tout pour faire le bon choix selon vos objectifs et votre niveau.
+                        </p>
+                        <div class="article-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 15 fév. 2026</span>
+                            <span><i class="fa-regular fa-clock"></i> 8 min</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600" alt="Exercices biceps">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Exercices</span>
+                        <h3 class="article-title">
+                            <a href="/blog/10-exercices-biceps-elastiques.html">10 exercices biceps avec élastiques (+ vidéos)</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Curl classique, curl marteau, curl concentré... Tous les exercices pour des biceps sculptés avec vos bandes de résistance.
+                        </p>
+                        <div class="article-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 12 fév. 2026</span>
+                            <span><i class="fa-regular fa-clock"></i> 6 min</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600" alt="Perte de poids">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Programme</span>
+                        <h3 class="article-title">
+                            <a href="/blog/programme-perte-poids-elastiques.html">Programme perte de poids avec élastiques</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Circuit training, HIIT, full body... Les meilleures séances pour brûler des calories et tonifier votre corps à domicile.
+                        </p>
+                        <div class="article-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 10 fév. 2026</span>
+                            <span><i class="fa-regular fa-clock"></i> 10 min</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c149a?w=600" alt="Exercices dos">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Exercices</span>
+                        <h3 class="article-title">
+                            <a href="/blog/exercices-dos-elastiques.html">Muscler son dos avec des élastiques</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Rowing, tirage vertical, face pull... Les meilleurs exercices pour un dos large et musclé sans matériel lourd.
+                        </p>
+                        <div class="article-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 8 fév. 2026</span>
+                            <span><i class="fa-regular fa-clock"></i> 7 min</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600" alt="Stretching">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Conseils</span>
+                        <h3 class="article-title">
+                            <a href="/blog/etirements-elastiques.html">Stretching avec élastiques : routine complète</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Améliorez votre souplesse et récupérez mieux avec ces étirements assistés par élastiques. Routine 15 minutes.
+                        </p>
+                        <div class="article-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 5 fév. 2026</span>
+                            <span><i class="fa-regular fa-clock"></i> 5 min</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 6 -->
+                <article class="article-card">
+                    <div class="article-image">
+                        <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600" alt="Home gym">
+                    </div>
+                    <div class="article-content">
+                        <span class="article-tag">Conseils</span>
+                        <h3 class="article-title">
+                            <a href="/blog/home-gym-petit-budget.html">Créer son home gym à petit budget</a>
+                        </h3>
+                        <p class="article-excerpt">
+                            Élastiques, tapis, quelques accessoires... Tout ce qu'il faut pour s'entraîner efficacement chez soi pour moins de 100€.
+                        </p>
+                        <div class="article-meta">
+                            <span><i class="fa-regular fa-calendar"></i> 2 fév. 2026</span>
+                            <span><i class="fa-regular fa-clock"></i> 6 min</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="blog-newsletter">
+                <h2>Programme d'entraînement GRATUIT</h2>
+                <p>Recevez notre programme 30 jours par email + 15% de réduction sur votre première commande</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Votre email" required>
+                    <button type="submit" class="btn btn-primary">Je m'inscris</button>
+                </form>
+            </div>
+
+            <!-- Pagination -->
+            <nav class="pagination">
+                <button class="page-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+            </nav>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+
+    <script>
+        // Header scroll
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Category filter
+        document.querySelectorAll('.category-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('.category-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                // Filter articles logic here
+            });
+        });
+    </script>
+</body>
+</html>
