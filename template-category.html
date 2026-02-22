@@ -1,597 +1,597 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élastiques de Musculation | BANDFIT</title>
+    <meta name="description" content="Découvrez notre gamme d'élastiques de musculation. Bandes de résistance en latex naturel pour tous niveaux.">
     
-    <!-- SEO Meta -->
-    <title>{{CATEGORY_NAME}} | BANDFIT - Élastiques de Musculation</title>
-    <meta name="description" content="{{CATEGORY_DESCRIPTION}}">
-    
-    <!-- Fonts & Icons -->
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="design-system.css">
     
     <style>
-        .category-page { padding-top: 120px; }
+        /* ===== MOBILE FIRST ===== */
         
-        /* Hero catégorie */
-        .category-hero {
-            background: linear-gradient(135deg, var(--black) 0%, var(--gray-800) 100%);
-            color: var(--white);
-            padding: var(--space-3xl) 0;
-            margin-bottom: var(--space-2xl);
+        .announcement {
+            font-size: 0.75rem;
+            padding: 8px 12px;
         }
-        .category-hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: var(--space-md);
-        }
-        .category-hero p {
-            font-size: 1.1rem;
-            color: var(--gray-300);
-            max-width: 600px;
-        }
-        .category-stats {
+        
+        .header-inner { padding: 12px 0; }
+        .logo { font-size: 1.3rem; }
+        
+        .menu-toggle {
             display: flex;
-            gap: var(--space-xl);
-            margin-top: var(--space-lg);
-        }
-        .category-stat {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            color: var(--gray-300);
-            font-size: 0.95rem;
-        }
-        .category-stat i { color: var(--primary); }
-        
-        /* Layout */
-        .category-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--space-xl);
-        }
-        @media (min-width: 1024px) {
-            .category-layout {
-                grid-template-columns: 280px 1fr;
-            }
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--gray-700);
         }
         
-        /* Sidebar Filters */
-        .filters-sidebar {
+        .nav-desktop { display: none; }
+        
+        /* Mobile Nav */
+        .mobile-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-lg);
-            border: 1px solid var(--gray-100);
-            height: fit-content;
-            position: sticky;
-            top: 120px;
+            z-index: 2000;
+            padding: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
         }
-        .filter-group {
-            margin-bottom: var(--space-xl);
-            padding-bottom: var(--space-lg);
-            border-bottom: 1px solid var(--gray-100);
-        }
-        .filter-group:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        .filter-title {
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: var(--space-md);
-            color: var(--gray-800);
-        }
-        .filter-options {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
-        }
-        .filter-option {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            cursor: pointer;
-            padding: var(--space-sm);
-            border-radius: var(--radius-sm);
-            transition: background var(--transition-fast);
-        }
-        .filter-option:hover { background: var(--gray-50); }
-        .filter-option input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-        }
-        .filter-option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        .filter-count {
-            color: var(--gray-400);
-            font-size: 0.85rem;
-        }
-        
-        /* Price range */
-        .price-range {
-            display: flex;
-            gap: var(--space-sm);
-            align-items: center;
-        }
-        .price-input {
-            width: 80px;
-            padding: 10px;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-sm);
-            text-align: center;
-        }
-        
-        /* Products Grid */
-        .products-header {
+        .mobile-nav.active { transform: translateX(0); }
+        .mobile-nav-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--space-lg);
-            flex-wrap: wrap;
-            gap: var(--space-md);
+            margin-bottom: 32px;
         }
-        .products-count {
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .mobile-nav-links a {
+            display: block;
+            padding: 16px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        /* Category Page */
+        .category-page {
+            padding-top: 100px;
+            padding-bottom: 40px;
+        }
+        
+        .breadcrumb {
+            font-size: 0.75rem;
+            margin-bottom: 16px;
+        }
+        .breadcrumb a, .breadcrumb span { color: var(--gray-500); text-decoration: none; }
+        .breadcrumb .separator { margin: 0 6px; }
+        
+        /* Category Header */
+        .category-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .category-title {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        
+        .category-desc {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .category-count {
+            margin-top: 12px;
+            font-size: 0.85rem;
             color: var(--gray-500);
         }
-        .products-count strong { color: var(--gray-800); }
         
-        .products-sort {
+        /* Filters Mobile */
+        .filters-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        
+        .filter-btn {
+            flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: var(--space-sm);
-        }
-        .sort-select {
-            padding: 10px 16px;
+            gap: 6px;
+            padding: 10px 14px;
+            background: white;
             border: 1px solid var(--gray-200);
-            border-radius: var(--radius-md);
-            font-family: 'Satoshi', sans-serif;
-            font-size: 0.95rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
             cursor: pointer;
         }
         
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Sort */
+        .sort-select {
+            padding: 10px 14px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            background: white;
+        }
+        
+        /* Products Grid Mobile */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-lg);
-        }
-        @media (min-width: 768px) {
-            .products-grid { grid-template-columns: repeat(3, 1fr); }
+            gap: 12px;
         }
         
-        /* Product Card */
+        /* Product Card Mobile */
         .product-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
+            background: white;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--gray-100);
-            transition: all var(--transition-smooth);
         }
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-        }
-        .product-card .card-image {
-            position: relative;
+        
+        .product-card-image {
             aspect-ratio: 1;
-            background: var(--gray-50);
             overflow: hidden;
+            position: relative;
         }
-        .product-card img {
+        
+        .product-card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform var(--transition-smooth);
+            transition: transform 0.3s;
         }
-        .product-card:hover img { transform: scale(1.05); }
         
-        .product-badge {
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .product-card-badge {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            padding: 6px 12px;
+            top: 8px;
+            left: 8px;
             background: var(--primary);
-            color: var(--white);
-            font-size: 0.75rem;
-            font-weight: 700;
-            border-radius: var(--radius-sm);
-        }
-        .product-badge.sale { background: var(--error); }
-        .product-badge.new { background: var(--success); }
-        
-        .product-quick-view {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all var(--transition-smooth);
-        }
-        .product-card:hover .product-quick-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .card-body {
-            padding: var(--space-lg);
-        }
-        .product-category-tag {
-            font-size: 0.8rem;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: var(--space-xs);
-        }
-        .product-title {
-            font-size: 1.05rem;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
             font-weight: 600;
-            margin-bottom: var(--space-sm);
-            color: var(--black);
         }
-        .product-title a {
-            color: inherit;
+        
+        .product-card-content {
+            padding: 12px;
+        }
+        
+        .product-card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .product-card-title a {
+            color: var(--gray-900);
             text-decoration: none;
         }
-        .product-title a:hover { color: var(--primary); }
         
-        .product-rating {
+        .product-card-rating {
             display: flex;
             align-items: center;
             gap: 4px;
-            margin-bottom: var(--space-sm);
+            margin-bottom: 8px;
+            font-size: 0.75rem;
         }
-        .product-rating i { color: #FFB800; font-size: 0.8rem; }
-        .product-rating span { color: var(--gray-400); font-size: 0.8rem; margin-left: 4px; }
         
-        .product-price {
-            font-size: 1.25rem;
+        .product-card-rating i {
+            color: #FFB800;
+            font-size: 0.7rem;
+        }
+        
+        .product-card-price {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .price-current {
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--primary);
         }
-        .product-price .old { 
-            font-size: 0.95rem;
+        
+        .price-old {
+            font-size: 0.85rem;
             color: var(--gray-400);
             text-decoration: line-through;
-            margin-left: var(--space-sm);
-            font-weight: 400;
         }
         
-        /* Mobile filter toggle */
-        .filter-toggle {
+        /* Quick add */
+        .quick-add {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background: var(--black);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 32px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
-            gap: var(--space-sm);
-            padding: 12px 20px;
-            background: var(--gray-50);
+            justify-content: center;
             border: 1px solid var(--gray-200);
-            border-radius: var(--radius-md);
+            border-radius: 8px;
+            background: white;
+            font-weight: 500;
             cursor: pointer;
-            margin-bottom: var(--space-lg);
+            text-decoration: none;
+            color: var(--gray-700);
         }
-        @media (min-width: 1024px) {
-            .filter-toggle { display: none; }
-        }
-        @media (max-width: 1023px) {
-            .filters-sidebar {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 2000;
-                border-radius: 0;
-                overflow-y: auto;
-            }
-            .filters-sidebar.active { display: block; }
+        
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
         
         /* SEO Content */
-        .category-seo {
-            margin-top: var(--space-4xl);
-            padding: var(--space-2xl);
-            background: var(--gray-50);
-            border-radius: var(--radius-xl);
+        .seo-content {
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--gray-100);
         }
-        .category-seo h2 {
-            font-size: 1.75rem;
-            margin-bottom: var(--space-lg);
+        
+        .seo-content h2 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
         }
-        .category-seo p {
+        
+        .seo-content p {
             color: var(--gray-600);
-            line-height: 1.8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        
+        /* ===== DESKTOP ===== */
+        @media (min-width: 768px) {
+            .menu-toggle { display: none; }
+            .nav-desktop { display: flex; }
+            
+            .category-page { padding-top: 140px; }
+            
+            .category-title { font-size: 2.5rem; }
+            
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .product-card-content { padding: 16px; }
+            .product-card-title { font-size: 1rem; }
+            .price-current { font-size: 1.2rem; }
+        }
+        
+        @media (min-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 24px;
+            }
+            
+            .logo { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER -->
+    <!-- Header -->
     <div class="announcement">
-        <span><strong>🔥 -15%</strong> avec le code <strong>BANDFIT15</strong></span>
+        <span>🔥 <strong>-15%</strong> avec le code <strong>BANDFIT15</strong></span>
     </div>
+    
     <header id="header" class="light">
         <div class="container">
             <div class="header-inner">
                 <a href="/" class="logo">BAND<span>FIT</span></a>
                 <nav class="nav-desktop">
-                    <a href="/boutique">Boutique</a>
-                    <a href="/boutique/elastiques-latex.html">Élastiques</a>
-                    <a href="/boutique/packs.html">Packs</a>
-                    <a href="/guides">Guides</a>
-                    <a href="/blog">Blog</a>
+                    <a href="#">Boutique</a>
+                    <a href="#">Élastiques</a>
+                    <a href="#">Packs</a>
+                    <a href="#">Guides</a>
+                    <a href="#">Blog</a>
                 </nav>
                 <div class="header-actions">
-                    <a href="/panier.html" class="btn-icon"><i class="fa-solid fa-bag-shopping"></i></a>
+                    <a href="#" class="btn-icon"><i class="fa-solid fa-bag-shopping"></i></a>
+                    <button class="menu-toggle" onclick="toggleMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-header">
+            <a href="/" class="logo">BAND<span>FIT</span></a>
+            <button class="mobile-nav-close" onclick="toggleMenu()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#">Boutique</a>
+            <a href="#">Élastiques</a>
+            <a href="#">Packs</a>
+            <a href="#">Guides</a>
+            <a href="#">Blog</a>
+        </div>
+    </nav>
 
     <main class="category-page">
-        <!-- Hero -->
-        <div class="category-hero">
-            <div class="container">
-                <nav class="breadcrumb" style="margin-bottom: var(--space-lg);">
-                    <a href="/" style="color: var(--gray-400);">Accueil</a>
-                    <span class="separator" style="color: var(--gray-600);">/</span>
-                    <a href="/boutique" style="color: var(--gray-400);">Boutique</a>
-                    <span class="separator" style="color: var(--gray-600);">/</span>
-                    <span class="current" style="color: var(--white);">Élastiques latex</span>
-                </nav>
-                <h1>Élastiques de Musculation Latex</h1>
-                <p>Nos bandes de résistance en latex naturel premium. Du débutant au confirmé, trouvez l'élastique adapté à vos objectifs.</p>
-                <div class="category-stats">
-                    <div class="category-stat">
-                        <i class="fa-solid fa-box"></i>
-                        <span>7 produits</span>
-                    </div>
-                    <div class="category-stat">
-                        <i class="fa-solid fa-star"></i>
-                        <span>4.8/5 note moyenne</span>
-                    </div>
-                    <div class="category-stat">
-                        <i class="fa-solid fa-truck-fast"></i>
-                        <span>Livraison gratuite dès 39€</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="container">
-            <!-- Mobile filter toggle -->
-            <button class="filter-toggle" id="filter-toggle">
-                <i class="fa-solid fa-sliders"></i>
-                <span>Filtrer</span>
-            </button>
+            <nav class="breadcrumb">
+                <a href="/">Accueil</a>
+                <span class="separator">/</span>
+                <a href="#">Boutique</a>
+                <span class="separator">/</span>
+                <span>Élastiques</span>
+            </nav>
 
-            <div class="category-layout">
-                <!-- Filters Sidebar -->
-                <aside class="filters-sidebar" id="filters-sidebar">
-                    <div class="filter-group">
-                        <h3 class="filter-title">Résistance</h3>
-                        <div class="filter-options">
-                            <label class="filter-option">
-                                <input type="checkbox" name="resistance" value="light">
-                                <span>Light (2-7kg)</span>
-                                <span class="filter-count">(3)</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="resistance" value="medium">
-                                <span>Medium (7-15kg)</span>
-                                <span class="filter-count">(2)</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="resistance" value="heavy">
-                                <span>Heavy (15-30kg)</span>
-                                <span class="filter-count">(2)</span>
-                            </label>
+            <div class="category-header">
+                <h1 class="category-title">Élastiques de Musculation</h1>
+                <p class="category-desc">
+                    Découvrez notre gamme complète de bandes de résistance en latex naturel. 
+                    Pour tous niveaux, du débutant à l'expert.
+                </p>
+                <p class="category-count">12 produits</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar">
+                <button class="filter-btn active">Tous</button>
+                <button class="filter-btn">Light</button>
+                <button class="filter-btn">Medium</button>
+                <button class="filter-btn">Heavy</button>
+                <button class="filter-btn">Packs</button>
+                <select class="sort-select">
+                    <option>Trier par: Populaires</option>
+                    <option>Prix croissant</option>
+                    <option>Prix décroissant</option>
+                    <option>Nouveautés</option>
+                </select>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <span class="product-card-badge">-33%</span>
+                        <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=400" alt="Pack 5 Bandes">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">
+                            <a href="template-product.html">Pack 5 Bandes de Résistance Pro</a>
+                        </h3>
+                        <div class="product-card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <span>(127)</span>
                         </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h3 class="filter-title">Prix</h3>
-                        <div class="price-range">
-                            <input type="number" class="price-input" placeholder="Min" min="0">
-                            <span>—</span>
-                            <input type="number" class="price-input" placeholder="Max">
+                        <div class="product-card-price">
+                            <span class="price-current">19,90€</span>
+                            <span class="price-old">29,90€</span>
                         </div>
+                        <button class="quick-add">Ajouter au panier</button>
                     </div>
+                </div>
 
-                    <div class="filter-group">
-                        <h3 class="filter-title">Disponibilité</h3>
-                        <div class="filter-options">
-                            <label class="filter-option">
-                                <input type="checkbox" name="stock" value="instock" checked>
-                                <span>En stock</span>
-                                <span class="filter-count">(6)</span>
-                            </label>
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400" alt="Bande Light">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">
+                            <a href="#">Bande Light - Jaune (2-5kg)</a>
+                        </h3>
+                        <div class="product-card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <span>(89)</span>
                         </div>
-                    </div>
-
-                    <div class="filter-group">
-                        <h3 class="filter-title">Note client</h3>
-                        <div class="filter-options">
-                            <label class="filter-option">
-                                <input type="checkbox" name="rating" value="4">
-                                <span>4★ et plus</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="checkbox" name="rating" value="3">
-                                <span>3★ et plus</span>
-                            </label>
+                        <div class="product-card-price">
+                            <span class="price-current">6,90€</span>
                         </div>
+                        <button class="quick-add">Ajouter au panier</button>
                     </div>
+                </div>
 
-                    <button class="btn btn-primary" style="width: 100%;">Appliquer</button>
-                </aside>
-
-                <!-- Products -->
-                <div class="products-section">
-                    <div class="products-header">
-                        <p class="products-count"><strong>7 produits</strong> trouvés</p>
-                        <div class="products-sort">
-                            <label>Trier par :</label>
-                            <select class="sort-select">
-                                <option value="popular">Popularité</option>
-                                <option value="price-asc">Prix croissant</option>
-                                <option value="price-desc">Prix décroissant</option>
-                                <option value="newest">Nouveautés</option>
-                                <option value="rating">Meilleures notes</option>
-                            </select>
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400" alt="Bande Medium">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">
+                            <a href="#">Bande Medium - Vert (7-12kg)</a>
+                        </h3>
+                        <div class="product-card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <span>(56)</span>
                         </div>
+                        <div class="product-card-price">
+                            <span class="price-current">8,90€</span>
+                        </div>
+                        <button class="quick-add">Ajouter au panier</button>
                     </div>
+                </div>
 
-                    <div class="products-grid">
-                        <!-- Product 1 -->
-                        <article class="product-card">
-                            <div class="card-image">
-                                <span class="product-badge">Best-seller</span>
-                                <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=600" alt="Pack 5 Bandes">
-                                <div class="product-quick-view">
-                                    <button class="btn btn-primary btn-sm" style="width: 100%;">
-                                        <i class="fa-solid fa-eye"></i> Aperçu rapide
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="product-category-tag">Packs</p>
-                                <h3 class="product-title"><a href="/produit/pack-5-bandes.html">Pack 5 Bandes Résistance Pro</a></h3>
-                                <div class="product-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    <span>(127)</span>
-                                </div>
-                                <p class="product-price">19,90€ <span class="old">29,90€</span></p>
-                            </div>
-                        </article>
-
-                        <!-- Product 2 -->
-                        <article class="product-card">
-                            <div class="card-image">
-                                <span class="product-badge new">Nouveau</span>
-                                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600" alt="Bande Light">
-                                <div class="product-quick-view">
-                                    <button class="btn btn-primary btn-sm" style="width: 100%;">
-                                        <i class="fa-solid fa-eye"></i> Aperçu rapide
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="product-category-tag">Élastiques</p>
-                                <h3 class="product-title"><a href="/produit/bande-light.html">Bande Light - Jaune (2-5kg)</a></h3>
-                                <div class="product-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <span>(89)</span>
-                                </div>
-                                <p class="product-price">6,90€</p>
-                            </div>
-                        </article>
-
-                        <!-- Product 3 -->
-                        <article class="product-card">
-                            <div class="card-image">
-                                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600" alt="Bande Medium">
-                                <div class="product-quick-view">
-                                    <button class="btn btn-primary btn-sm" style="width: 100%;">
-                                        <i class="fa-solid fa-eye"></i> Aperçu rapide
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="product-category-tag">Élastiques</p>
-                                <h3 class="product-title"><a href="/produit/bande-medium.html">Bande Medium - Vert (7-12kg)</a></h3>
-                                <div class="product-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-regular fa-star"></i>
-                                    <span>(64)</span>
-                                </div>
-                                <p class="product-price">9,90€</p>
-                            </div>
-                        </article>
-
-                        <!-- Product 4 -->
-                        <article class="product-card">
-                            <div class="card-image">
-                                <span class="product-badge sale">-20%</span>
-                                <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c149a?w=600" alt="Bande Heavy">
-                                <div class="product-quick-view">
-                                    <button class="btn btn-primary btn-sm" style="width: 100%;">
-                                        <i class="fa-solid fa-eye"></i> Aperçu rapide
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="product-category-tag">Élastiques</p>
-                                <h3 class="product-title"><a href="/produit/bande-heavy.html">Bande Heavy - Bleu (12-18kg)</a></h3>
-                                <div class="product-rating">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    <span>(52)</span>
-                                </div>
-                                <p class="product-price">11,90€ <span class="old">14,90€</span></p>
-                            </div>
-                        </article>
-
-                        <!-- More products... -->
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <span class="product-card-badge">Nouveau</span>
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c149a?w=400" alt="Bande Heavy">
                     </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">
+                            <a href="#">Bande Heavy - Bleu (12-18kg)</a>
+                        </h3>
+                        <div class="product-card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <span>(34)</span>
+                        </div>
+                        <div class="product-card-price">
+                            <span class="price-current">9,90€</span>
+                        </div>
+                        <button class="quick-add">Ajouter au panier</button>
+                    </div>
+                </div>
 
-                    <!-- Pagination -->
-                    <nav class="pagination" style="display: flex; justify-content: center; gap: var(--space-sm); margin-top: var(--space-2xl);">
-                        <a href="#" class="btn btn-secondary btn-sm">← Précédent</a>
-                        <a href="#" class="btn btn-primary btn-sm">1</a>
-                        <a href="#" class="btn btn-secondary btn-sm">2</a>
-                        <a href="#" class="btn btn-secondary btn-sm">Suivant →</a>
-                    </nav>
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=400" alt="Bande X-Heavy">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">
+                            <a href="#">Bande X-Heavy - Noir (18-23kg)</a>
+                        </h3>
+                        <div class="product-card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <span>(45)</span>
+                        </div>
+                        <div class="product-card-price">
+                            <span class="price-current">10,90€</span>
+                        </div>
+                        <button class="quick-add">Ajouter au panier</button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <span class="product-card-badge">Best-seller</span>
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400" alt="Mini Bandes">
+                    </div>
+                    <div class="product-card-content">
+                        <h3 class="product-card-title">
+                            <a href="#">Set 3 Mini Bandes Tissu</a>
+                        </h3>
+                        <div class="product-card-rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <span>(203)</span>
+                        </div>
+                        <div class="product-card-price">
+                            <span class="price-current">14,90€</span>
+                        </div>
+                        <button class="quick-add">Ajouter au panier</button>
+                    </div>
                 </div>
             </div>
+
+            <!-- Pagination -->
+            <nav class="pagination">
+                <a href="#" class="page-btn active">1</a>
+                <a href="#" class="page-btn">2</a>
+                <a href="#" class="page-btn">3</a>
+                <a href="#" class="page-btn"><i class="fa-solid fa-chevron-right"></i></a>
+            </nav>
 
             <!-- SEO Content -->
-            <div class="category-seo">
-                <h2>Guide complet : Élastiques de musculation latex</h2>
-                <p>Les élastiques de musculation en latex sont les plus polyvalents pour votre entraînement à domicile. Contrairement aux bandes en tissu, le latex offre une résistance progressive qui augmente avec l'étirement, reproduisant la courbe de force naturelle de vos muscles.</p>
-                <p>Chez BANDFIT, nous avons sélectionné des élastiques en latex naturel premium, sans odeur et ultra-durables. Chaque bande est testée pour résister à plus de 10 000 cycles d'étirement sans perte de résistance.</p>
-                <h3>Comment choisir sa résistance ?</h3>
-                <p>Pour les débutants, commencez avec les bandes Light (2-7kg). Les pratiquants intermédiaires opteront pour les bandes Medium (7-15kg). Les confirmés et athlètes choisiront les bandes Heavy (15-30kg). Notre Pack 5 Bandes inclut tous les niveaux pour progresser sereinement.</p>
+            <div class="seo-content">
+                <h2>Les meilleurs élastiques de musculation</h2>
+                <p>
+                    Les bandes de résistance sont devenues un incontournable pour l'entraînement à domicile. 
+                    Légères, transportables et polyvalentes, elles permettent de travailler l'ensemble du corps 
+                    sans équipement encombrant.
+                </p>
+                <p>
+                    Chez BANDFIT, nous sélectionnons uniquement des élastiques en latex naturel de qualité 
+                    premium, durables et sans odeur. Chaque bande est testée pour garantir sa résistance 
+                    et sa longévité.
+                </p>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER -->
-
     <script>
-        // Header scroll
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Mobile filters
-        const filterToggle = document.getElementById('filter-toggle');
-        const filtersSidebar = document.getElementById('filters-sidebar');
+        function toggleMenu() {
+            document.getElementById('mobile-nav').classList.toggle('active');
+        }
         
-        filterToggle?.addEventListener('click', () => {
-            filtersSidebar.classList.toggle('active');
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
         });
     </script>
 </body>
 </html>
-

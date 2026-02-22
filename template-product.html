@@ -1,353 +1,526 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pack 5 Bandes Résistance Pro | BANDFIT</title>
+    <meta name="description" content="Pack complet de 5 bandes de résistance pour musculation. 5 niveaux de 2kg à 23kg. Latex naturel premium.">
     
-    <!-- SEO Meta - À personnaliser par produit -->
-    <title>{{PRODUCT_NAME}} | BANDFIT - Élastiques de Musculation</title>
-    <meta name="description" content="{{PRODUCT_DESCRIPTION}}">
-    <meta name="keywords" content="élastique musculation, bande résistance, {{PRODUCT_KEYWORDS}}">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="{{PRODUCT_NAME}} | BANDFIT">
-    <meta property="og:description" content="{{PRODUCT_DESCRIPTION}}">
-    <meta property="og:image" content="{{PRODUCT_IMAGE}}">
-    <meta property="og:type" content="product">
-    
-    <!-- Fonts & Icons -->
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=cabinet-grotesk@500,700,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Styles -->
     <link rel="stylesheet" href="design-system.css">
     
     <style>
-        /* Page-specific styles */
+        /* ===== MOBILE FIRST ===== */
+        
+        /* Header Mobile */
+        .announcement {
+            font-size: 0.75rem;
+            padding: 8px 12px;
+        }
+        
+        .header-inner {
+            padding: 12px 0;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+        }
+        
+        .menu-toggle {
+            display: flex;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--gray-700);
+        }
+        
+        .nav-desktop {
+            display: none;
+        }
+        
+        /* Mobile Menu */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--white);
+            z-index: 2000;
+            padding: 20px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .mobile-nav-links a {
+            display: block;
+            padding: 16px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .mobile-nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Page */
         .product-page {
-            padding-top: 120px;
-            padding-bottom: var(--space-4xl);
+            padding-top: 100px;
+            padding-bottom: 40px;
         }
         
-        .product-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--space-3xl);
-        }
-        @media (min-width: 1024px) {
-            .product-layout {
-                grid-template-columns: 1fr 1fr;
-            }
+        /* Breadcrumb Mobile */
+        .breadcrumb {
+            font-size: 0.75rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
         }
         
-        /* Gallery */
-        .product-gallery {
-            position: relative;
+        .breadcrumb a, .breadcrumb span {
+            color: var(--gray-500);
+            text-decoration: none;
         }
-        @media (min-width: 1024px) {
-            .product-gallery {
-                position: sticky;
-                top: 120px;
-            }
+        
+        .breadcrumb .separator {
+            margin: 0 6px;
         }
+        
+        /* Gallery Mobile */
         .gallery-main {
             aspect-ratio: 1;
-            background: var(--gray-50);
-            border-radius: var(--radius-xl);
+            border-radius: 12px;
             overflow: hidden;
-            margin-bottom: var(--space-md);
+            margin-bottom: 12px;
         }
+        
         .gallery-main img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+        
         .gallery-thumbs {
             display: flex;
-            gap: var(--space-sm);
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
         }
+        
         .gallery-thumb {
-            width: 80px;
-            height: 80px;
-            border-radius: var(--radius-md);
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
             overflow: hidden;
-            cursor: pointer;
             border: 2px solid transparent;
-            transition: all var(--transition-fast);
+            cursor: pointer;
         }
-        .gallery-thumb:hover,
+        
         .gallery-thumb.active {
             border-color: var(--primary);
         }
+        
         .gallery-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        /* Product Info */
+        /* Product Info Mobile */
         .product-info {
-            padding: var(--space-lg) 0;
+            padding: 20px 0;
         }
         
         .product-badges {
             display: flex;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-md);
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .product-badges .badge {
+            font-size: 0.7rem;
+            padding: 4px 8px;
         }
         
         .product-title {
-            font-size: 2.5rem;
-            margin-bottom: var(--space-md);
+            font-size: 1.5rem;
+            line-height: 1.3;
+            margin-bottom: 12px;
         }
         
         .product-rating {
             display: flex;
             align-items: center;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-lg);
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
         }
-        .product-rating .rating i { font-size: 1rem; }
-        .product-rating .reviews-count {
-            color: var(--gray-500);
-            font-size: 0.95rem;
+        
+        .product-rating i {
+            color: #FFB800;
+            font-size: 0.9rem;
         }
         
         .product-price-box {
             display: flex;
-            align-items: baseline;
-            gap: var(--space-md);
-            margin-bottom: var(--space-lg);
-            padding: var(--space-lg);
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 16px;
             background: var(--gray-50);
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
+            margin-bottom: 16px;
         }
+        
         .product-price {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--primary);
         }
+        
         .product-price-old {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: var(--gray-400);
             text-decoration: line-through;
         }
+        
         .product-discount {
             background: var(--error);
-            color: var(--white);
-            padding: 4px 10px;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 700;
         }
         
         .product-desc {
             color: var(--gray-600);
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: var(--space-xl);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
         }
         
-        /* Options */
-        .product-options {
-            margin-bottom: var(--space-xl);
-        }
+        /* Options Mobile */
         .option-group {
-            margin-bottom: var(--space-lg);
+            margin-bottom: 20px;
         }
+        
         .option-label {
             font-weight: 600;
-            margin-bottom: var(--space-sm);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
             color: var(--gray-800);
         }
+        
         .option-values {
             display: flex;
             flex-wrap: wrap;
-            gap: var(--space-sm);
+            gap: 8px;
         }
+        
         .option-btn {
-            padding: 12px 20px;
+            padding: 10px 14px;
             border: 2px solid var(--gray-200);
-            border-radius: var(--radius-md);
-            background: var(--white);
-            cursor: pointer;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: all var(--transition-fast);
+            cursor: pointer;
         }
-        .option-btn:hover {
-            border-color: var(--primary);
-        }
+        
         .option-btn.selected {
             border-color: var(--primary);
             background: rgba(255, 77, 0, 0.05);
             color: var(--primary);
         }
         
-        /* Color option */
-        .color-option {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            padding: 3px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .color-option:hover,
-        .color-option.selected {
-            border-color: var(--primary);
-        }
-        .color-option span {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-        
-        /* Add to cart */
+        /* Actions Mobile */
         .product-actions {
             display: flex;
-            gap: var(--space-md);
-            margin-bottom: var(--space-xl);
-        }
-        .add-to-cart {
-            flex: 1;
-        }
-        .btn-wishlist {
-            width: 56px;
-            height: 56px;
-            border: 2px solid var(--gray-200);
-            background: var(--white);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        .btn-wishlist:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
-        /* Trust features */
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .qty-btn {
+            width: 40px;
+            height: 44px;
+            border: none;
+            background: var(--gray-50);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .qty-input {
+            width: 40px;
+            height: 44px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .add-to-cart {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-wishlist {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--gray-200);
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Trust Mobile */
         .product-trust {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-md);
-            padding: var(--space-lg);
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 16px;
             background: var(--gray-50);
-            border-radius: var(--radius-lg);
+            border-radius: 12px;
         }
+        
         .trust-feature {
             display: flex;
             align-items: center;
-            gap: var(--space-sm);
-            font-size: 0.9rem;
-        }
-        .trust-feature i {
-            color: var(--success);
-            font-size: 1.1rem;
+            gap: 8px;
+            font-size: 0.8rem;
         }
         
-        /* Tabs */
-        .product-tabs {
-            margin-top: var(--space-4xl);
+        .trust-feature i {
+            color: var(--success);
         }
+        
+        /* Tabs Mobile */
+        .product-tabs {
+            margin-top: 32px;
+        }
+        
         .tabs-nav {
             display: flex;
-            gap: var(--space-md);
+            gap: 0;
             border-bottom: 2px solid var(--gray-100);
-            margin-bottom: var(--space-xl);
+            margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
+        
         .tab-btn {
-            padding: var(--space-md) var(--space-lg);
+            flex-shrink: 0;
+            padding: 12px 16px;
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--gray-500);
             cursor: pointer;
-            position: relative;
-            transition: color var(--transition-fast);
+            white-space: nowrap;
         }
-        .tab-btn:hover { color: var(--gray-800); }
-        .tab-btn.active { color: var(--primary); }
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--primary);
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: -2px;
         }
+        
         .tab-content {
             display: none;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
+        
         .tab-content.active {
             display: block;
         }
         
-        /* Related products */
-        .related-products {
-            margin-top: var(--space-4xl);
-            padding-top: var(--space-4xl);
-            border-top: 1px solid var(--gray-100);
+        .tab-content ul {
+            padding-left: 20px;
+            margin: 16px 0;
         }
-        .section-title {
-            text-align: center;
-            margin-bottom: var(--space-2xl);
+        
+        .tab-content li {
+            margin-bottom: 8px;
         }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-lg);
+        
+        /* Specs Table */
+        .specs-table {
+            width: 100%;
+            font-size: 0.9rem;
         }
+        
+        .specs-table tr {
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .specs-table td {
+            padding: 12px 0;
+        }
+        
+        .specs-table td:first-child {
+            font-weight: 600;
+            color: var(--gray-700);
+            width: 40%;
+        }
+        
+        /* ===== DESKTOP ===== */
         @media (min-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(4, 1fr);
+            .menu-toggle {
+                display: none;
+            }
+            
+            .nav-desktop {
+                display: flex;
+            }
+            
+            .product-page {
+                padding-top: 140px;
+            }
+            
+            .product-layout {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 48px;
+            }
+            
+            .product-gallery {
+                position: sticky;
+                top: 140px;
+            }
+            
+            .gallery-thumb {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .product-title {
+                font-size: 2.2rem;
+            }
+            
+            .product-price {
+                font-size: 2.5rem;
+            }
+            
+            .product-actions {
+                gap: 16px;
+            }
+            
+            .add-to-cart {
+                padding: 16px 24px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .logo {
+                font-size: 1.6rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER (include header.html) -->
+    <!-- Header -->
     <div class="announcement">
-        <span><strong>🔥 -15%</strong> avec le code <strong>BANDFIT15</strong></span>
+        <span>🔥 <strong>-15%</strong> avec le code <strong>BANDFIT15</strong></span>
     </div>
+    
     <header id="header" class="light">
         <div class="container">
             <div class="header-inner">
                 <a href="/" class="logo">BAND<span>FIT</span></a>
+                
                 <nav class="nav-desktop">
-                    <a href="/boutique">Boutique</a>
-                    <a href="/boutique/elastiques-latex.html">Élastiques</a>
-                    <a href="/boutique/packs.html">Packs</a>
-                    <a href="/guides">Guides</a>
-                    <a href="/blog">Blog</a>
+                    <a href="#">Boutique</a>
+                    <a href="#">Élastiques</a>
+                    <a href="#">Packs</a>
+                    <a href="#">Guides</a>
+                    <a href="#">Blog</a>
                 </nav>
+                
                 <div class="header-actions">
-                    <a href="/panier.html" class="btn-icon"><i class="fa-solid fa-bag-shopping"></i></a>
+                    <a href="#" class="btn-icon"><i class="fa-solid fa-bag-shopping"></i></a>
+                    <button class="menu-toggle" onclick="toggleMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <nav class="mobile-nav" id="mobile-nav">
+        <div class="mobile-nav-header">
+            <a href="/" class="logo">BAND<span>FIT</span></a>
+            <button class="mobile-nav-close" onclick="toggleMenu()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#">Boutique</a>
+            <a href="#">Élastiques</a>
+            <a href="#">Packs</a>
+            <a href="#">Guides</a>
+            <a href="#">Blog</a>
+        </div>
+    </nav>
 
     <main class="product-page">
         <div class="container">
-            <!-- Breadcrumb -->
             <nav class="breadcrumb">
                 <a href="/">Accueil</a>
                 <span class="separator">/</span>
-                <a href="/boutique">Boutique</a>
+                <a href="#">Boutique</a>
                 <span class="separator">/</span>
-                <a href="/boutique/elastiques-latex.html">Élastiques latex</a>
+                <a href="#">Élastiques</a>
                 <span class="separator">/</span>
-                <span class="current">Pack 5 Bandes Résistance</span>
+                <span>Pack 5 Bandes</span>
             </nav>
 
             <div class="product-layout">
                 <!-- Gallery -->
                 <div class="product-gallery">
                     <div class="gallery-main">
-                        <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=800" alt="Pack 5 Bandes Résistance" id="main-image">
+                        <img src="https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=800" alt="Pack 5 Bandes" id="main-image">
                     </div>
                     <div class="gallery-thumbs">
                         <div class="gallery-thumb active" onclick="changeImage(this, 'https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=800')">
@@ -375,14 +548,12 @@
                     <h1 class="product-title">Pack 5 Bandes de Résistance Pro</h1>
 
                     <div class="product-rating">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star-half-stroke"></i>
-                        </div>
-                        <span class="reviews-count">4.8/5 (127 avis)</span>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                        <span style="color: var(--gray-500);">4.8/5 (127 avis)</span>
                     </div>
 
                     <div class="product-price-box">
@@ -395,36 +566,30 @@
                         Le pack complet pour un entraînement progressif. 5 niveaux de résistance (2kg à 23kg) pour cibler tous les groupes musculaires. Latex naturel premium, durable et sans odeur.
                     </p>
 
-                    <!-- Options -->
-                    <div class="product-options">
-                        <div class="option-group">
-                            <p class="option-label">Résistance : <strong>Pack complet (5 bandes)</strong></p>
-                            <div class="option-values">
-                                <button class="option-btn selected">Pack complet</button>
-                                <button class="option-btn">Light (2-7kg)</button>
-                                <button class="option-btn">Medium (7-15kg)</button>
-                                <button class="option-btn">Heavy (15-23kg)</button>
-                            </div>
+                    <div class="option-group">
+                        <p class="option-label">Résistance : <strong>Pack complet</strong></p>
+                        <div class="option-values">
+                            <button class="option-btn selected">Pack complet</button>
+                            <button class="option-btn">Light (2-7kg)</button>
+                            <button class="option-btn">Medium</button>
+                            <button class="option-btn">Heavy</button>
                         </div>
                     </div>
 
-                    <!-- Quantity & Add to cart -->
                     <div class="product-actions">
                         <div class="qty-selector">
                             <button class="qty-btn" onclick="updateQty(-1)">−</button>
                             <input type="number" class="qty-input" value="1" min="1" id="qty-input">
                             <button class="qty-btn" onclick="updateQty(1)">+</button>
                         </div>
-                        <button class="btn btn-primary btn-lg add-to-cart" onclick="addToCart()">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                            Ajouter au panier
+                        <button class="btn btn-primary add-to-cart">
+                            <i class="fa-solid fa-bag-shopping"></i> Ajouter au panier
                         </button>
                         <button class="btn-wishlist">
                             <i class="fa-regular fa-heart"></i>
                         </button>
                     </div>
 
-                    <!-- Trust -->
                     <div class="product-trust">
                         <div class="trust-feature">
                             <i class="fa-solid fa-truck-fast"></i>
@@ -432,7 +597,7 @@
                         </div>
                         <div class="trust-feature">
                             <i class="fa-solid fa-rotate-left"></i>
-                            <span>Retour gratuit 30 jours</span>
+                            <span>Retour gratuit 30j</span>
                         </div>
                         <div class="trust-feature">
                             <i class="fa-solid fa-shield-halved"></i>
@@ -440,7 +605,7 @@
                         </div>
                         <div class="trust-feature">
                             <i class="fa-solid fa-box"></i>
-                            <span>En stock, expédié sous 24h</span>
+                            <span>Expédié sous 24h</span>
                         </div>
                     </div>
                 </div>
@@ -457,55 +622,42 @@
                 
                 <div class="tab-content active" id="tab-description">
                     <h3>Le pack idéal pour progresser</h3>
-                    <p>Notre Pack 5 Bandes de Résistance Pro est conçu pour accompagner votre progression, du débutant au confirmé. Chaque bande offre une résistance différente, identifiable par sa couleur :</p>
+                    <p>Notre Pack 5 Bandes de Résistance Pro est conçu pour accompagner votre progression, du débutant au confirmé.</p>
                     <ul>
-                        <li><strong>Jaune (X-Light)</strong> : 2-5kg - Échauffement, rééducation</li>
-                        <li><strong>Rouge (Light)</strong> : 5-7kg - Débutants, tonification</li>
+                        <li><strong>Jaune (X-Light)</strong> : 2-5kg - Échauffement</li>
+                        <li><strong>Rouge (Light)</strong> : 5-7kg - Débutants</li>
                         <li><strong>Vert (Medium)</strong> : 7-12kg - Intermédiaire</li>
                         <li><strong>Bleu (Heavy)</strong> : 12-18kg - Avancé</li>
                         <li><strong>Noir (X-Heavy)</strong> : 18-23kg - Expert</li>
                     </ul>
-                    <p>Fabriquées en latex naturel de haute qualité, nos bandes sont résistantes, durables et 100% sans odeur.</p>
                 </div>
                 
                 <div class="tab-content" id="tab-specs">
                     <table class="specs-table">
                         <tr><td>Matière</td><td>Latex naturel premium</td></tr>
-                        <tr><td>Longueur</td><td>208 cm (boucle fermée)</td></tr>
-                        <tr><td>Largeur</td><td>Variable selon résistance (1.3 - 4.5 cm)</td></tr>
-                        <tr><td>Résistance totale</td><td>2 à 23 kg</td></tr>
-                        <tr><td>Contenu</td><td>5 bandes + sac de transport + guide PDF</td></tr>
+                        <tr><td>Longueur</td><td>208 cm (boucle)</td></tr>
+                        <tr><td>Résistance</td><td>2 à 23 kg</td></tr>
+                        <tr><td>Contenu</td><td>5 bandes + sac + guide</td></tr>
                         <tr><td>Garantie</td><td>2 ans</td></tr>
                     </table>
                 </div>
                 
                 <div class="tab-content" id="tab-reviews">
-                    <p>Avis clients à venir...</p>
+                    <p>⭐ Les avis arrivent bientôt...</p>
                 </div>
                 
                 <div class="tab-content" id="tab-faq">
-                    <p>FAQ produit à venir...</p>
+                    <p>❓ FAQ à venir...</p>
                 </div>
             </div>
-
-            <!-- Related Products -->
-            <section class="related-products">
-                <h2 class="section-title">Vous aimerez aussi</h2>
-                <div class="products-grid">
-                    <!-- Product cards ici -->
-                </div>
-            </section>
         </div>
     </main>
 
-    <!-- FOOTER (include footer.html) -->
-
     <script>
-        // Header scroll
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 50);
-        });
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('mobile-nav').classList.toggle('active');
+        }
 
         // Gallery
         function changeImage(thumb, src) {
@@ -526,36 +678,11 @@
         function showTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+            event.target.classList.add('active');
             document.getElementById('tab-' + tabId).classList.add('active');
         }
 
-        // Add to cart
-        function addToCart() {
-            const qty = parseInt(document.getElementById('qty-input').value);
-            const product = {
-                id: 'pack-5-bandes',
-                name: 'Pack 5 Bandes de Résistance Pro',
-                price: 19.90,
-                qty: qty,
-                image: document.getElementById('main-image').src
-            };
-            
-            let cart = JSON.parse(localStorage.getItem('bandfit_cart') || '[]');
-            const existing = cart.find(item => item.id === product.id);
-            if (existing) {
-                existing.qty += qty;
-            } else {
-                cart.push(product);
-            }
-            localStorage.setItem('bandfit_cart', JSON.stringify(cart));
-            
-            // Feedback
-            alert('Ajouté au panier !');
-            window.dispatchEvent(new Event('storage'));
-        }
-
-        // Options selection
+        // Options
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 this.closest('.option-values').querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
@@ -565,4 +692,3 @@
     </script>
 </body>
 </html>
-
