@@ -3,789 +3,682 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎨 Design Picker - UI/UX Pro Max</title>
+    <title>🎨 Design Picker Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #12121a;
+            --bg3: #1a1a25;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text2: #888;
+            --accent: #FF4D00;
+            --accent2: #FF6B2C;
+            --green: #22C55E;
+            --radius: 12px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
         
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
-            line-height: 1.6;
+        /* === LAYOUT === */
+        .app { display: grid; grid-template-columns: 1fr 380px; min-height: 100vh; }
+        
+        @media (max-width: 1024px) {
+            .app { grid-template-columns: 1fr; }
+            .project-panel { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; overflow: hidden; transition: height 0.3s; z-index: 200; border-top: 1px solid var(--border); border-left: none; }
+            .project-panel.expanded { height: 80vh; }
+            .panel-toggle { display: flex !important; }
         }
         
-        /* Header */
+        /* === MAIN === */
+        .main { overflow-y: auto; max-height: 100vh; }
+        
         .app-header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 24px 32px;
-            border-bottom: 1px solid #333;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 24px 28px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 50;
         }
+        .app-header h1 { font-size: 1.6rem; }
+        .app-header h1 span { color: var(--accent); }
         
-        .app-header h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, #FF4D00, #FF6B2C);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .app-header p {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        /* Tabs */
         .tabs {
-            display: flex;
-            gap: 0;
-            background: #111;
-            border-bottom: 1px solid #333;
+            display: flex; gap: 0;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 72px; z-index: 49;
             overflow-x: auto;
-            position: sticky;
-            top: 80px;
-            z-index: 99;
         }
-        
         .tab {
-            padding: 16px 28px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #888;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
-            transition: all 0.2s;
+            padding: 14px 24px; font-weight: 600; color: var(--text2);
+            cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap;
+            font-size: 0.9rem; transition: all 0.2s;
         }
+        .tab:hover { color: var(--text); }
+        .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
         
-        .tab:hover { color: #ccc; }
-        .tab.active {
-            color: #FF4D00;
-            border-bottom-color: #FF4D00;
-        }
-        
-        /* Sections */
-        .section {
-            display: none;
-            padding: 32px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
+        .section { display: none; padding: 24px 28px; }
         .section.active { display: block; }
+        .section-title { font-size: 1.3rem; margin-bottom: 6px; }
+        .section-desc { color: var(--text2); font-size: 0.85rem; margin-bottom: 20px; }
         
-        .section-title {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-        
-        .section-desc {
-            color: #888;
-            margin-bottom: 32px;
-        }
-        
-        /* Search */
         .search-bar {
-            width: 100%;
-            padding: 14px 20px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 12px;
-            color: #e0e0e0;
-            font-size: 1rem;
-            margin-bottom: 24px;
+            width: 100%; padding: 12px 16px;
+            background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
+            color: var(--text); font-size: 0.95rem; margin-bottom: 16px;
         }
+        .search-bar:focus { outline: none; border-color: var(--accent); }
         
-        .search-bar:focus {
-            outline: none;
-            border-color: #FF4D00;
-        }
-        
-        /* Filter Tags */
-        .filters {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 24px;
-        }
-        
+        .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
         .filter-tag {
-            padding: 8px 16px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: #aaa;
+            padding: 6px 14px; background: var(--bg3); border: 1px solid var(--border);
+            border-radius: 100px; font-size: 0.8rem; cursor: pointer; color: var(--text2);
         }
+        .filter-tag:hover, .filter-tag.active { background: var(--accent); border-color: var(--accent); color: #fff; }
         
-        .filter-tag:hover, .filter-tag.active {
-            background: #FF4D00;
-            border-color: #FF4D00;
-            color: white;
-        }
-        
-        /* ===== TYPOGRAPHY CARDS ===== */
-        .typo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 24px;
-        }
+        /* === TYPO CARDS === */
+        .typo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px; }
         
         .typo-card {
-            background: #141414;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s;
+            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+            overflow: hidden; transition: all 0.3s;
         }
-        
-        .typo-card:hover {
-            border-color: #FF4D00;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(255,77,0,0.15);
-        }
+        .typo-card:hover { border-color: var(--accent); }
+        .typo-card.selected { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.3); }
         
         .typo-preview {
-            padding: 32px 24px;
-            background: #fff;
-            color: #111;
-            min-height: 160px;
-        }
-        
-        .typo-preview h2 {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            line-height: 1.2;
-        }
-        
-        .typo-preview p {
-            font-size: 1rem;
-            color: #555;
-            line-height: 1.6;
-        }
-        
-        .typo-info {
-            padding: 20px 24px;
-        }
-        
-        .typo-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #FF4D00;
-            margin-bottom: 4px;
-        }
-        
-        .typo-fonts {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 8px;
-        }
-        
-        .typo-tags {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-        
-        .typo-tag {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            background: #222;
-            border-radius: 4px;
-            color: #aaa;
-        }
-        
-        .typo-best {
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        .typo-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-        
-        .btn-copy {
-            padding: 8px 14px;
-            background: #FF4D00;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .btn-copy:hover { background: #E04400; }
-        
-        .btn-link {
-            padding: 8px 14px;
-            background: #222;
-            color: #ccc;
-            border: 1px solid #444;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        /* ===== COLOR CARDS ===== */
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-        
-        .color-card {
-            background: #141414;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        
-        .color-card:hover {
-            border-color: #FF4D00;
-            transform: translateY(-4px);
-        }
-        
-        .color-swatches {
-            display: flex;
-            height: 80px;
-        }
-        
-        .color-swatch {
-            flex: 1;
-            cursor: pointer;
+            padding: 28px 24px; background: #fff; color: #111; min-height: 140px;
             position: relative;
         }
+        .typo-preview h2 { font-size: 1.8rem; margin-bottom: 6px; line-height: 1.2; }
+        .typo-preview p { font-size: 0.95rem; color: #555; line-height: 1.5; }
         
+        .typo-info { padding: 16px 20px; }
+        .typo-name { font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+        .typo-fonts { font-size: 0.8rem; color: var(--text2); margin-bottom: 8px; }
+        .typo-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
+        .tag { font-size: 0.7rem; padding: 2px 8px; background: var(--bg3); border-radius: 4px; color: var(--text2); }
+        
+        /* Weight Slider */
+        .weight-controls { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .weight-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.85rem; }
+        .weight-row label { width: 60px; color: var(--text2); }
+        .weight-row input[type=range] { flex: 1; accent-color: var(--accent); }
+        .weight-row .weight-val { width: 32px; text-align: center; font-weight: 600; font-size: 0.8rem; }
+        .weight-preview { margin-top: 8px; padding: 12px; background: #fff; border-radius: 8px; color: #111; }
+        
+        .typo-actions { display: flex; gap: 8px; margin-top: 12px; }
+        
+        /* === COLOR CARDS === */
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        
+        .color-card {
+            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+            overflow: hidden; transition: all 0.3s;
+        }
+        .color-card:hover { border-color: var(--accent); }
+        .color-card.selected { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.3); }
+        
+        .color-swatches { display: flex; height: 60px; }
+        .color-swatch { flex: 1; cursor: pointer; position: relative; }
         .color-swatch:hover::after {
-            content: attr(data-hex);
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
+            content: attr(data-label); position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.85); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; white-space: nowrap;
         }
         
-        .color-preview {
-            padding: 20px;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+        .color-live-preview { padding: 16px; }
+        .color-live-inner { padding: 16px; border-radius: 8px; }
+        .color-live-inner h3 { font-size: 1.1rem; margin-bottom: 4px; }
+        .color-live-inner p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 10px; }
+        .color-live-inner button { padding: 8px 20px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
         
-        .color-preview-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
+        .color-info { padding: 14px 18px; }
+        .color-name { font-weight: 700; color: var(--accent); }
+        .color-note { font-size: 0.8rem; color: var(--text2); margin-bottom: 10px; }
         
-        .color-preview-text {
-            font-size: 0.9rem;
+        /* Editable hex */
+        .hex-edit-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; }
+        .hex-label { width: 70px; color: var(--text2); }
+        .hex-color-input { width: 32px; height: 24px; border: none; border-radius: 4px; cursor: pointer; background: none; }
+        .hex-text-input {
+            width: 80px; padding: 4px 8px; background: var(--bg3); border: 1px solid var(--border);
+            border-radius: 4px; color: var(--text); font-size: 0.8rem; font-family: monospace;
         }
+        .hex-text-input:focus { border-color: var(--accent); outline: none; }
         
-        .color-info {
-            padding: 16px 20px;
-        }
-        
-        .color-name {
-            font-weight: 700;
-            color: #FF4D00;
-            margin-bottom: 4px;
-        }
-        
-        .color-note {
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        .color-hexes {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        
-        .hex-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            background: #222;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        
-        .hex-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        
-        /* ===== STYLE CARDS ===== */
-        .style-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 24px;
-        }
-        
+        /* === STYLE CARDS === */
+        .style-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
         .style-card {
-            background: #141414;
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            padding: 24px;
-            transition: all 0.3s;
+            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
+            padding: 20px; transition: all 0.3s;
+        }
+        .style-card:hover { border-color: var(--accent); }
+        .style-card.selected { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.3); }
+        .style-name { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+        .style-meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text2); margin: 10px 0; }
+        .style-best { font-size: 0.85rem; margin-bottom: 4px; }
+        .style-best .good { color: var(--green); }
+        .style-best .bad { color: #EF4444; }
+        
+        /* === BUTTONS === */
+        .btn {
+            padding: 8px 16px; border-radius: 8px; border: none; font-size: 0.8rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-accent { background: var(--accent); color: #fff; }
+        .btn-accent:hover { background: var(--accent2); }
+        .btn-green { background: var(--green); color: #fff; }
+        .btn-outline { background: none; border: 1px solid var(--border); color: var(--text2); }
+        .btn-outline:hover { border-color: var(--text); color: var(--text); }
+        
+        /* === PROJECT PANEL === */
+        .project-panel {
+            background: var(--bg2); border-left: 1px solid var(--border);
+            overflow-y: auto; max-height: 100vh; position: sticky; top: 0;
         }
         
-        .style-card:hover {
-            border-color: #FF4D00;
-            transform: translateY(-4px);
+        .panel-toggle {
+            display: none; justify-content: center; padding: 12px;
+            cursor: pointer; font-weight: 600; color: var(--accent);
         }
         
-        .style-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #FF4D00;
-            margin-bottom: 8px;
+        .panel-header {
+            padding: 20px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .panel-header h2 { font-size: 1.1rem; }
+        
+        .panel-section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+        .panel-section-title {
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--text2); margin-bottom: 10px;
         }
         
-        .style-keywords {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
+        .panel-item {
+            background: var(--bg3); border-radius: 8px; padding: 12px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .panel-item-name { font-weight: 600; font-size: 0.85rem; }
+        .panel-item-detail { font-size: 0.75rem; color: var(--text2); }
+        .panel-item-remove { background: none; border: none; color: #EF4444; cursor: pointer; font-size: 0.9rem; }
+        
+        .panel-empty { color: var(--text2); font-size: 0.85rem; font-style: italic; padding: 8px 0; }
+        
+        .panel-color-row { display: flex; gap: 4px; margin-top: 6px; }
+        .panel-color-dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border); }
+        
+        /* Export */
+        .export-box {
+            background: var(--bg); border-radius: 8px; padding: 16px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            line-height: 1.6; white-space: pre-wrap; max-height: 300px; overflow-y: auto;
+            border: 1px solid var(--border); color: #ccc;
         }
         
-        .style-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-            font-size: 0.85rem;
-        }
-        
-        .style-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .style-best, .style-avoid {
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-        }
-        
-        .style-best strong { color: #22C55E; }
-        .style-avoid strong { color: #EF4444; }
-        
-        /* ===== EXPORT PANEL ===== */
-        .export-panel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #1a1a2e;
-            border-top: 1px solid #333;
-            padding: 16px 32px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 200;
-        }
-        
-        .export-panel.active { display: flex; }
-        
-        .export-selections {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        .export-chip {
-            padding: 6px 12px;
-            background: #FF4D00;
-            color: white;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .export-chip button {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        
-        .btn-export {
-            padding: 12px 24px;
-            background: #22C55E;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
+        .export-actions { display: flex; gap: 8px; margin-top: 12px; }
         
         /* Toast */
         .toast {
-            position: fixed;
-            bottom: 80px;
-            right: 32px;
-            background: #22C55E;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 300;
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: var(--green); color: #fff; padding: 10px 24px; border-radius: 100px;
+            font-size: 0.85rem; font-weight: 600; opacity: 0; transition: opacity 0.3s; z-index: 999;
+            pointer-events: none;
         }
-        
         .toast.show { opacity: 1; }
         
         @media (max-width: 768px) {
-            .typo-grid, .color-grid, .style-grid {
-                grid-template-columns: 1fr;
-            }
+            .typo-grid, .color-grid, .style-grid { grid-template-columns: 1fr; }
             .section { padding: 16px; }
-            .app-header { padding: 16px; }
-            .tabs { position: static; }
         }
     </style>
 </head>
 <body>
-    <header class="app-header">
-        <h1>🎨 Design Picker</h1>
-        <p>57 typos · 96 palettes · 67 styles — Choisis visuellement, copie le CSS</p>
-    </header>
-    
-    <div class="tabs">
-        <div class="tab active" onclick="showSection('typo')">🔤 Typographies (57)</div>
-        <div class="tab" onclick="showSection('colors')">🎨 Palettes (96)</div>
-        <div class="tab" onclick="showSection('styles')">✨ Styles (67)</div>
-        <div class="tab" onclick="showSection('export')">📋 Export</div>
-    </div>
-    
-    <!-- ===== TYPOGRAPHIES ===== -->
-    <div class="section active" id="section-typo">
-        <h2 class="section-title">Typographies</h2>
-        <p class="section-desc">Clique sur une typo pour la sélectionner. Le CSS est copié automatiquement.</p>
-        <input type="text" class="search-bar" placeholder="Rechercher une typo (ex: luxury, startup, fitness...)" oninput="filterTypos(this.value)">
-        <div class="filters" id="typo-filters">
-            <span class="filter-tag active" onclick="filterTypoCategory(this, 'all')">Tous</span>
-            <span class="filter-tag" onclick="filterTypoCategory(this, 'Sans')">Sans-Serif</span>
-            <span class="filter-tag" onclick="filterTypoCategory(this, 'Serif')">Serif</span>
-            <span class="filter-tag" onclick="filterTypoCategory(this, 'Display')">Display</span>
-            <span class="filter-tag" onclick="filterTypoCategory(this, 'Mono')">Monospace</span>
-            <span class="filter-tag" onclick="filterTypoCategory(this, 'Script')">Script</span>
+<div class="app">
+    <!-- MAIN -->
+    <div class="main">
+        <header class="app-header">
+            <h1>🎨 Design <span>Picker Pro</span></h1>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('typo',this)">🔤 Typographies</div>
+            <div class="tab" onclick="showTab('colors',this)">🎨 Couleurs</div>
+            <div class="tab" onclick="showTab('styles',this)">✨ Styles</div>
         </div>
-        <div class="typo-grid" id="typo-grid"></div>
+        
+        <!-- TYPO -->
+        <div class="section active" id="sec-typo">
+            <h2 class="section-title">Typographies</h2>
+            <p class="section-desc">Sélectionne, ajuste les graisses, ajoute au projet.</p>
+            <input class="search-bar" placeholder="Rechercher (luxury, startup, fitness...)" oninput="renderTypos(this.value)">
+            <div class="filters" id="typo-filters">
+                <span class="filter-tag active" data-cat="all" onclick="setTypoCat(this)">Tous</span>
+                <span class="filter-tag" data-cat="Sans" onclick="setTypoCat(this)">Sans</span>
+                <span class="filter-tag" data-cat="Serif" onclick="setTypoCat(this)">Serif</span>
+                <span class="filter-tag" data-cat="Display" onclick="setTypoCat(this)">Display</span>
+                <span class="filter-tag" data-cat="Mono" onclick="setTypoCat(this)">Mono</span>
+            </div>
+            <div class="typo-grid" id="typo-grid"></div>
+        </div>
+        
+        <!-- COLORS -->
+        <div class="section" id="sec-colors">
+            <h2 class="section-title">Palettes de couleurs</h2>
+            <p class="section-desc">Clique sur les swatches pour modifier, personnalise chaque couleur.</p>
+            <input class="search-bar" placeholder="Rechercher (e-commerce, saas, fitness...)" oninput="renderColors(this.value)">
+            <div class="color-grid" id="color-grid"></div>
+        </div>
+        
+        <!-- STYLES -->
+        <div class="section" id="sec-styles">
+            <h2 class="section-title">Styles UI</h2>
+            <p class="section-desc">Choisis un ou plusieurs styles pour ton projet.</p>
+            <input class="search-bar" placeholder="Rechercher (glass, brutal, minimal...)" oninput="renderStyles(this.value)">
+            <div class="style-grid" id="style-grid"></div>
+        </div>
     </div>
     
-    <!-- ===== COLORS ===== -->
-    <div class="section" id="section-colors">
-        <h2 class="section-title">Palettes de Couleurs</h2>
-        <p class="section-desc">Clique sur une palette pour la sélectionner. Clique sur un swatch pour copier le hex.</p>
-        <input type="text" class="search-bar" placeholder="Rechercher (ex: e-commerce, saas, fitness...)" oninput="filterColors(this.value)">
-        <div class="color-grid" id="color-grid"></div>
-    </div>
-    
-    <!-- ===== STYLES ===== -->
-    <div class="section" id="section-styles">
-        <h2 class="section-title">Styles UI</h2>
-        <p class="section-desc">Explore les styles et trouve celui qui correspond à ton projet.</p>
-        <input type="text" class="search-bar" placeholder="Rechercher (ex: glassmorphism, minimal, brutalist...)" oninput="filterStyles(this.value)">
-        <div class="style-grid" id="style-grid"></div>
-    </div>
-    
-    <!-- ===== EXPORT ===== -->
-    <div class="section" id="section-export">
-        <h2 class="section-title">Tes sélections</h2>
-        <p class="section-desc">Tout ce que tu as sélectionné, prêt à copier.</p>
-        <div id="export-content" style="background: #141414; border-radius: 12px; padding: 24px; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem; min-height: 200px;"></div>
-        <button class="btn-copy" style="margin-top: 16px; padding: 14px 28px; font-size: 1rem;" onclick="copyExport()">📋 Copier tout le CSS</button>
-    </div>
-    
-    <div class="toast" id="toast">✅ Copié !</div>
+    <!-- PROJECT PANEL -->
+    <aside class="project-panel" id="panel">
+        <div class="panel-toggle" onclick="document.getElementById('panel').classList.toggle('expanded')">
+            ▲ Mon projet (cliquer pour ouvrir) ▲
+        </div>
+        <div class="panel-header">
+            <h2>📁 Mon Projet</h2>
+            <button class="btn btn-outline" onclick="clearAll()" style="font-size:0.75rem;">Tout vider</button>
+        </div>
+        
+        <div class="panel-section">
+            <div class="panel-section-title">🔤 Typographies sélectionnées</div>
+            <div id="panel-typos"><div class="panel-empty">Aucune typo sélectionnée</div></div>
+        </div>
+        
+        <div class="panel-section">
+            <div class="panel-section-title">🎨 Palettes sélectionnées</div>
+            <div id="panel-colors"><div class="panel-empty">Aucune palette sélectionnée</div></div>
+        </div>
+        
+        <div class="panel-section">
+            <div class="panel-section-title">✨ Styles sélectionnés</div>
+            <div id="panel-styles"><div class="panel-empty">Aucun style sélectionné</div></div>
+        </div>
+        
+        <div class="panel-section">
+            <div class="panel-section-title">📋 Export CSS</div>
+            <div class="export-box" id="export-css">/* Sélectionne des éléments pour générer le CSS */</div>
+            <div class="export-actions">
+                <button class="btn btn-accent" onclick="copyExport()"><i class="fa-solid fa-copy"></i> Copier CSS</button>
+                <button class="btn btn-green" onclick="copyBrief()"><i class="fa-solid fa-paper-plane"></i> Brief pour IA</button>
+            </div>
+        </div>
+    </aside>
+</div>
 
-    <script>
-    // ===== DATA =====
-    const typographies = [
-        {no:1,name:"Classic Elegant",cat:"Serif + Sans",heading:"Playfair Display",body:"Inter",mood:"elegant, luxury, sophisticated",best:"Luxury, fashion, spa, beauty",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');"},
-        {no:2,name:"Modern Professional",cat:"Sans + Sans",heading:"Poppins",body:"Open Sans",mood:"modern, professional, clean",best:"SaaS, corporate, startups",css:"@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');"},
-        {no:3,name:"Tech Startup",cat:"Sans + Sans",heading:"Space Grotesk",body:"DM Sans",mood:"tech, startup, modern, bold",best:"Tech, SaaS, developer tools, AI",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');"},
-        {no:4,name:"Editorial Classic",cat:"Serif + Serif",heading:"Cormorant Garamond",body:"Libre Baskerville",mood:"editorial, classic, literary",best:"Publishing, blogs, magazines",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap');"},
-        {no:5,name:"Minimal Swiss",cat:"Sans + Sans",heading:"Inter",body:"Inter",mood:"minimal, clean, functional",best:"Dashboards, admin panels, docs",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');"},
-        {no:6,name:"Playful Creative",cat:"Display + Sans",heading:"Fredoka",body:"Nunito",mood:"playful, friendly, fun",best:"Children, educational, gaming",css:"@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');"},
-        {no:7,name:"Bold Statement",cat:"Display + Sans",heading:"Bebas Neue",body:"Source Sans 3",mood:"bold, impactful, dramatic",best:"Marketing, portfolios, agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');"},
-        {no:8,name:"Wellness Calm",cat:"Serif + Sans",heading:"Lora",body:"Raleway",mood:"calm, wellness, natural",best:"Health, wellness, spa, yoga",css:"@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');"},
-        {no:9,name:"Developer Mono",cat:"Mono + Sans",heading:"JetBrains Mono",body:"IBM Plex Sans",mood:"code, developer, technical",best:"Dev tools, docs, tech blogs",css:"@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');"},
-        {no:10,name:"Retro Vintage",cat:"Display + Serif",heading:"Abril Fatface",body:"Merriweather",mood:"retro, vintage, nostalgic",best:"Vintage brands, restaurants",css:"@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:wght@300;400;700&display=swap');"},
-        {no:11,name:"Geometric Modern",cat:"Sans + Sans",heading:"Outfit",body:"Work Sans",mood:"geometric, modern, balanced",best:"Portfolios, agencies, landing pages",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');"},
-        {no:12,name:"Luxury Serif",cat:"Serif + Sans",heading:"Cormorant",body:"Montserrat",mood:"luxury, high-end, elegant",best:"Fashion, luxury e-commerce, jewelry",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');"},
-        {no:13,name:"Friendly SaaS",cat:"Sans + Sans",heading:"Plus Jakarta Sans",body:"Plus Jakarta Sans",mood:"friendly, modern, SaaS",best:"SaaS, web apps, dashboards",css:"@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');"},
-        {no:15,name:"Handwritten Charm",cat:"Script + Sans",heading:"Caveat",body:"Quicksand",mood:"handwritten, personal, casual",best:"Personal blogs, invitations, lifestyle",css:"@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');"},
-        {no:18,name:"Fashion Forward",cat:"Sans + Sans",heading:"Syne",body:"Manrope",mood:"fashion, avant-garde, bold",best:"Fashion, creative agencies, art",css:"@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');"},
-        {no:20,name:"Premium Sans",cat:"Sans + Sans",heading:"Satoshi (DM Sans)",body:"General Sans (DM Sans)",mood:"premium, modern, sophisticated",best:"Premium brands, modern agencies",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');"},
-        {no:36,name:"Crypto/Web3",cat:"Sans + Sans",heading:"Orbitron",body:"Exo 2",mood:"crypto, futuristic, blockchain",best:"Crypto, NFT, Web3, tech",css:"@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');"},
-        {no:37,name:"Gaming Bold",cat:"Display + Sans",heading:"Russo One",body:"Chakra Petch",mood:"gaming, bold, action, esports",best:"Gaming, esports, action, sports",css:"@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Russo+One&display=swap');"},
-        {no:39,name:"Startup Bold",cat:"Sans + Sans",heading:"Clash Display (Outfit)",body:"Satoshi (Rubik)",mood:"startup, bold, innovative",best:"Startups, pitch decks, launches",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
-        {no:40,name:"E-commerce Clean",cat:"Sans + Sans",heading:"Rubik",body:"Nunito Sans",mood:"ecommerce, clean, shopping",best:"E-commerce, online stores, retail",css:"@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
-        {no:49,name:"Sports/Fitness",cat:"Sans + Sans",heading:"Barlow Condensed",body:"Barlow",mood:"sports, fitness, athletic",best:"Sports, fitness, gyms, athletic",css:"@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');"},
-        {no:50,name:"Luxury Minimalist",cat:"Serif + Sans",heading:"Bodoni Moda",body:"Jost",mood:"luxury, minimalist, premium",best:"High-end fashion, premium products",css:"@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap');"},
-        {no:57,name:"Gen Z Brutal",cat:"Display + Sans",heading:"Anton",body:"Epilogue",mood:"brutal, loud, bold, meme",best:"Gen Z, streetwear, viral campaigns",css:"@import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap');"},
-    ];
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const TYPOS = [
+    {id:1,name:"Classic Elegant",cat:"Serif + Sans",h:"Playfair Display",b:"Inter",mood:"elegant, luxury, sophisticated",best:"Luxury, fashion, spa",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:2,name:"Modern Professional",cat:"Sans + Sans",h:"Poppins",b:"Open Sans",mood:"modern, professional, clean",best:"SaaS, corporate, startups",css:"@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:3,name:"Tech Startup",cat:"Sans + Sans",h:"Space Grotesk",b:"DM Sans",mood:"tech, startup, innovative",best:"Tech, SaaS, AI products",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');",weights:[400,500,600,700]},
+    {id:5,name:"Minimal Swiss",cat:"Sans + Sans",h:"Inter",b:"Inter",mood:"minimal, clean, functional",best:"Dashboards, admin, docs",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:6,name:"Playful Creative",cat:"Display + Sans",h:"Fredoka",b:"Nunito",mood:"playful, friendly, fun",best:"Children, educational, gaming",css:"@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:7,name:"Bold Statement",cat:"Display + Sans",h:"Bebas Neue",b:"Source Sans 3",mood:"bold, impactful, dramatic",best:"Marketing, portfolios, events",css:"@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:8,name:"Wellness Calm",cat:"Serif + Sans",h:"Lora",b:"Raleway",mood:"calm, wellness, natural",best:"Health, spa, yoga, organic",css:"@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:10,name:"Retro Vintage",cat:"Display + Serif",h:"Abril Fatface",b:"Merriweather",mood:"retro, vintage, nostalgic",best:"Vintage brands, restaurants",css:"@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:wght@300;400;700&display=swap');",weights:[300,400,700]},
+    {id:11,name:"Geometric Modern",cat:"Sans + Sans",h:"Outfit",b:"Work Sans",mood:"geometric, modern, balanced",best:"Portfolios, agencies, brands",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:12,name:"Luxury Serif",cat:"Serif + Sans",h:"Cormorant",b:"Montserrat",mood:"luxury, high-end, elegant",best:"Fashion, luxury e-commerce",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:13,name:"Friendly SaaS",cat:"Sans + Sans",h:"Plus Jakarta Sans",b:"Plus Jakarta Sans",mood:"friendly, modern, clean",best:"SaaS, web apps, dashboards",css:"@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:18,name:"Fashion Forward",cat:"Sans + Sans",h:"Syne",b:"Manrope",mood:"fashion, avant-garde, bold",best:"Fashion, creative agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:37,name:"Gaming Bold",cat:"Display + Sans",h:"Russo One",b:"Chakra Petch",mood:"gaming, bold, action",best:"Gaming, esports, sports",css:"@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Russo+One&display=swap');",weights:[300,400,500,600,700]},
+    {id:39,name:"Startup Bold",cat:"Sans + Sans",h:"Outfit",b:"Rubik",mood:"startup, bold, innovative",best:"Startups, pitch decks, launches",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:40,name:"E-commerce Clean",cat:"Sans + Sans",h:"Rubik",b:"Nunito Sans",mood:"ecommerce, clean, conversion",best:"E-commerce, retail, shopping",css:"@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:49,name:"Sports/Fitness",cat:"Sans + Sans",h:"Barlow Condensed",b:"Barlow",mood:"sports, fitness, athletic",best:"Sports, fitness, gyms",css:"@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:50,name:"Luxury Minimalist",cat:"Serif + Sans",h:"Bodoni Moda",b:"Jost",mood:"luxury, minimalist, premium",best:"High-end fashion, premium",css:"@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
+    {id:57,name:"Gen Z Brutal",cat:"Display + Sans",h:"Anton",b:"Epilogue",mood:"brutal, loud, bold, meme",best:"Gen Z, streetwear, viral",css:"@import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap');",weights:[400,500,600,700]},
+];
+
+const COLORS = [
+    {id:1,type:"SaaS",primary:"#2563EB",secondary:"#3B82F6",cta:"#F97316",bg:"#F8FAFC",text:"#1E293B",note:"Trust blue + orange CTA"},
+    {id:3,type:"E-commerce",primary:"#059669",secondary:"#10B981",cta:"#F97316",bg:"#ECFDF5",text:"#064E3B",note:"Green + urgency orange"},
+    {id:4,type:"E-commerce Luxury",primary:"#1C1917",secondary:"#44403C",cta:"#CA8A04",bg:"#FAFAF9",text:"#0C0A09",note:"Dark + gold accent"},
+    {id:7,type:"Financial Dashboard",primary:"#0F172A",secondary:"#1E293B",cta:"#22C55E",bg:"#020617",text:"#F8FAFC",note:"Dark + green indicators"},
+    {id:10,type:"Fitness/Gym",primary:"#DC2626",secondary:"#EF4444",cta:"#F97316",bg:"#0F0F0F",text:"#FAFAFA",note:"Red energy + dark bg"},
+    {id:11,type:"Wellness/Yoga",primary:"#059669",secondary:"#6EE7B7",cta:"#F59E0B",bg:"#F0FDF4",text:"#14532D",note:"Natural green + gold CTA"},
+    {id:12,type:"Food Delivery",primary:"#DC2626",secondary:"#F97316",cta:"#16A34A",bg:"#FFF7ED",text:"#7C2D12",note:"Appetite red + order green"},
+    {id:14,type:"Education",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#F5F3FF",text:"#4C1D95",note:"Knowledge purple + orange"},
+    {id:16,type:"Fashion",primary:"#000000",secondary:"#404040",cta:"#B91C1C",bg:"#FFFFFF",text:"#171717",note:"B&W + red accent"},
+    {id:17,type:"Music/Entertainment",primary:"#7C3AED",secondary:"#A855F7",cta:"#EC4899",bg:"#0F0F0F",text:"#FAFAFA",note:"Purple + pink dark"},
+    {id:18,type:"Crypto/Web3",primary:"#6366F1",secondary:"#818CF8",cta:"#F59E0B",bg:"#0F0F0F",text:"#E0E7FF",note:"Indigo + gold dark"},
+    {id:25,type:"Startup Bold",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#FAFAFA",text:"#1E1B4B",note:"Purple + bold orange"},
+    {id:35,type:"Gaming",primary:"#7C3AED",secondary:"#A855F7",cta:"#EF4444",bg:"#09090B",text:"#FAFAFA",note:"Purple + red dark"},
+    {id:45,type:"Sports",primary:"#DC2626",secondary:"#1D4ED8",cta:"#F97316",bg:"#FAFAFA",text:"#111827",note:"Red + blue"},
+];
+
+const STYLES = [
+    {id:1,name:"Minimalism",keywords:"clean, simple, spacious, functional",best:"Dashboards, SaaS, docs",avoid:"Creative portfolios",perf:"⚡",access:"AAA",mobile:"✓"},
+    {id:2,name:"Neumorphism",keywords:"soft UI, embossed, rounded",best:"Health, meditation, fitness",avoid:"Data dashboards",perf:"⚡",access:"⚠",mobile:"✓"},
+    {id:3,name:"Glassmorphism",keywords:"frosted glass, blur, transparent",best:"Modern SaaS, modals",avoid:"Low contrast needed",perf:"⚠",access:"⚠",mobile:"✓"},
+    {id:4,name:"Brutalism",keywords:"raw, stark, high contrast",best:"Design portfolios, tech blogs",avoid:"Corporate, conservative",perf:"⚡",access:"AAA",mobile:"◐"},
+    {id:6,name:"Vibrant Blocks",keywords:"bold, energetic, geometric",best:"Startups, gaming, youth",avoid:"Finance, healthcare",perf:"⚡",access:"◐",mobile:"✓"},
+    {id:7,name:"Dark Mode OLED",keywords:"deep black, neon accents",best:"Night apps, coding, entertainment",avoid:"Print-first",perf:"⚡",access:"AAA",mobile:"✓"},
+    {id:9,name:"Claymorphism",keywords:"soft 3D, chunky, bubbly",best:"Educational, children, fun SaaS",avoid:"Corporate, medical",perf:"⚡",access:"⚠",mobile:"✓"},
+];
+
+// ===== STATE =====
+let project = { typos: [], colors: [], styles: [] };
+let typoCat = 'all';
+
+// ===== RENDER TYPOS =====
+function renderTypos(search = '') {
+    const grid = document.getElementById('typo-grid');
+    const filtered = TYPOS.filter(t => {
+        const s = (t.name + t.mood + t.best + t.h + t.b).toLowerCase();
+        const matchSearch = !search || s.includes(search.toLowerCase());
+        const matchCat = typoCat === 'all' || t.cat.includes(typoCat);
+        return matchSearch && matchCat;
+    });
     
-    const colors = [
-        {no:1,type:"SaaS (General)",primary:"#2563EB",secondary:"#3B82F6",cta:"#F97316",bg:"#F8FAFC",text:"#1E293B",note:"Trust blue + orange CTA"},
-        {no:3,type:"E-commerce",primary:"#059669",secondary:"#10B981",cta:"#F97316",bg:"#ECFDF5",text:"#064E3B",note:"Success green + urgency orange"},
-        {no:4,type:"E-commerce Luxury",primary:"#1C1917",secondary:"#44403C",cta:"#CA8A04",bg:"#FAFAF9",text:"#0C0A09",note:"Premium dark + gold accent"},
-        {no:5,type:"Service Landing",primary:"#0EA5E9",secondary:"#38BDF8",cta:"#F97316",bg:"#F0F9FF",text:"#0C4A6E",note:"Sky blue + warm CTA"},
-        {no:7,type:"Financial Dashboard",primary:"#0F172A",secondary:"#1E293B",cta:"#22C55E",bg:"#020617",text:"#F8FAFC",note:"Dark bg + green indicators"},
-        {no:8,type:"Analytics Dashboard",primary:"#1E40AF",secondary:"#3B82F6",cta:"#F59E0B",bg:"#F8FAFC",text:"#1E3A8A",note:"Blue data + amber highlights"},
-        {no:9,type:"Healthcare App",primary:"#0891B2",secondary:"#22D3EE",cta:"#059669",bg:"#ECFEFF",text:"#164E63",note:"Calm cyan + health green"},
-        {no:10,type:"Fitness/Gym",primary:"#DC2626",secondary:"#EF4444",cta:"#F97316",bg:"#0F0F0F",text:"#FAFAFA",note:"Energy red + dark bg + orange CTA"},
-        {no:11,type:"Wellness/Yoga",primary:"#059669",secondary:"#6EE7B7",cta:"#F59E0B",bg:"#F0FDF4",text:"#14532D",note:"Natural green + warm gold CTA"},
-        {no:12,type:"Food Delivery",primary:"#DC2626",secondary:"#F97316",cta:"#16A34A",bg:"#FFF7ED",text:"#7C2D12",note:"Appetite red-orange + order green"},
-        {no:13,type:"Travel",primary:"#0284C7",secondary:"#38BDF8",cta:"#F97316",bg:"#F0F9FF",text:"#0C4A6E",note:"Ocean blue + adventure orange"},
-        {no:14,type:"Education",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#F5F3FF",text:"#4C1D95",note:"Knowledge purple + action orange"},
-        {no:15,type:"Real Estate",primary:"#1E3A5F",secondary:"#3B82F6",cta:"#059669",bg:"#F8FAFC",text:"#0F172A",note:"Trust navy + success green"},
-        {no:16,type:"Fashion",primary:"#000000",secondary:"#404040",cta:"#B91C1C",bg:"#FFFFFF",text:"#171717",note:"Classic B&W + red accent"},
-        {no:17,type:"Music/Entertainment",primary:"#7C3AED",secondary:"#A855F7",cta:"#EC4899",bg:"#0F0F0F",text:"#FAFAFA",note:"Purple energy + pink CTA dark"},
-        {no:18,type:"Crypto/Web3",primary:"#6366F1",secondary:"#818CF8",cta:"#F59E0B",bg:"#0F0F0F",text:"#E0E7FF",note:"Indigo tech + gold CTA dark"},
-        {no:20,type:"Social Network",primary:"#2563EB",secondary:"#60A5FA",cta:"#16A34A",bg:"#F8FAFC",text:"#1E3A8A",note:"Social blue + action green"},
-        {no:25,type:"Startup Bold",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#FAFAFA",text:"#1E1B4B",note:"Vibrant purple + bold orange"},
-        {no:30,type:"Restaurant",primary:"#78350F",secondary:"#92400E",cta:"#DC2626",bg:"#FFFBEB",text:"#451A03",note:"Warm brown + appetite red"},
-        {no:35,type:"Gaming",primary:"#7C3AED",secondary:"#A855F7",cta:"#EF4444",bg:"#09090B",text:"#FAFAFA",note:"Purple + red action dark"},
-        {no:40,type:"Pet/Animal",primary:"#F59E0B",secondary:"#FBBF24",cta:"#059669",bg:"#FFFBEB",text:"#78350F",note:"Warm amber + friendly green"},
-        {no:45,type:"Sports",primary:"#DC2626",secondary:"#1D4ED8",cta:"#F97316",bg:"#FAFAFA",text:"#111827",note:"Red energy + blue trust"},
-    ];
+    // Load fonts
+    const urls = [...new Set(filtered.map(t => t.css.match(/url\('([^']+)'\)/)?.[1]).filter(Boolean))];
+    urls.forEach(u => { if (!document.querySelector(`link[href="${u}"]`)) { const l=document.createElement('link'); l.rel='stylesheet'; l.href=u; document.head.appendChild(l); }});
     
-    const styles = [
-        {no:1,name:"Minimalism & Swiss",keywords:"clean, simple, spacious, functional",best:"Dashboards, SaaS, documentation",avoid:"Creative portfolios, entertainment",perf:"⚡ Excellent",access:"✓ AAA",mobile:"✓ High"},
-        {no:2,name:"Neumorphism",keywords:"soft UI, embossed, rounded, monochromatic",best:"Health, meditation, fitness apps",avoid:"Data dashboards, high contrast",perf:"⚡ Good",access:"⚠ Low",mobile:"✓ Good"},
-        {no:3,name:"Glassmorphism",keywords:"frosted glass, blur, transparent, layered",best:"Modern SaaS, corporate, modals",avoid:"Low contrast, performance-limited",perf:"⚠ Good",access:"⚠ 4.5:1",mobile:"✓ Good"},
-        {no:4,name:"Brutalism",keywords:"raw, stark, high contrast, anti-design",best:"Design portfolios, tech blogs",avoid:"Corporate, conservative industries",perf:"⚡ Excellent",access:"✓ AAA",mobile:"◐ Medium"},
-        {no:6,name:"Vibrant Block-based",keywords:"bold, energetic, geometric, duotone",best:"Startups, gaming, social, youth",avoid:"Finance, healthcare, formal",perf:"⚡ Good",access:"◐ WCAG",mobile:"✓ High"},
-        {no:7,name:"Dark Mode (OLED)",keywords:"deep black, neon accents, eye-friendly",best:"Night apps, coding, entertainment",avoid:"Print-first, outdoor",perf:"⚡ Excellent",access:"✓ AAA",mobile:"✓ High"},
-        {no:8,name:"Accessible & Ethical",keywords:"high contrast, large text, keyboard nav",best:"Government, healthcare, education",avoid:"None - universal",perf:"⚡ Excellent",access:"✓ AAA",mobile:"✓ High"},
-        {no:9,name:"Claymorphism",keywords:"soft 3D, chunky, bubbly, toy-like",best:"Educational, children, fun SaaS",avoid:"Corporate, medical, finance",perf:"⚡ Good",access:"⚠ 4.5:1",mobile:"✓ High"},
-    ];
+    const sel = new Set(project.typos.map(t=>t.id));
     
-    // ===== SELECTIONS =====
-    let selections = { typo: null, colors: null, style: null };
-    
-    // ===== RENDER =====
-    function renderTypos(filter = '', category = 'all') {
-        const grid = document.getElementById('typo-grid');
-        const filtered = typographies.filter(t => {
-            const matchSearch = !filter || (t.name + t.mood + t.best + t.heading + t.body).toLowerCase().includes(filter.toLowerCase());
-            const matchCat = category === 'all' || t.cat.includes(category);
-            return matchSearch && matchCat;
-        });
-        
-        // Load all fonts
-        const links = filtered.map(t => {
-            const url = t.css.match(/url\('([^']+)'\)/)?.[1];
-            return url ? `<link href="${url}" rel="stylesheet">` : '';
-        }).join('');
-        
-        grid.innerHTML = links + filtered.map(t => `
-            <div class="typo-card" data-id="${t.no}">
-                <div class="typo-preview">
-                    <h2 style="font-family: '${t.heading}', sans-serif;">Le design parfait</h2>
-                    <p style="font-family: '${t.body}', sans-serif;">Créez des interfaces élégantes et modernes avec cette combinaison de polices soigneusement sélectionnée pour votre projet.</p>
-                </div>
-                <div class="typo-info">
-                    <div class="typo-name">${t.name}</div>
-                    <div class="typo-fonts"><strong>${t.heading}</strong> + ${t.body} · ${t.cat}</div>
-                    <div class="typo-tags">${t.mood.split(', ').slice(0,4).map(m => `<span class="typo-tag">${m}</span>`).join('')}</div>
-                    <div class="typo-best">✅ ${t.best}</div>
-                    <div class="typo-actions">
-                        <button class="btn-copy" onclick="selectTypo(${t.no})">✓ Sélectionner</button>
-                        <button class="btn-link" onclick="copyCSS('${t.css.replace(/'/g, "\\'")}')">📋 CSS</button>
+    grid.innerHTML = filtered.map(t => {
+        const hw = t._hw || 600;
+        const bw = t._bw || 400;
+        return `
+        <div class="typo-card ${sel.has(t.id)?'selected':''}" id="tc-${t.id}">
+            <div class="typo-preview">
+                <h2 style="font-family:'${t.h}',sans-serif;font-weight:${hw}">Le design parfait</h2>
+                <p style="font-family:'${t.b}',sans-serif;font-weight:${bw}">Créez des interfaces élégantes et modernes avec cette combinaison de polices.</p>
+            </div>
+            <div class="typo-info">
+                <div class="typo-name">${t.name}</div>
+                <div class="typo-fonts"><strong>${t.h}</strong> + ${t.b} · ${t.cat}</div>
+                <div class="typo-tags">${t.mood.split(', ').map(m=>`<span class="tag">${m}</span>`).join('')}</div>
+                <div class="weight-controls">
+                    <div class="weight-row">
+                        <label>Titre</label>
+                        <input type="range" min="300" max="900" step="100" value="${hw}" oninput="changeWeight(${t.id},'h',this.value)">
+                        <span class="weight-val" id="wv-h-${t.id}">${hw}</span>
+                    </div>
+                    <div class="weight-row">
+                        <label>Corps</label>
+                        <input type="range" min="300" max="900" step="100" value="${bw}" oninput="changeWeight(${t.id},'b',this.value)">
+                        <span class="weight-val" id="wv-b-${t.id}">${bw}</span>
+                    </div>
+                    <div class="weight-preview" id="wp-${t.id}">
+                        <div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.4rem;margin-bottom:4px;">Aa Bb Cc 123</div>
+                        <div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:0.9rem;">Le texte rapide brun saute par-dessus le chien paresseux. 0123456789</div>
                     </div>
                 </div>
+                <div class="typo-actions">
+                    <button class="btn ${sel.has(t.id)?'btn-green':'btn-accent'}" onclick="toggleTypo(${t.id})">
+                        ${sel.has(t.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}
+                    </button>
+                </div>
             </div>
-        `).join('');
-    }
+        </div>`;
+    }).join('');
+}
+
+function changeWeight(id, type, val) {
+    const t = TYPOS.find(x=>x.id===id);
+    if(type==='h') t._hw=+val; else t._bw=+val;
+    document.getElementById(`wv-${type}-${id}`).textContent = val;
+    const hw = t._hw||600, bw = t._bw||400;
+    document.getElementById(`wp-${id}`).innerHTML = `
+        <div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.4rem;margin-bottom:4px;">Aa Bb Cc 123</div>
+        <div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:0.9rem;">Le texte rapide brun saute par-dessus le chien paresseux. 0123456789</div>`;
+    // Update preview title too
+    const card = document.getElementById(`tc-${id}`);
+    card.querySelector('.typo-preview h2').style.fontWeight = hw;
+    card.querySelector('.typo-preview p').style.fontWeight = bw;
+    // Update project if selected
+    const pi = project.typos.findIndex(x=>x.id===id);
+    if(pi>=0) { project.typos[pi].hw=hw; project.typos[pi].bw=bw; updatePanel(); }
+}
+
+// ===== RENDER COLORS =====
+function renderColors(search = '') {
+    const grid = document.getElementById('color-grid');
+    const filtered = COLORS.filter(c => !search || (c.type+c.note).toLowerCase().includes(search.toLowerCase()));
+    const sel = new Set(project.colors.map(c=>c.id));
     
-    function renderColors(filter = '') {
-        const grid = document.getElementById('color-grid');
-        const filtered = colors.filter(c => {
-            return !filter || (c.type + c.note).toLowerCase().includes(filter.toLowerCase());
+    grid.innerHTML = filtered.map(c => `
+        <div class="color-card ${sel.has(c.id)?'selected':''}" id="cc-${c.id}">
+            <div class="color-swatches">
+                <div class="color-swatch" style="background:${c.primary}" data-label="Primary ${c.primary}"></div>
+                <div class="color-swatch" style="background:${c.secondary}" data-label="Secondary ${c.secondary}"></div>
+                <div class="color-swatch" style="background:${c.cta}" data-label="CTA ${c.cta}"></div>
+                <div class="color-swatch" style="background:${c.bg}" data-label="Bg ${c.bg}"></div>
+                <div class="color-swatch" style="background:${c.text}" data-label="Text ${c.text}"></div>
+            </div>
+            <div class="color-live-preview">
+                <div class="color-live-inner" style="background:${c.bg};border-radius:8px;">
+                    <h3 style="color:${c.text};font-weight:700;">Titre du projet</h3>
+                    <p style="color:${c.text}">Description du produit avec texte d'exemple.</p>
+                    <button style="background:${c.cta};color:white;">Acheter maintenant</button>
+                </div>
+            </div>
+            <div class="color-info">
+                <div class="color-name">${c.type}</div>
+                <div class="color-note">${c.note}</div>
+                <div style="margin-top:8px;">
+                    ${['primary','secondary','cta','bg','text'].map(k => `
+                    <div class="hex-edit-row">
+                        <span class="hex-label">${k}</span>
+                        <input type="color" class="hex-color-input" value="${c[k]}" onchange="editColor(${c.id},'${k}',this.value)">
+                        <input type="text" class="hex-text-input" value="${c[k]}" onchange="editColor(${c.id},'${k}',this.value)">
+                    </div>`).join('')}
+                </div>
+                <div class="typo-actions" style="margin-top:12px;">
+                    <button class="btn ${sel.has(c.id)?'btn-green':'btn-accent'}" onclick="toggleColor(${c.id})">
+                        ${sel.has(c.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function editColor(id, key, val) {
+    const c = COLORS.find(x=>x.id===id);
+    c[key] = val;
+    // Update project too
+    const pi = project.colors.findIndex(x=>x.id===id);
+    if(pi>=0) project.colors[pi] = {...c};
+    renderColors(document.querySelector('#sec-colors .search-bar')?.value || '');
+    updatePanel();
+}
+
+// ===== RENDER STYLES =====
+function renderStyles(search = '') {
+    const grid = document.getElementById('style-grid');
+    const filtered = STYLES.filter(s => !search || (s.name+s.keywords+s.best).toLowerCase().includes(search.toLowerCase()));
+    const sel = new Set(project.styles.map(s=>s.id));
+    
+    grid.innerHTML = filtered.map(s => `
+        <div class="style-card ${sel.has(s.id)?'selected':''}" id="sc-${s.id}">
+            <div class="style-name">${s.name}</div>
+            <div class="typo-tags">${s.keywords.split(', ').map(k=>`<span class="tag">${k}</span>`).join('')}</div>
+            <div class="style-meta">
+                <span>${s.perf} Perf</span>
+                <span>Access: ${s.access}</span>
+                <span>Mobile: ${s.mobile}</span>
+            </div>
+            <div class="style-best"><span class="good">✅ ${s.best}</span></div>
+            <div class="style-best"><span class="bad">❌ ${s.avoid}</span></div>
+            <div class="typo-actions" style="margin-top:12px;">
+                <button class="btn ${sel.has(s.id)?'btn-green':'btn-accent'}" onclick="toggleStyle(${s.id})">
+                    ${sel.has(s.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== SELECTIONS =====
+function toggleTypo(id) {
+    const i = project.typos.findIndex(t=>t.id===id);
+    if(i>=0) { project.typos.splice(i,1); } else {
+        const t = TYPOS.find(x=>x.id===id);
+        project.typos.push({...t, hw:t._hw||600, bw:t._bw||400});
+    }
+    renderTypos(document.querySelector('#sec-typo .search-bar')?.value||'');
+    updatePanel();
+}
+
+function toggleColor(id) {
+    const i = project.colors.findIndex(c=>c.id===id);
+    if(i>=0) { project.colors.splice(i,1); } else {
+        project.colors.push({...COLORS.find(x=>x.id===id)});
+    }
+    renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');
+    updatePanel();
+}
+
+function toggleStyle(id) {
+    const i = project.styles.findIndex(s=>s.id===id);
+    if(i>=0) { project.styles.splice(i,1); } else {
+        project.styles.push({...STYLES.find(x=>x.id===id)});
+    }
+    renderStyles(document.querySelector('#sec-styles .search-bar')?.value||'');
+    updatePanel();
+}
+
+function removeTypo(id) { project.typos = project.typos.filter(t=>t.id!==id); renderTypos(); updatePanel(); }
+function removeColor(id) { project.colors = project.colors.filter(c=>c.id!==id); renderColors(); updatePanel(); }
+function removeStyle(id) { project.styles = project.styles.filter(s=>s.id!==id); renderStyles(); updatePanel(); }
+function clearAll() { project={typos:[],colors:[],styles:[]}; renderTypos(); renderColors(); renderStyles(); updatePanel(); }
+
+// ===== PANEL UPDATE =====
+function updatePanel() {
+    // Typos
+    const pt = document.getElementById('panel-typos');
+    pt.innerHTML = project.typos.length === 0 ? '<div class="panel-empty">Aucune typo</div>' :
+        project.typos.map(t => `
+        <div class="panel-item">
+            <div><div class="panel-item-name">${t.name}</div><div class="panel-item-detail">${t.h} (${t.hw}) + ${t.b} (${t.bw})</div></div>
+            <button class="panel-item-remove" onclick="removeTypo(${t.id})">✕</button>
+        </div>`).join('');
+    
+    // Colors
+    const pc = document.getElementById('panel-colors');
+    pc.innerHTML = project.colors.length === 0 ? '<div class="panel-empty">Aucune palette</div>' :
+        project.colors.map(c => `
+        <div class="panel-item">
+            <div>
+                <div class="panel-item-name">${c.type}</div>
+                <div class="panel-color-row">
+                    ${[c.primary,c.secondary,c.cta,c.bg,c.text].map(h=>`<div class="panel-color-dot" style="background:${h}" title="${h}"></div>`).join('')}
+                </div>
+            </div>
+            <button class="panel-item-remove" onclick="removeColor(${c.id})">✕</button>
+        </div>`).join('');
+    
+    // Styles
+    const ps = document.getElementById('panel-styles');
+    ps.innerHTML = project.styles.length === 0 ? '<div class="panel-empty">Aucun style</div>' :
+        project.styles.map(s => `
+        <div class="panel-item">
+            <div><div class="panel-item-name">${s.name}</div><div class="panel-item-detail">${s.keywords}</div></div>
+            <button class="panel-item-remove" onclick="removeStyle(${s.id})">✕</button>
+        </div>`).join('');
+    
+    // CSS Export
+    updateExport();
+}
+
+function updateExport() {
+    let css = '';
+    
+    project.typos.forEach(t => {
+        css += `/* Typography: ${t.name} */\n${t.css}\nh1,h2,h3 { font-family: '${t.h}', sans-serif; font-weight: ${t.hw}; }\nbody,p { font-family: '${t.b}', sans-serif; font-weight: ${t.bw}; }\n\n`;
+    });
+    
+    project.colors.forEach(c => {
+        css += `/* Palette: ${c.type} — ${c.note} */\n:root {\n  --primary: ${c.primary};\n  --secondary: ${c.secondary};\n  --cta: ${c.cta};\n  --bg: ${c.bg};\n  --text: ${c.text};\n}\n\n`;
+    });
+    
+    project.styles.forEach(s => {
+        css += `/* Style: ${s.name} — ${s.keywords} */\n/* Best for: ${s.best} */\n\n`;
+    });
+    
+    document.getElementById('export-css').textContent = css || '/* Sélectionne des éléments pour générer le CSS */';
+}
+
+function generateBrief() {
+    let brief = '=== BRIEF DESIGN POUR IA ===\n\n';
+    
+    if (project.typos.length) {
+        brief += '## TYPOGRAPHIES\n';
+        project.typos.forEach(t => {
+            brief += `- ${t.name}: Titres en "${t.h}" (weight ${t.hw}), Corps en "${t.b}" (weight ${t.bw})\n`;
+            brief += `  Import: ${t.css}\n`;
         });
-        
-        grid.innerHTML = filtered.map(c => `
-            <div class="color-card" data-id="${c.no}">
-                <div class="color-swatches">
-                    <div class="color-swatch" style="background:${c.primary}" data-hex="${c.primary}" onclick="copyHex('${c.primary}')"></div>
-                    <div class="color-swatch" style="background:${c.secondary}" data-hex="${c.secondary}" onclick="copyHex('${c.secondary}')"></div>
-                    <div class="color-swatch" style="background:${c.cta}" data-hex="${c.cta}" onclick="copyHex('${c.cta}')"></div>
-                    <div class="color-swatch" style="background:${c.bg}" data-hex="${c.bg}" onclick="copyHex('${c.bg}')"></div>
-                    <div class="color-swatch" style="background:${c.text}" data-hex="${c.text}" onclick="copyHex('${c.text}')"></div>
-                </div>
-                <div class="color-preview" style="background:${c.bg}">
-                    <button class="color-preview-btn" style="background:${c.cta};color:white;">Acheter</button>
-                    <span class="color-preview-text" style="color:${c.text}">Texte exemple</span>
-                </div>
-                <div class="color-info">
-                    <div class="color-name">${c.type}</div>
-                    <div class="color-note">${c.note}</div>
-                    <div class="color-hexes">
-                        <span class="hex-badge" onclick="copyHex('${c.primary}')"><span class="hex-dot" style="background:${c.primary}"></span>${c.primary}</span>
-                        <span class="hex-badge" onclick="copyHex('${c.cta}')"><span class="hex-dot" style="background:${c.cta}"></span>${c.cta}</span>
-                        <span class="hex-badge" onclick="copyHex('${c.bg}')"><span class="hex-dot" style="background:${c.bg}"></span>${c.bg}</span>
-                    </div>
-                    <div class="typo-actions" style="margin-top:12px">
-                        <button class="btn-copy" onclick="selectColor(${c.no})">✓ Sélectionner</button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
+        brief += '\n';
     }
     
-    function renderStyles(filter = '') {
-        const grid = document.getElementById('style-grid');
-        const filtered = styles.filter(s => {
-            return !filter || (s.name + s.keywords + s.best).toLowerCase().includes(filter.toLowerCase());
+    if (project.colors.length) {
+        brief += '## COULEURS\n';
+        project.colors.forEach(c => {
+            brief += `- ${c.type}: Primary ${c.primary}, Secondary ${c.secondary}, CTA ${c.cta}, BG ${c.bg}, Text ${c.text}\n`;
+            brief += `  Note: ${c.note}\n`;
         });
-        
-        grid.innerHTML = filtered.map(s => `
-            <div class="style-card" data-id="${s.no}">
-                <div class="style-name">${s.name}</div>
-                <div class="style-keywords">${s.keywords.split(', ').map(k => `<span class="typo-tag">${k}</span>`).join('')}</div>
-                <div class="style-meta">
-                    <div class="style-meta-item">${s.perf} Perf</div>
-                    <div class="style-meta-item">${s.access} Access</div>
-                    <div class="style-meta-item">${s.mobile} Mobile</div>
-                </div>
-                <div class="style-best">✅ <strong>Idéal :</strong> ${s.best}</div>
-                <div class="style-avoid">❌ <strong>Éviter :</strong> ${s.avoid}</div>
-                <div class="typo-actions" style="margin-top:12px">
-                    <button class="btn-copy" onclick="selectStyle(${s.no})">✓ Sélectionner</button>
-                </div>
-            </div>
-        `).join('');
+        brief += '\n';
     }
     
-    // ===== INTERACTIONS =====
-    function showSection(id) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('section-' + id).classList.add('active');
-        event.target.classList.add('active');
-        if (id === 'export') updateExport();
+    if (project.styles.length) {
+        brief += '## STYLES UI\n';
+        project.styles.forEach(s => {
+            brief += `- ${s.name}: ${s.keywords}\n  Best for: ${s.best}\n`;
+        });
+        brief += '\n';
     }
     
-    function filterTypos(q) { renderTypos(q); }
-    function filterColors(q) { renderColors(q); }
-    function filterStyles(q) { renderStyles(q); }
-    
-    function filterTypoCategory(el, cat) {
-        document.querySelectorAll('#typo-filters .filter-tag').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-        renderTypos('', cat);
-    }
-    
-    function selectTypo(id) {
-        selections.typo = typographies.find(t => t.no === id);
-        showToast('Typo sélectionnée : ' + selections.typo.name);
-    }
-    
-    function selectColor(id) {
-        selections.colors = colors.find(c => c.no === id);
-        showToast('Palette sélectionnée : ' + selections.colors.type);
-    }
-    
-    function selectStyle(id) {
-        selections.style = styles.find(s => s.no === id);
-        showToast('Style sélectionné : ' + selections.style.name);
-    }
-    
-    function copyCSS(css) {
-        navigator.clipboard.writeText(css);
-        showToast('CSS copié !');
-    }
-    
-    function copyHex(hex) {
-        navigator.clipboard.writeText(hex);
-        showToast('Copié : ' + hex);
-    }
-    
-    function updateExport() {
-        let output = '/* ===== DESIGN SYSTEM GÉNÉRÉ ===== */\n\n';
-        
-        if (selections.typo) {
-            output += `/* Typography: ${selections.typo.name} */\n`;
-            output += `${selections.typo.css}\n\n`;
-            output += `h1, h2, h3 { font-family: '${selections.typo.heading}', sans-serif; }\n`;
-            output += `body, p { font-family: '${selections.typo.body}', sans-serif; }\n\n`;
-        } else {
-            output += '/* ❌ Aucune typo sélectionnée */\n\n';
-        }
-        
-        if (selections.colors) {
-            output += `/* Colors: ${selections.colors.type} - ${selections.colors.note} */\n`;
-            output += `:root {\n`;
-            output += `  --primary: ${selections.colors.primary};\n`;
-            output += `  --secondary: ${selections.colors.secondary};\n`;
-            output += `  --cta: ${selections.colors.cta};\n`;
-            output += `  --bg: ${selections.colors.bg};\n`;
-            output += `  --text: ${selections.colors.text};\n`;
-            output += `}\n\n`;
-        } else {
-            output += '/* ❌ Aucune palette sélectionnée */\n\n';
-        }
-        
-        if (selections.style) {
-            output += `/* Style: ${selections.style.name} */\n`;
-            output += `/* Keywords: ${selections.style.keywords} */\n`;
-            output += `/* Best for: ${selections.style.best} */\n`;
-        } else {
-            output += '/* ❌ Aucun style sélectionné */\n';
-        }
-        
-        document.getElementById('export-content').textContent = output;
-    }
-    
-    function copyExport() {
-        const text = document.getElementById('export-content').textContent;
-        navigator.clipboard.writeText(text);
-        showToast('CSS complet copié !');
-    }
-    
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.textContent = '✅ ' + msg;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2000);
-    }
-    
-    // ===== INIT =====
-    renderTypos();
-    renderColors();
-    renderStyles();
-    </script>
+    brief += '## CSS COMPLET\n```css\n' + document.getElementById('export-css').textContent + '\n```';
+    return brief;
+}
+
+function copyExport() {
+    navigator.clipboard.writeText(document.getElementById('export-css').textContent);
+    toast('CSS copié !');
+}
+
+function copyBrief() {
+    navigator.clipboard.writeText(generateBrief());
+    toast('Brief complet copié ! Colle-le dans Claude Code');
+}
+
+// ===== UI =====
+function showTab(id, el) {
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('sec-'+id).classList.add('active');
+    el.classList.add('active');
+}
+
+function setTypoCat(el) {
+    typoCat = el.dataset.cat;
+    document.querySelectorAll('#typo-filters .filter-tag').forEach(f=>f.classList.remove('active'));
+    el.classList.add('active');
+    renderTypos(document.querySelector('#sec-typo .search-bar')?.value||'');
+}
+
+function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = '✅ ' + msg;
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+// INIT
+renderTypos(); renderColors(); renderStyles();
+</script>
 </body>
 </html>
