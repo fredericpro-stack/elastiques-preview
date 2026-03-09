@@ -449,6 +449,152 @@ function genBrief(){
 }
 
 // ===================== LIVE PREVIEW =====================
+// Generate hero HTML dynamically with user's colors/typo/style
+function genHero(hid,D){
+    const {hf,bf,hw,bw,pri,sec,cta,bg,txt,radius,shadow,cardBg,cardBorder,cardTxt,anim,bAnim}=D;
+    const heros={
+1:()=>`<div style="background:${bg};height:auto;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:50px 28px;${anim}">
+<h1 style="font-family:${hf};font-weight:${hw};font-size:2.2rem;color:${txt};line-height:1.12;max-width:500px">Transformez votre potentiel en résultats</h1>
+<p style="color:${txt};opacity:.7;font-size:.95rem;margin:12px 0 20px;max-width:400px;font-family:${bf}">La solution tout-en-un pour les ambitieux.</p>
+<div style="display:flex;gap:8px"><button style="background:${cta};color:#fff;border:none;padding:12px 24px;border-radius:${radius};font-weight:600;font-size:.9rem;${bAnim}">Commencer</button><button style="background:transparent;border:2px solid ${pri};color:${pri};padding:12px 24px;border-radius:${radius};font-weight:500;font-size:.9rem">En savoir +</button></div></div>`,
+
+2:()=>`<div style="background:${bg};display:grid;grid-template-columns:1fr 1fr;${anim}">
+<div style="padding:36px 28px;display:flex;flex-direction:column;justify-content:center">
+<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:${pri};font-weight:600;margin-bottom:6px;font-family:${bf}">Nouveau</div>
+<h1 style="font-family:${hf};font-weight:${hw};font-size:1.8rem;color:${txt};line-height:1.15;margin-bottom:8px">Élastiques de résistance pro</h1>
+<p style="color:${txt};opacity:.7;font-size:.85rem;margin-bottom:16px;font-family:${bf}">Performance et durabilité.</p>
+<button style="background:${cta};color:#fff;border:none;padding:10px 22px;border-radius:${radius};font-weight:600;width:fit-content;font-size:.85rem;${bAnim}">Découvrir →</button></div>
+<div style="background:linear-gradient(135deg,${pri}33,${sec}55);display:flex;align-items:center;justify-content:center;font-size:3.5rem;min-height:250px">💪</div></div>`,
+
+3:()=>`<div style="background:linear-gradient(135deg,${bg},${pri}15);display:flex;flex-direction:column;justify-content:center;padding:50px 36px;${anim}">
+<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:3px;color:${pri};margin-bottom:10px;font-family:${bf}">● Performance maximale</div>
+<h1 style="font-family:${hf};font-weight:${hw};font-size:2.2rem;line-height:1.1;max-width:500px;color:${txt};margin-bottom:12px">Dépassez vos <span style="color:${pri}">limites</span></h1>
+<p style="color:${txt};opacity:.6;font-size:.95rem;max-width:420px;margin-bottom:20px;font-family:${bf}">Pour ceux qui refusent la moyenne.</p>
+<button style="background:${cta};color:#fff;border:none;padding:12px 28px;border-radius:${radius};font-size:.95rem;font-weight:700;width:fit-content;${bAnim}">Commander</button></div>`,
+
+4:()=>`<div style="background:${bg};padding:40px 28px;display:flex;flex-direction:column;justify-content:center;${anim}">
+<h1 style="font-family:${hf};font-weight:${hw};font-size:1.8rem;color:${txt};margin-bottom:8px">La marque #1 des <span style="color:${pri}">sportifs</span></h1>
+<p style="color:${txt};opacity:.7;font-size:.9rem;margin-bottom:16px;font-family:${bf}">50 000+ athlètes nous font confiance.</p>
+<button style="background:${cta};color:#fff;border:none;padding:10px 24px;border-radius:${radius};font-weight:600;width:fit-content;margin-bottom:24px;font-size:.85rem;${bAnim}">Voir les produits</button>
+<div style="display:flex;gap:16px;padding-top:16px;border-top:1px solid ${txt}15">${[{v:'50K+',l:'Clients'},{v:'4.9★',l:'Note'},{v:'98%',l:'Satisfaits'},{v:'24h',l:'Livraison'}].map(x=>`<div><div style="font-size:1.3rem;font-weight:800;color:${pri};font-family:${hf}">${x.v}</div><div style="font-size:.7rem;color:${txt};opacity:.5">${x.l}</div></div>`).join('')}</div></div>`,
+
+5:()=>`<div style="background:linear-gradient(270deg,${pri},${sec},${cta},${pri});background-size:600% 600%;animation:gradientShift 6s ease infinite;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:50px 28px;color:#fff">
+<h1 style="font-family:${hf};font-weight:900;font-size:2.4rem;text-shadow:0 2px 20px rgba(0,0,0,.3)">BANDFIT</h1>
+<p style="font-size:1.1rem;margin:10px 0 20px;opacity:.9;font-family:${bf}">L'équipement des champions</p>
+<button style="background:#fff;color:${pri};border:none;padding:12px 28px;border-radius:50px;font-weight:700;font-size:.95rem;${bAnim}">Découvrir</button></div>`,
+
+6:()=>`<div style="background:${bg};display:flex;flex-direction:column;justify-content:center;padding:50px 36px;${anim}">
+<h1 style="font-family:${hf};font-weight:900;font-size:3rem;color:${txt};line-height:1.05;letter-spacing:-2px">ENTRAÎNEZ-<br>VOUS<br><span style="color:${pri}">PARTOUT.</span></h1>
+<p style="color:${txt};opacity:.5;font-size:.85rem;margin-top:14px;font-family:${bf}">Élastiques pro. Livrés en 24h.</p></div>`,
+
+7:()=>`<div style="background:${txt};position:relative;display:flex;align-items:center;justify-content:center;padding:60px 24px;${anim}">
+<div style="position:absolute;inset:0;background:linear-gradient(135deg,${txt}ee,${pri}33)"></div>
+<div style="position:relative;text-align:center;color:${bg}"><div style="width:60px;height:60px;border:3px solid ${bg};border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.2rem">▶</div>
+<h1 style="font-family:${hf};font-weight:800;font-size:1.8rem">Voir en action</h1><p style="opacity:.7;font-size:.85rem;margin-top:6px;font-family:${bf}">Nos produits en vidéo</p></div></div>`,
+
+8:()=>`<div style="background:${bg};display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:50px 24px;${anim}">
+<div style="width:100px;height:100px;background:linear-gradient(135deg,${pri},${sec});border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:16px;box-shadow:0 10px 30px ${pri}40">🏋️</div>
+<h1 style="font-family:${hf};font-weight:800;font-size:1.6rem;color:${txt}">Pack Pro Résistance</h1>
+<p style="color:${pri};font-size:1.3rem;font-weight:700;margin:6px 0">39,90€</p>
+<button style="background:${cta};color:#fff;border:none;padding:12px 32px;border-radius:50px;font-weight:600;font-size:.9rem;${bAnim}">Ajouter au panier</button></div>`,
+
+9:()=>`<div style="background:${txt};padding:16px;color:${bg};${anim}">
+<div style="display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:8px;min-height:280px">
+<div style="background:${txt}dd;border-radius:${radius};padding:20px;grid-row:span 2;display:flex;flex-direction:column;justify-content:end">
+<div style="font-size:2.2rem;margin-bottom:8px">🔥</div><h2 style="font-family:${hf};font-weight:800;font-size:1.3rem">Performance ultime</h2>
+<p style="font-size:.78rem;opacity:.6;margin-top:4px;font-family:${bf}">Résistance pro pour athlètes</p></div>
+<div style="background:${pri};border-radius:${radius};padding:16px;display:flex;flex-direction:column;justify-content:center">
+<div style="font-size:1.5rem;font-weight:800;font-family:${hf}">-30%</div><div style="font-size:.7rem;opacity:.8">Premier achat</div></div>
+<div style="background:${txt}dd;border-radius:${radius};padding:16px;display:flex;flex-direction:column;justify-content:center">
+<div style="font-size:1.2rem;font-weight:700;font-family:${hf}">4.9★</div><div style="font-size:.7rem;opacity:.6">2400 avis</div></div></div></div>`,
+
+10:()=>`<div style="background:${bg};display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:30px 20px;${anim}">
+<h1 style="font-family:${hf};font-weight:900;font-size:2rem;color:${txt};line-height:1.1;margin-bottom:12px">Collections 2026</h1>
+<div style="overflow:hidden;padding:8px 0;border-top:2px solid ${pri};border-bottom:2px solid ${pri}">
+<div style="display:flex;gap:24px;animation:marquee 10s linear infinite;white-space:nowrap;color:${pri};font-family:${hf};font-weight:700">
+<span>RÉSISTANCE • PERFORMANCE • DURABILITÉ • FITNESS • HOME GYM • BANDFIT • RÉSISTANCE • PERFORMANCE • DURABILITÉ • FITNESS •</span></div></div></div>`,
+
+11:()=>`<div style="background:linear-gradient(135deg,${pri},${sec});display:flex;align-items:center;justify-content:center;padding:50px 20px;${anim}">
+<div style="background:rgba(255,255,255,.15);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:32px;width:85%;color:#fff;text-align:center">
+<h1 style="font-family:${hf};font-weight:800;font-size:1.8rem;margin-bottom:8px">Bienvenue chez BANDFIT</h1>
+<p style="opacity:.85;font-size:.9rem;margin-bottom:16px;font-family:${bf}">Des outils pro pour votre entraînement</p>
+<button style="background:#fff;color:${pri};border:none;padding:12px 28px;border-radius:50px;font-weight:700;font-size:.9rem;${bAnim}">Explorer</button></div></div>`,
+
+12:()=>`<div style="background:${bg};padding:30px 20px;display:flex;gap:12px;${anim}">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:end;padding-bottom:20px">
+<h1 style="font-family:${hf};font-weight:900;font-size:1.8rem;color:${txt};line-height:1.1">Design<br>qui <span style="color:${pri}">casse</span><br>les codes</h1></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;padding-top:20px">
+<div style="background:${pri};border-radius:${radius};padding:16px;color:#fff;font-weight:600;font-family:${hf}">Créativité</div>
+<div style="background:${txt};border-radius:${radius};padding:16px;color:${bg};font-weight:600;font-family:${hf}">Innovation</div>
+<div style="background:${sec};border-radius:${radius};padding:16px;color:#fff;font-weight:600;font-family:${hf}">Impact</div></div></div>`,
+    };
+    return (heros[hid]||heros[1])();
+}
+
+// Generate block HTML dynamically with user's design
+function genBlock(bid,D){
+    const {hf,bf,hw,bw,pri,sec,cta,bg,txt,radius,shadow,cardBg,cardBorder,cardTxt,anim,bAnim}=D;
+    const blocks={
+1:()=>`<div style="background:${bg};padding:28px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.2rem;color:${txt};margin-bottom:16px">Pourquoi nous choisir</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">${[{i:'🏋️',t:'Résistance pro',d:'5 à 80kg'},{i:'🚚',t:'Livraison 24h',d:'Express'},{i:'💰',t:'Garanti',d:'30 jours'}].map(x=>`<div style="text-align:center;padding:14px;background:${cardBg};border-radius:${radius};border:${cardBorder};box-shadow:${shadow};color:${cardTxt}"><div style="font-size:1.5rem;margin-bottom:4px">${x.i}</div><div style="font-family:${hf};font-weight:${hw};font-size:.85rem">${x.t}</div><div style="font-size:.72rem;opacity:.6;font-family:${bf}">${x.d}</div></div>`).join('')}</div></div>`,
+
+2:()=>`<div style="background:${bg}dd;padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">Avis clients</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${[{n:'Marie L.',t:'Qualité top !',s:'⭐⭐⭐⭐⭐'},{n:'Thomas R.',t:'Parfait pour voyager.',s:'⭐⭐⭐⭐⭐'},{n:'Sophie M.',t:'Je recommande !',s:'⭐⭐⭐⭐⭐'}].map(r=>`<div style="background:${cardBg};border-radius:${radius};padding:14px;border:${cardBorder};box-shadow:${shadow};color:${cardTxt}"><div style="font-size:.72rem">${r.s}</div><p style="font-size:.75rem;margin:4px 0;font-family:${bf};opacity:.8">"${r.t}"</p><div style="font-size:.72rem;font-weight:600">${r.n}</div></div>`).join('')}</div></div>`,
+
+3:()=>`<div style="background:${bg};padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">Nos packs</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${[{n:'Starter',p:'19€',pop:0},{n:'Pro',p:'39€',pop:1},{n:'Athlète',p:'69€',pop:0}].map(x=>`<div style="border:${x.pop?'2px solid '+pri:cardBorder};border-radius:${radius};padding:16px;text-align:center;background:${x.pop?pri+'10':cardBg};color:${cardTxt};${x.pop?'box-shadow:0 4px 15px '+pri+'25':''}"><div style="font-family:${hf};font-weight:700;font-size:.88rem">${x.n}</div><div style="font-size:1.5rem;font-weight:800;margin:6px 0;color:${x.pop?pri:cardTxt}">${x.p}</div><button style="background:${x.pop?cta:bg+'cc'};color:${x.pop?'#fff':txt};border:none;padding:7px 16px;border-radius:${radius};font-weight:600;width:100%;font-size:.75rem;${x.pop?bAnim:''}">Choisir</button></div>`).join('')}</div></div>`,
+
+4:()=>`<div style="background:${pri};display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:36px 28px;color:#fff">
+<h2 style="font-family:${hf};font-weight:${hw};font-size:1.5rem;margin-bottom:8px">Prêt à commencer ?</h2>
+<p style="opacity:.9;font-size:.85rem;margin-bottom:16px;font-family:${bf}">Livraison gratuite sur votre 1ère commande.</p>
+<button style="background:#fff;color:${pri};border:none;padding:12px 28px;border-radius:50px;font-weight:700;font-size:.9rem;${bAnim}">Commander →</button></div>`,
+
+5:()=>`<div style="background:${bg};padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">FAQ</h2>
+${['Quelle résistance choisir ?','Garantie ?','Livraison Europe ?','Retours ?'].map((q,i)=>`<div style="border-bottom:1px solid ${txt}15;padding:10px 0"><div style="display:flex;justify-content:space-between;font-family:${hf};font-weight:600;font-size:.85rem;color:${txt}"><span>${q}</span><span style="color:${pri}">${i===0?'−':'+'}</span></div>${i===0?`<p style="font-size:.75rem;color:${txt};opacity:.6;margin-top:6px;font-family:${bf}">Débutant : 5-15kg. Inter : 15-35kg. Avancé : 35-80kg.</p>`:''}</div>`).join('')}</div>`,
+
+6:()=>`<div style="background:${bg}dd;padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">Résultats en 8 semaines</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div style="background:${txt}10;border-radius:${radius};padding:30px;text-align:center"><div style="font-size:2rem">😐</div><div style="font-weight:700;color:${txt};opacity:.5;font-family:${hf}">AVANT</div></div>
+<div style="background:linear-gradient(135deg,${pri}30,${sec}40);border-radius:${radius};padding:30px;text-align:center"><div style="font-size:2rem">💪</div><div style="font-weight:700;color:${pri};font-family:${hf}">APRÈS</div></div></div></div>`,
+
+7:()=>`<div style="background:${txt};display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:36px 28px;color:${bg}">
+<div style="font-size:1.6rem;margin-bottom:8px">📧</div><h2 style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px">-10% sur la 1ère commande</h2>
+<p style="opacity:.6;font-size:.78rem;margin-bottom:14px;font-family:${bf}">Inscris-toi pour le code promo.</p>
+<div style="display:flex;gap:6px;width:100%;max-width:360px"><input style="flex:1;padding:10px;border:1px solid ${bg}30;background:${txt}cc;border-radius:${radius};color:${bg};font-size:.82rem" placeholder="ton@email.com"><button style="background:${cta};color:#fff;border:none;padding:10px 20px;border-radius:${radius};font-weight:600;font-size:.82rem;${bAnim}">Go</button></div></div>`,
+
+8:()=>`<div style="background:${bg};display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px">
+<div style="font-size:.72rem;color:${txt};opacity:.5;margin-bottom:10px;text-transform:uppercase;letter-spacing:2px;font-family:${bf}">Ils nous font confiance</div>
+<div style="display:flex;gap:28px;opacity:.3;font-size:1.3rem;font-weight:900;color:${txt}">NIKE ADIDAS PUMA REEBOK UA</div></div>`,
+
+9:()=>`<div style="background:${bg};padding:24px 20px"><h2 style="font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">Best-sellers</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">${[{n:'Pack Léger',p:'19€',e:'🟡'},{n:'Pack Pro',p:'39€',e:'🟠'},{n:'Pack Extrême',p:'59€',e:'🔴'}].map(x=>`<div style="border:${cardBorder};border-radius:${radius};padding:14px;text-align:center;background:${cardBg};color:${cardTxt};box-shadow:${shadow}"><div style="font-size:2rem;margin-bottom:4px">${x.e}</div><div style="font-family:${hf};font-weight:600;font-size:.82rem">${x.n}</div><div style="color:${pri};font-weight:700;margin:4px 0">${x.p}</div><button style="background:${cta};color:#fff;border:none;padding:5px 12px;border-radius:${radius};font-size:.72rem;font-weight:600;width:100%;${bAnim}">Acheter</button></div>`).join('')}</div></div>`,
+
+10:()=>`<div style="background:${bg};padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:16px">Comment ça marche</h2>
+<div style="display:flex;gap:12px">${[{n:'1',t:'Choisissez',d:'Votre résistance'},{n:'2',t:'Commandez',d:'Livraison 24h'},{n:'3',t:'Entraînez',d:'Résultats garantis'}].map(x=>`<div style="flex:1;text-align:center"><div style="width:36px;height:36px;border-radius:50%;background:${pri};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;margin:0 auto 8px;font-family:${hf}">${x.n}</div><div style="font-family:${hf};font-weight:600;font-size:.82rem;color:${txt}">${x.t}</div><div style="font-size:.7rem;color:${txt};opacity:.5;font-family:${bf}">${x.d}</div></div>`).join('')}</div></div>`,
+
+11:()=>`<div style="background:${bg};padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">BANDFIT vs les autres</h2>
+<table style="width:100%;border-collapse:collapse;font-size:.78rem;font-family:${bf};color:${txt}"><tr style="border-bottom:2px solid ${pri}"><th style="padding:8px;text-align:left">Critère</th><th style="padding:8px;color:${pri};font-weight:700">BANDFIT</th><th style="padding:8px;opacity:.5">Autres</th></tr>
+${[['Résistance max','80kg','35kg'],['Garantie','2 ans','6 mois'],['Livraison','24h','3-5j'],['Guide inclus','✅','❌']].map(r=>`<tr style="border-bottom:1px solid ${txt}10"><td style="padding:8px">${r[0]}</td><td style="padding:8px;font-weight:600;color:${pri}">${r[1]}</td><td style="padding:8px;opacity:.4">${r[2]}</td></tr>`).join('')}</table></div>`,
+
+12:()=>`<div style="background:#DC2626;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center;padding:28px">
+<div><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;font-family:${bf}">⏰ Offre flash</div>
+<div style="display:flex;gap:10px;justify-content:center;margin-bottom:12px">${['02','14','37'].map(x=>`<div style="background:rgba(0,0,0,.3);border-radius:8px;padding:8px 12px"><div style="font-size:1.4rem;font-weight:900;font-family:${hf}">${x}</div></div>`).join('<div style="font-size:1.4rem;font-weight:700;padding-top:6px">:</div>')}</div>
+<div style="font-family:${hf};font-weight:700;font-size:1.1rem">-30% sur tout le site</div></div></div>`,
+
+13:()=>`<div style="background:${bg}dd;display:flex;align-items:center;justify-content:center;padding:20px">
+<div style="display:flex;gap:24px">${[{i:'🔒',t:'Paiement sécurisé'},{i:'🚚',t:'Livraison gratuite'},{i:'↩️',t:'Retours 30j'},{i:'📞',t:'Support 7j/7'}].map(x=>`<div style="text-align:center"><div style="font-size:1.3rem;margin-bottom:3px">${x.i}</div><div style="font-size:.68rem;color:${txt};opacity:.6;font-family:${bf}">${x.t}</div></div>`).join('')}</div></div>`,
+
+14:()=>`<div style="background:${txt};display:grid;grid-template-columns:1fr 1fr">
+<div style="background:${txt}dd;display:flex;align-items:center;justify-content:center;min-height:180px"><div style="width:50px;height:50px;border:2px solid ${bg};border-radius:50%;display:flex;align-items:center;justify-content:center;color:${bg};font-size:1.2rem">▶</div></div>
+<div style="padding:24px;display:flex;flex-direction:column;justify-content:center;color:${bg}"><div style="font-size:1.5rem;margin-bottom:8px">"</div>
+<p style="font-size:.85rem;font-style:italic;opacity:.9;line-height:1.4;font-family:${bf}">Depuis que j'utilise BANDFIT, je m'entraîne partout.</p>
+<div style="margin-top:10px;font-size:.78rem;font-weight:600;font-family:${hf}">— Marc, coach sportif</div></div></div>`,
+
+15:()=>`<div style="background:${bg};padding:24px 20px"><h2 style="text-align:center;font-family:${hf};font-weight:${hw};font-size:1.1rem;color:${txt};margin-bottom:14px">@bandfit sur Instagram</h2>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">${['🏋️‍♀️','💪','🏃‍♂️','🧘‍♀️','🔥','⭐','🎯','🏆'].map(e=>`<div style="background:${pri}15;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.5rem;border-radius:${radius}">${e}</div>`).join('')}</div></div>`,
+    };
+    return (blocks[bid]||blocks[1])();
+}
+
 function rPrev(){
     const fr=document.getElementById('pf');if(!fr)return;
     const t=P.typos[0],c=P.colors[0],s=P.styles[0],hr=P.heroes[0];
@@ -456,65 +602,57 @@ function rPrev(){
     const hw=t?t.hw:700,bw=t?t.bw:400;
     const bg=c?c.g:'#FAFAFA',txt=c?c.x:'#111',pri=c?c.p:'#FF4D00',cta=c?c.a:'#FF4D00',sec=c?c.s:'#FF6B2C';
     
-    // Load font
     if(t){const u=`https://fonts.googleapis.com/css2?${t.u}&display=swap`;if(!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}}
     
-    // Determine style characteristics
     let radius='10px',cardBg='#fff',cardBorder='1px solid rgba(0,0,0,.06)',shadow='0 2px 8px rgba(0,0,0,.06)',cardTxt=txt;
     if(s){
         if(s.id===1){radius='4px';shadow='none';cardBorder='1px solid #e5e5e5';}
-        if(s.id===2){radius='18px';shadow='-4px -4px 8px rgba(255,255,255,.7),4px 4px 8px rgba(0,0,0,.12)';cardBorder='none';}
+        if(s.id===2){radius='18px';shadow='-4px -4px 8px rgba(255,255,255,.7),4px 4px 8px rgba(0,0,0,.12)';cardBorder='none';cardBg='#e8e8e8';}
         if(s.id===3){radius='18px';cardBg='rgba(255,255,255,.12)';shadow='none';cardBorder='1px solid rgba(255,255,255,.2)';cardTxt='#fff';}
         if(s.id===4){radius='0';shadow='none';cardBorder='3px solid '+txt;}
-        if(s.id===6||s.id===13){radius='12px';cardBg='#0a0a0a';cardBorder='1px solid #222';cardTxt='#fff';}
+        if(s.id===5||s.id===6||s.id===13){radius='12px';cardBg=txt+'15';cardBorder='1px solid '+txt+'20';cardTxt=txt;}
         if(s.id===7){radius='22px';shadow='inset -3px -3px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08)';}
-        if(s.id===9){radius='16px';cardBg='linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02))';shadow='none';cardBorder='1px solid rgba(255,255,255,.1)';}
+        if(s.id===8){radius='14px';cardBorder='none';}
+        if(s.id===9){radius='16px';}
         if(s.id===18){radius='14px';shadow='0 6px 20px rgba(0,0,0,.08)';}
     }
     
-    // Determine entry animation
-    const ea=P.anims.find(a=>['fadeUp','fadeIn','slideL','slideR','scaleIn','blurIn','flipIn','elastic'].includes(a.css));
+    const ea=P.anims.find(a=>['fadeUp','fadeIn','slideL','slideR','scaleIn','blurIn','flipIn','elastic','slideUp','slideDown','rotateIn'].includes(a.css));
     const anim=ea?`animation:${ea.css} ${ea.dur} ${ea.tm}`:'';
-    const btnAnim=P.anims.find(a=>['bounce','glow','pulse'].includes(a.css));
+    const btnAnim=P.anims.find(a=>['bounce','glow','pulse','swing','wobble'].includes(a.css));
     const bAnim=btnAnim?`animation:${btnAnim.css} ${btnAnim.dur} ${btnAnim.tm}`:'';
     
-    // Page bg
+    const D={hf,bf,hw,bw,pri,sec,cta,bg,txt,radius,shadow,cardBg,cardBorder,cardTxt,anim,bAnim};
+    
     let pageBg=bg;
-    if(s&&(s.id===3||s.id===9))pageBg=`linear-gradient(135deg,${pri},${sec})`;
-    if(s&&(s.id===6||s.id===13))pageBg='#000';
     if(s&&s.id===2)pageBg='#e8e8e8';
-    const gradAnim=P.anims.find(a=>a.css==='gradientShift');
-    if(gradAnim)pageBg=`linear-gradient(270deg,${pri},${sec},${cta},${pri});background-size:600% 600%;animation:gradientShift 6s ease infinite`;
     
     let html=`<div style="font-family:${bf};font-weight:${bw};color:${txt};background:${pageBg};min-height:700px">`;
     
     // NAV
-    html+=`<nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid rgba(128,128,128,.1);${anim}">
+    html+=`<nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid ${txt}12;${anim}">
         <span style="font-family:${hf};font-weight:800;font-size:1.15rem;color:${pri}">BANDFIT</span>
-        <div style="display:flex;gap:18px;font-size:.78rem;opacity:.6"><span>Produits</span><span>Guides</span><span>Blog</span></div>
+        <div style="display:flex;gap:18px;font-size:.78rem;color:${txt};opacity:.5"><span>Produits</span><span>Guides</span><span>Blog</span></div>
         <button style="background:${cta};color:#fff;border:none;padding:6px 16px;border-radius:${radius};font-size:.75rem;font-weight:600;${bAnim}">Panier (0)</button></nav>`;
     
-    // HERO
+    // HERO — dynamique avec les vraies couleurs
     if(hr){
-        html+=`<div style="${anim}">${hr.v}</div>`;
+        html+=genHero(hr.id,D);
     } else {
-        html+=`<div style="padding:48px 24px;${anim}"><h1 style="font-family:${hf};font-weight:${hw};font-size:2rem;line-height:1.1;margin-bottom:10px">Transformez votre <span style="color:${pri}">entraînement</span></h1>
-        <p style="font-size:.95rem;opacity:.7;margin-bottom:18px;line-height:1.5">Élastiques de résistance pro. Livrés en 24h.</p>
+        html+=`<div style="padding:48px 24px;${anim}"><h1 style="font-family:${hf};font-weight:${hw};font-size:2rem;line-height:1.1;color:${txt};margin-bottom:10px">Transformez votre <span style="color:${pri}">entraînement</span></h1>
+        <p style="font-size:.95rem;color:${txt};opacity:.7;margin-bottom:18px;font-family:${bf}">Élastiques de résistance pro. Livrés en 24h.</p>
         <button style="background:${cta};color:#fff;border:none;padding:12px 24px;border-radius:${radius};font-weight:600;font-size:.9rem;${bAnim}">Découvrir →</button></div>`;
     }
     
-    // BLOCKS
+    // BLOCKS — dynamiques avec les vraies couleurs
     if(P.blocks.length>0){
         P.blocks.forEach((bl,i)=>{
             const delay=ea?`animation:${ea.css} ${ea.dur} ${ea.tm} ${i*0.15}s both`:'';
-            html+=`<div style="${delay}">${bl.v}</div>`;
+            html+=`<div style="${delay}">${genBlock(bl.id,D)}</div>`;
         });
     } else {
-        // Default features
-        html+=`<div style="padding:28px 24px;${anim}"><h2 style="font-family:${hf};font-weight:${hw};font-size:1.3rem;text-align:center;margin-bottom:16px">Pourquoi <span style="color:${pri}">BANDFIT</span> ?</h2>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">${[{i:'🏋️',t:'Pro',d:'5 à 80kg'},{i:'🚚',t:'24h',d:'Express'},{i:'💰',t:'Garanti',d:'30 jours'}].map(x=>`<div style="text-align:center;padding:14px;background:${cardBg};border-radius:${radius};border:${cardBorder};box-shadow:${shadow};color:${cardTxt}"><div style="font-size:1.4rem;margin-bottom:4px">${x.i}</div><div style="font-family:${hf};font-weight:${hw};font-size:.88rem">${x.t}</div><div style="font-size:.75rem;opacity:.6">${x.d}</div></div>`).join('')}</div></div>`;
-        // Default CTA
-        html+=`<div style="padding:28px 24px;background:${pri};text-align:center;color:#fff;${anim}"><h2 style="font-family:${hf};font-weight:${hw};font-size:1.3rem;margin-bottom:8px">Prêt à commencer ?</h2><button style="background:#fff;color:${pri};border:none;padding:10px 24px;border-radius:${radius};font-weight:700;margin-top:8px;${bAnim}">Commander →</button></div>`;
+        html+=genBlock(1,D);
+        html+=genBlock(4,D);
     }
     
     html+=`</div>`;
