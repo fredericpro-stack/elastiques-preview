@@ -6,679 +6,468 @@
     <title>🎨 Design Picker Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root {
-            --bg: #0a0a0f;
-            --bg2: #12121a;
-            --bg3: #1a1a25;
-            --border: #2a2a3a;
-            --text: #e0e0e0;
-            --text2: #888;
-            --accent: #FF4D00;
-            --accent2: #FF6B2C;
-            --green: #22C55E;
-            --radius: 12px;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); }
-        
-        /* === LAYOUT === */
-        .app { display: grid; grid-template-columns: 1fr 380px; min-height: 100vh; }
-        
-        @media (max-width: 1024px) {
-            .app { grid-template-columns: 1fr; }
-            .project-panel { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; overflow: hidden; transition: height 0.3s; z-index: 200; border-top: 1px solid var(--border); border-left: none; }
-            .project-panel.expanded { height: 80vh; }
-            .panel-toggle { display: flex !important; }
-        }
-        
-        /* === MAIN === */
-        .main { overflow-y: auto; max-height: 100vh; }
-        
-        .app-header {
-            padding: 24px 28px;
-            background: var(--bg2);
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 50;
-        }
-        .app-header h1 { font-size: 1.6rem; }
-        .app-header h1 span { color: var(--accent); }
-        
-        .tabs {
-            display: flex; gap: 0;
-            background: var(--bg2);
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 72px; z-index: 49;
-            overflow-x: auto;
-        }
-        .tab {
-            padding: 14px 24px; font-weight: 600; color: var(--text2);
-            cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap;
-            font-size: 0.9rem; transition: all 0.2s;
-        }
-        .tab:hover { color: var(--text); }
-        .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-        
-        .section { display: none; padding: 24px 28px; }
-        .section.active { display: block; }
-        .section-title { font-size: 1.3rem; margin-bottom: 6px; }
-        .section-desc { color: var(--text2); font-size: 0.85rem; margin-bottom: 20px; }
-        
-        .search-bar {
-            width: 100%; padding: 12px 16px;
-            background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius);
-            color: var(--text); font-size: 0.95rem; margin-bottom: 16px;
-        }
-        .search-bar:focus { outline: none; border-color: var(--accent); }
-        
-        .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-        .filter-tag {
-            padding: 6px 14px; background: var(--bg3); border: 1px solid var(--border);
-            border-radius: 100px; font-size: 0.8rem; cursor: pointer; color: var(--text2);
-        }
-        .filter-tag:hover, .filter-tag.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-        
-        /* === TYPO CARDS === */
-        .typo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px; }
-        
-        .typo-card {
-            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-            overflow: hidden; transition: all 0.3s;
-        }
-        .typo-card:hover { border-color: var(--accent); }
-        .typo-card.selected { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.3); }
-        
-        .typo-preview {
-            padding: 28px 24px; background: #fff; color: #111; min-height: 140px;
-            position: relative;
-        }
-        .typo-preview h2 { font-size: 1.8rem; margin-bottom: 6px; line-height: 1.2; }
-        .typo-preview p { font-size: 0.95rem; color: #555; line-height: 1.5; }
-        
-        .typo-info { padding: 16px 20px; }
-        .typo-name { font-weight: 700; color: var(--accent); margin-bottom: 2px; }
-        .typo-fonts { font-size: 0.8rem; color: var(--text2); margin-bottom: 8px; }
-        .typo-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 10px; }
-        .tag { font-size: 0.7rem; padding: 2px 8px; background: var(--bg3); border-radius: 4px; color: var(--text2); }
-        
-        /* Weight Slider */
-        .weight-controls { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-        .weight-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.85rem; }
-        .weight-row label { width: 60px; color: var(--text2); }
-        .weight-row input[type=range] { flex: 1; accent-color: var(--accent); }
-        .weight-row .weight-val { width: 32px; text-align: center; font-weight: 600; font-size: 0.8rem; }
-        .weight-preview { margin-top: 8px; padding: 12px; background: #fff; border-radius: 8px; color: #111; }
-        
-        .typo-actions { display: flex; gap: 8px; margin-top: 12px; }
-        
-        /* === COLOR CARDS === */
-        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
-        
-        .color-card {
-            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-            overflow: hidden; transition: all 0.3s;
-        }
-        .color-card:hover { border-color: var(--accent); }
-        .color-card.selected { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.3); }
-        
-        .color-swatches { display: flex; height: 60px; }
-        .color-swatch { flex: 1; cursor: pointer; position: relative; }
-        .color-swatch:hover::after {
-            content: attr(data-label); position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.85); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; white-space: nowrap;
-        }
-        
-        .color-live-preview { padding: 16px; }
-        .color-live-inner { padding: 16px; border-radius: 8px; }
-        .color-live-inner h3 { font-size: 1.1rem; margin-bottom: 4px; }
-        .color-live-inner p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 10px; }
-        .color-live-inner button { padding: 8px 20px; border: none; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
-        
-        .color-info { padding: 14px 18px; }
-        .color-name { font-weight: 700; color: var(--accent); }
-        .color-note { font-size: 0.8rem; color: var(--text2); margin-bottom: 10px; }
-        
-        /* Editable hex */
-        .hex-edit-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; }
-        .hex-label { width: 70px; color: var(--text2); }
-        .hex-color-input { width: 32px; height: 24px; border: none; border-radius: 4px; cursor: pointer; background: none; }
-        .hex-text-input {
-            width: 80px; padding: 4px 8px; background: var(--bg3); border: 1px solid var(--border);
-            border-radius: 4px; color: var(--text); font-size: 0.8rem; font-family: monospace;
-        }
-        .hex-text-input:focus { border-color: var(--accent); outline: none; }
-        
-        /* === STYLE CARDS === */
-        .style-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
-        .style-card {
-            background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-            padding: 20px; transition: all 0.3s;
-        }
-        .style-card:hover { border-color: var(--accent); }
-        .style-card.selected { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,197,94,0.3); }
-        .style-name { font-size: 1.1rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-        .style-meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text2); margin: 10px 0; }
-        .style-best { font-size: 0.85rem; margin-bottom: 4px; }
-        .style-best .good { color: var(--green); }
-        .style-best .bad { color: #EF4444; }
-        
-        /* === BUTTONS === */
-        .btn {
-            padding: 8px 16px; border-radius: 8px; border: none; font-size: 0.8rem;
-            font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
-        }
-        .btn-accent { background: var(--accent); color: #fff; }
-        .btn-accent:hover { background: var(--accent2); }
-        .btn-green { background: var(--green); color: #fff; }
-        .btn-outline { background: none; border: 1px solid var(--border); color: var(--text2); }
-        .btn-outline:hover { border-color: var(--text); color: var(--text); }
-        
-        /* === PROJECT PANEL === */
-        .project-panel {
-            background: var(--bg2); border-left: 1px solid var(--border);
-            overflow-y: auto; max-height: 100vh; position: sticky; top: 0;
-        }
-        
-        .panel-toggle {
-            display: none; justify-content: center; padding: 12px;
-            cursor: pointer; font-weight: 600; color: var(--accent);
-        }
-        
-        .panel-header {
-            padding: 20px; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .panel-header h2 { font-size: 1.1rem; }
-        
-        .panel-section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
-        .panel-section-title {
-            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--text2); margin-bottom: 10px;
-        }
-        
-        .panel-item {
-            background: var(--bg3); border-radius: 8px; padding: 12px; margin-bottom: 8px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .panel-item-name { font-weight: 600; font-size: 0.85rem; }
-        .panel-item-detail { font-size: 0.75rem; color: var(--text2); }
-        .panel-item-remove { background: none; border: none; color: #EF4444; cursor: pointer; font-size: 0.9rem; }
-        
-        .panel-empty { color: var(--text2); font-size: 0.85rem; font-style: italic; padding: 8px 0; }
-        
-        .panel-color-row { display: flex; gap: 4px; margin-top: 6px; }
-        .panel-color-dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--border); }
-        
-        /* Export */
-        .export-box {
-            background: var(--bg); border-radius: 8px; padding: 16px;
-            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
-            line-height: 1.6; white-space: pre-wrap; max-height: 300px; overflow-y: auto;
-            border: 1px solid var(--border); color: #ccc;
-        }
-        
-        .export-actions { display: flex; gap: 8px; margin-top: 12px; }
-        
-        /* Toast */
-        .toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: var(--green); color: #fff; padding: 10px 24px; border-radius: 100px;
-            font-size: 0.85rem; font-weight: 600; opacity: 0; transition: opacity 0.3s; z-index: 999;
-            pointer-events: none;
-        }
-        .toast.show { opacity: 1; }
-        
-        @media (max-width: 768px) {
-            .typo-grid, .color-grid, .style-grid { grid-template-columns: 1fr; }
-            .section { padding: 16px; }
-        }
+        :root { --bg:#0a0a0f; --bg2:#12121a; --bg3:#1a1a25; --border:#2a2a3a; --text:#e0e0e0; --text2:#888; --accent:#FF4D00; --accent2:#FF6B2C; --green:#22C55E; --radius:12px; }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);}
+        .app{display:grid;grid-template-columns:1fr 380px;min-height:100vh;}
+        @media(max-width:1024px){.app{grid-template-columns:1fr;}.project-panel{position:fixed;bottom:0;left:0;right:0;height:60px;overflow:hidden;transition:height .3s;z-index:200;border-top:1px solid var(--border);border-left:none;}.project-panel.expanded{height:85vh;}.panel-toggle{display:flex!important;}}
+        .main{overflow-y:auto;max-height:100vh;}
+        .app-header{padding:20px 28px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
+        .app-header h1{font-size:1.5rem;}.app-header h1 span{color:var(--accent);}
+        .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:49;overflow-x:auto;}
+        .tab{padding:13px 22px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;font-size:.88rem;transition:.2s;}
+        .tab:hover{color:var(--text);}.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+        .section{display:none;padding:24px 28px;}.section.active{display:block;}
+        .section-title{font-size:1.2rem;margin-bottom:4px;}.section-desc{color:var(--text2);font-size:.82rem;margin-bottom:16px;}
+        .search-bar{width:100%;padding:11px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:.9rem;margin-bottom:14px;}.search-bar:focus{outline:none;border-color:var(--accent);}
+        .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+        .filter-tag{padding:5px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:100px;font-size:.78rem;cursor:pointer;color:var(--text2);}.filter-tag:hover,.filter-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+        .btn{padding:8px 16px;border-radius:8px;border:none;font-size:.8rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s;}
+        .btn-accent{background:var(--accent);color:#fff;}.btn-accent:hover{background:var(--accent2);}
+        .btn-green{background:var(--green);color:#fff;}
+        .btn-outline{background:none;border:1px solid var(--border);color:var(--text2);}.btn-outline:hover{border-color:var(--text);color:var(--text);}
+        .tag{font-size:.68rem;padding:2px 7px;background:var(--bg3);border-radius:4px;color:var(--text2);}
+
+        /* TYPO */
+        .typo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:18px;}
+        .typo-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
+        .typo-card:hover{border-color:var(--accent);}.typo-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
+        .typo-preview{padding:24px 20px;background:#fff;color:#111;min-height:120px;}
+        .typo-preview h2{font-size:1.7rem;margin-bottom:4px;line-height:1.2;}
+        .typo-preview p{font-size:.9rem;color:#555;line-height:1.5;}
+        .typo-info{padding:14px 18px;}
+        .typo-name{font-weight:700;color:var(--accent);margin-bottom:2px;font-size:.95rem;}
+        .typo-fonts{font-size:.78rem;color:var(--text2);margin-bottom:6px;}
+        .typo-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
+        .weight-controls{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+        .weight-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.82rem;}
+        .weight-row label{width:50px;color:var(--text2);font-size:.75rem;}
+        .weight-row input[type=range]{flex:1;accent-color:var(--accent);}
+        .weight-row .wv{width:28px;text-align:center;font-weight:600;font-size:.75rem;}
+        .weight-preview{margin-top:6px;padding:10px;background:#fff;border-radius:6px;color:#111;}
+        .typo-actions{display:flex;gap:8px;margin-top:10px;}
+
+        /* COLOR */
+        .color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;}
+        .color-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
+        .color-card:hover{border-color:var(--accent);}.color-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
+        .color-swatches{display:flex;height:50px;}
+        .color-swatch{flex:1;cursor:pointer;position:relative;}
+        .color-swatch:hover::after{content:attr(data-label);position:absolute;bottom:2px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:2px 6px;border-radius:3px;font-size:.6rem;white-space:nowrap;}
+        .color-live{padding:14px;}
+        .color-live-inner{padding:14px;border-radius:8px;}
+        .color-live-inner h3{font-size:1rem;margin-bottom:4px;}
+        .color-live-inner p{font-size:.82rem;opacity:.8;margin-bottom:8px;}
+        .color-live-inner button{padding:7px 18px;border:none;border-radius:6px;font-weight:600;font-size:.82rem;cursor:pointer;}
+        .color-info{padding:12px 16px;}
+        .color-name{font-weight:700;color:var(--accent);font-size:.9rem;}
+        .color-note{font-size:.75rem;color:var(--text2);margin-bottom:8px;}
+        .hex-edit-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:.75rem;}
+        .hex-label{width:60px;color:var(--text2);}
+        .hex-color-input{width:28px;height:22px;border:none;border-radius:3px;cursor:pointer;background:none;padding:0;}
+        .hex-text-input{width:72px;padding:3px 6px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:.75rem;font-family:monospace;}.hex-text-input:focus{border-color:var(--accent);outline:none;}
+
+        /* STYLE - visual previews */
+        .style-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
+        .style-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
+        .style-card:hover{border-color:var(--accent);}.style-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
+        .style-visual{height:200px;overflow:hidden;position:relative;}
+        .style-info{padding:16px 18px;}
+        .style-name{font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:6px;}
+        .style-meta{display:flex;gap:12px;font-size:.78rem;color:var(--text2);margin:8px 0;}
+        .style-best{font-size:.8rem;margin-bottom:3px;}.good{color:var(--green);}.bad{color:#EF4444;}
+
+        /* LIVE PREVIEW */
+        .preview-frame{width:100%;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;min-height:600px;}
+        .preview-toolbar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap;}
+        .preview-size-btn{padding:6px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:.8rem;}
+        .preview-size-btn.active{border-color:var(--accent);color:var(--accent);}
+
+        /* PANEL */
+        .project-panel{background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;max-height:100vh;position:sticky;top:0;}
+        .panel-toggle{display:none;justify-content:center;padding:10px;cursor:pointer;font-weight:600;color:var(--accent);font-size:.85rem;}
+        .panel-header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+        .panel-header h2{font-size:1rem;}
+        .panel-section{padding:14px 18px;border-bottom:1px solid var(--border);}
+        .panel-section-title{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:8px;}
+        .panel-item{background:var(--bg3);border-radius:8px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;}
+        .panel-item-name{font-weight:600;font-size:.82rem;}.panel-item-detail{font-size:.7rem;color:var(--text2);}
+        .panel-item-remove{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.85rem;}
+        .panel-empty{color:var(--text2);font-size:.8rem;font-style:italic;}
+        .panel-color-row{display:flex;gap:3px;margin-top:4px;}
+        .panel-color-dot{width:16px;height:16px;border-radius:50%;border:1px solid var(--border);}
+        .export-box{background:var(--bg);border-radius:8px;padding:12px;font-family:monospace;font-size:.7rem;line-height:1.5;white-space:pre-wrap;max-height:250px;overflow-y:auto;border:1px solid var(--border);color:#ccc;}
+        .export-actions{display:flex;gap:8px;margin-top:10px;}
+        .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:10px 24px;border-radius:100px;font-size:.85rem;font-weight:600;opacity:0;transition:.3s;z-index:999;pointer-events:none;}.toast.show{opacity:1;}
+        @media(max-width:768px){.typo-grid,.color-grid,.style-grid{grid-template-columns:1fr;}.section{padding:16px;}}
     </style>
 </head>
 <body>
 <div class="app">
-    <!-- MAIN -->
-    <div class="main">
-        <header class="app-header">
-            <h1>🎨 Design <span>Picker Pro</span></h1>
-        </header>
-        
-        <div class="tabs">
-            <div class="tab active" onclick="showTab('typo',this)">🔤 Typographies</div>
-            <div class="tab" onclick="showTab('colors',this)">🎨 Couleurs</div>
-            <div class="tab" onclick="showTab('styles',this)">✨ Styles</div>
-        </div>
-        
-        <!-- TYPO -->
-        <div class="section active" id="sec-typo">
-            <h2 class="section-title">Typographies</h2>
-            <p class="section-desc">Sélectionne, ajuste les graisses, ajoute au projet.</p>
-            <input class="search-bar" placeholder="Rechercher (luxury, startup, fitness...)" oninput="renderTypos(this.value)">
-            <div class="filters" id="typo-filters">
-                <span class="filter-tag active" data-cat="all" onclick="setTypoCat(this)">Tous</span>
-                <span class="filter-tag" data-cat="Sans" onclick="setTypoCat(this)">Sans</span>
-                <span class="filter-tag" data-cat="Serif" onclick="setTypoCat(this)">Serif</span>
-                <span class="filter-tag" data-cat="Display" onclick="setTypoCat(this)">Display</span>
-                <span class="filter-tag" data-cat="Mono" onclick="setTypoCat(this)">Mono</span>
-            </div>
-            <div class="typo-grid" id="typo-grid"></div>
-        </div>
-        
-        <!-- COLORS -->
-        <div class="section" id="sec-colors">
-            <h2 class="section-title">Palettes de couleurs</h2>
-            <p class="section-desc">Clique sur les swatches pour modifier, personnalise chaque couleur.</p>
-            <input class="search-bar" placeholder="Rechercher (e-commerce, saas, fitness...)" oninput="renderColors(this.value)">
-            <div class="color-grid" id="color-grid"></div>
-        </div>
-        
-        <!-- STYLES -->
-        <div class="section" id="sec-styles">
-            <h2 class="section-title">Styles UI</h2>
-            <p class="section-desc">Choisis un ou plusieurs styles pour ton projet.</p>
-            <input class="search-bar" placeholder="Rechercher (glass, brutal, minimal...)" oninput="renderStyles(this.value)">
-            <div class="style-grid" id="style-grid"></div>
-        </div>
+<div class="main">
+    <header class="app-header"><h1>🎨 Design <span>Picker Pro</span></h1></header>
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('typo',this)">🔤 Typos</div>
+        <div class="tab" onclick="showTab('colors',this)">🎨 Couleurs</div>
+        <div class="tab" onclick="showTab('styles',this)">✨ Styles</div>
+        <div class="tab" onclick="showTab('preview',this)">👁️ Preview Live</div>
     </div>
-    
-    <!-- PROJECT PANEL -->
-    <aside class="project-panel" id="panel">
-        <div class="panel-toggle" onclick="document.getElementById('panel').classList.toggle('expanded')">
-            ▲ Mon projet (cliquer pour ouvrir) ▲
+
+    <!-- TYPO -->
+    <div class="section active" id="sec-typo">
+        <h2 class="section-title">Typographies</h2>
+        <p class="section-desc">Ajuste les graisses avec les sliders. Ajoute au projet.</p>
+        <input class="search-bar" placeholder="Rechercher (luxury, startup, fitness...)" oninput="renderTypos(this.value)">
+        <div class="filters" id="typo-filters">
+            <span class="filter-tag active" data-cat="all" onclick="setTypoCat(this)">Tous</span>
+            <span class="filter-tag" data-cat="Sans" onclick="setTypoCat(this)">Sans</span>
+            <span class="filter-tag" data-cat="Serif" onclick="setTypoCat(this)">Serif</span>
+            <span class="filter-tag" data-cat="Display" onclick="setTypoCat(this)">Display</span>
+            <span class="filter-tag" data-cat="Mono" onclick="setTypoCat(this)">Mono</span>
         </div>
-        <div class="panel-header">
-            <h2>📁 Mon Projet</h2>
-            <button class="btn btn-outline" onclick="clearAll()" style="font-size:0.75rem;">Tout vider</button>
+        <div class="typo-grid" id="typo-grid"></div>
+    </div>
+
+    <!-- COLORS -->
+    <div class="section" id="sec-colors">
+        <h2 class="section-title">Palettes de couleurs</h2>
+        <p class="section-desc">Clique sur les color pickers pour personnaliser chaque couleur.</p>
+        <input class="search-bar" placeholder="Rechercher (e-commerce, saas, fitness...)" oninput="renderColors(this.value)">
+        <div class="color-grid" id="color-grid"></div>
+    </div>
+
+    <!-- STYLES -->
+    <div class="section" id="sec-styles">
+        <h2 class="section-title">Styles UI</h2>
+        <p class="section-desc">Chaque style a un visuel. Clique pour l'ajouter au projet.</p>
+        <input class="search-bar" placeholder="Rechercher (glass, brutal, minimal...)" oninput="renderStyles(this.value)">
+        <div class="style-grid" id="style-grid"></div>
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <div class="section" id="sec-preview">
+        <h2 class="section-title">👁️ Preview Live</h2>
+        <p class="section-desc">Voici le rendu combiné de tes sélections. Change en temps réel.</p>
+        <div class="preview-toolbar">
+            <button class="preview-size-btn active" onclick="setPreviewSize(this,'100%')">Desktop</button>
+            <button class="preview-size-btn" onclick="setPreviewSize(this,'768px')">Tablette</button>
+            <button class="preview-size-btn" onclick="setPreviewSize(this,'375px')">Mobile</button>
         </div>
-        
-        <div class="panel-section">
-            <div class="panel-section-title">🔤 Typographies sélectionnées</div>
-            <div id="panel-typos"><div class="panel-empty">Aucune typo sélectionnée</div></div>
-        </div>
-        
-        <div class="panel-section">
-            <div class="panel-section-title">🎨 Palettes sélectionnées</div>
-            <div id="panel-colors"><div class="panel-empty">Aucune palette sélectionnée</div></div>
-        </div>
-        
-        <div class="panel-section">
-            <div class="panel-section-title">✨ Styles sélectionnés</div>
-            <div id="panel-styles"><div class="panel-empty">Aucun style sélectionné</div></div>
-        </div>
-        
-        <div class="panel-section">
-            <div class="panel-section-title">📋 Export CSS</div>
-            <div class="export-box" id="export-css">/* Sélectionne des éléments pour générer le CSS */</div>
-            <div class="export-actions">
-                <button class="btn btn-accent" onclick="copyExport()"><i class="fa-solid fa-copy"></i> Copier CSS</button>
-                <button class="btn btn-green" onclick="copyBrief()"><i class="fa-solid fa-paper-plane"></i> Brief pour IA</button>
-            </div>
-        </div>
-    </aside>
+        <div class="preview-frame" id="preview-frame"></div>
+    </div>
 </div>
 
+<!-- PROJECT PANEL -->
+<aside class="project-panel" id="panel">
+    <div class="panel-toggle" onclick="document.getElementById('panel').classList.toggle('expanded')">▲ Mon projet ▲</div>
+    <div class="panel-header"><h2>📁 Mon Projet</h2><button class="btn btn-outline" onclick="clearAll()" style="font-size:.7rem;">Vider</button></div>
+    <div class="panel-section"><div class="panel-section-title">🔤 Typographies</div><div id="panel-typos"><div class="panel-empty">Aucune</div></div></div>
+    <div class="panel-section"><div class="panel-section-title">🎨 Couleurs</div><div id="panel-colors"><div class="panel-empty">Aucune</div></div></div>
+    <div class="panel-section"><div class="panel-section-title">✨ Styles</div><div id="panel-styles"><div class="panel-empty">Aucun</div></div></div>
+    <div class="panel-section">
+        <div class="panel-section-title">📋 Export</div>
+        <div class="export-box" id="export-css">/* Sélectionne des éléments */</div>
+        <div class="export-actions">
+            <button class="btn btn-accent" onclick="copyExport()"><i class="fa-solid fa-copy"></i> CSS</button>
+            <button class="btn btn-green" onclick="copyBrief()"><i class="fa-solid fa-paper-plane"></i> Brief IA</button>
+        </div>
+    </div>
+</aside>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
 // ===== DATA =====
-const TYPOS = [
-    {id:1,name:"Classic Elegant",cat:"Serif + Sans",h:"Playfair Display",b:"Inter",mood:"elegant, luxury, sophisticated",best:"Luxury, fashion, spa",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:2,name:"Modern Professional",cat:"Sans + Sans",h:"Poppins",b:"Open Sans",mood:"modern, professional, clean",best:"SaaS, corporate, startups",css:"@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:3,name:"Tech Startup",cat:"Sans + Sans",h:"Space Grotesk",b:"DM Sans",mood:"tech, startup, innovative",best:"Tech, SaaS, AI products",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');",weights:[400,500,600,700]},
-    {id:5,name:"Minimal Swiss",cat:"Sans + Sans",h:"Inter",b:"Inter",mood:"minimal, clean, functional",best:"Dashboards, admin, docs",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:6,name:"Playful Creative",cat:"Display + Sans",h:"Fredoka",b:"Nunito",mood:"playful, friendly, fun",best:"Children, educational, gaming",css:"@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:7,name:"Bold Statement",cat:"Display + Sans",h:"Bebas Neue",b:"Source Sans 3",mood:"bold, impactful, dramatic",best:"Marketing, portfolios, events",css:"@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:8,name:"Wellness Calm",cat:"Serif + Sans",h:"Lora",b:"Raleway",mood:"calm, wellness, natural",best:"Health, spa, yoga, organic",css:"@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:10,name:"Retro Vintage",cat:"Display + Serif",h:"Abril Fatface",b:"Merriweather",mood:"retro, vintage, nostalgic",best:"Vintage brands, restaurants",css:"@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Merriweather:wght@300;400;700&display=swap');",weights:[300,400,700]},
-    {id:11,name:"Geometric Modern",cat:"Sans + Sans",h:"Outfit",b:"Work Sans",mood:"geometric, modern, balanced",best:"Portfolios, agencies, brands",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:12,name:"Luxury Serif",cat:"Serif + Sans",h:"Cormorant",b:"Montserrat",mood:"luxury, high-end, elegant",best:"Fashion, luxury e-commerce",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:13,name:"Friendly SaaS",cat:"Sans + Sans",h:"Plus Jakarta Sans",b:"Plus Jakarta Sans",mood:"friendly, modern, clean",best:"SaaS, web apps, dashboards",css:"@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:18,name:"Fashion Forward",cat:"Sans + Sans",h:"Syne",b:"Manrope",mood:"fashion, avant-garde, bold",best:"Fashion, creative agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:37,name:"Gaming Bold",cat:"Display + Sans",h:"Russo One",b:"Chakra Petch",mood:"gaming, bold, action",best:"Gaming, esports, sports",css:"@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Russo+One&display=swap');",weights:[300,400,500,600,700]},
-    {id:39,name:"Startup Bold",cat:"Sans + Sans",h:"Outfit",b:"Rubik",mood:"startup, bold, innovative",best:"Startups, pitch decks, launches",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:40,name:"E-commerce Clean",cat:"Sans + Sans",h:"Rubik",b:"Nunito Sans",mood:"ecommerce, clean, conversion",best:"E-commerce, retail, shopping",css:"@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:49,name:"Sports/Fitness",cat:"Sans + Sans",h:"Barlow Condensed",b:"Barlow",mood:"sports, fitness, athletic",best:"Sports, fitness, gyms",css:"@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:50,name:"Luxury Minimalist",cat:"Serif + Sans",h:"Bodoni Moda",b:"Jost",mood:"luxury, minimalist, premium",best:"High-end fashion, premium",css:"@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600;700&family=Jost:wght@300;400;500;600;700&display=swap');",weights:[300,400,500,600,700]},
-    {id:57,name:"Gen Z Brutal",cat:"Display + Sans",h:"Anton",b:"Epilogue",mood:"brutal, loud, bold, meme",best:"Gen Z, streetwear, viral",css:"@import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap');",weights:[400,500,600,700]},
+const TYPOS=[
+{id:1,name:"Classic Elegant",cat:"Serif + Sans",h:"Playfair Display",b:"Inter",mood:"elegant, luxury, sophisticated",best:"Luxury, fashion, spa",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');"},
+{id:2,name:"Modern Professional",cat:"Sans + Sans",h:"Poppins",b:"Open Sans",mood:"modern, professional, clean",best:"SaaS, corporate, startups",css:"@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');"},
+{id:3,name:"Tech Startup",cat:"Sans + Sans",h:"Space Grotesk",b:"DM Sans",mood:"tech, startup, innovative",best:"Tech, SaaS, AI",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');"},
+{id:5,name:"Minimal Swiss",cat:"Sans + Sans",h:"Inter",b:"Inter",mood:"minimal, clean, functional",best:"Dashboards, admin, docs",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');"},
+{id:7,name:"Bold Statement",cat:"Display + Sans",h:"Bebas Neue",b:"Source Sans 3",mood:"bold, impactful, dramatic",best:"Marketing, portfolios",css:"@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');"},
+{id:8,name:"Wellness Calm",cat:"Serif + Sans",h:"Lora",b:"Raleway",mood:"calm, wellness, natural",best:"Health, spa, yoga",css:"@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');"},
+{id:11,name:"Geometric Modern",cat:"Sans + Sans",h:"Outfit",b:"Work Sans",mood:"geometric, modern, balanced",best:"Portfolios, agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');"},
+{id:12,name:"Luxury Serif",cat:"Serif + Sans",h:"Cormorant",b:"Montserrat",mood:"luxury, high-end, elegant",best:"Fashion, luxury e-commerce",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');"},
+{id:13,name:"Friendly SaaS",cat:"Sans + Sans",h:"Plus Jakarta Sans",b:"Plus Jakarta Sans",mood:"friendly, modern, clean",best:"SaaS, web apps",css:"@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');"},
+{id:18,name:"Fashion Forward",cat:"Sans + Sans",h:"Syne",b:"Manrope",mood:"fashion, avant-garde, bold",best:"Fashion, creative agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');"},
+{id:39,name:"Startup Bold",cat:"Sans + Sans",h:"Outfit",b:"Rubik",mood:"startup, bold, innovative",best:"Startups, launches",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
+{id:40,name:"E-commerce Clean",cat:"Sans + Sans",h:"Rubik",b:"Nunito Sans",mood:"ecommerce, clean, shopping",best:"E-commerce, retail",css:"@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
+{id:49,name:"Sports/Fitness",cat:"Sans + Sans",h:"Barlow Condensed",b:"Barlow",mood:"sports, fitness, athletic",best:"Sports, fitness, gyms",css:"@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');"},
+{id:57,name:"Gen Z Brutal",cat:"Display + Sans",h:"Anton",b:"Epilogue",mood:"brutal, loud, bold",best:"Gen Z, streetwear",css:"@import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap');"},
 ];
 
-const COLORS = [
-    {id:1,type:"SaaS",primary:"#2563EB",secondary:"#3B82F6",cta:"#F97316",bg:"#F8FAFC",text:"#1E293B",note:"Trust blue + orange CTA"},
-    {id:3,type:"E-commerce",primary:"#059669",secondary:"#10B981",cta:"#F97316",bg:"#ECFDF5",text:"#064E3B",note:"Green + urgency orange"},
-    {id:4,type:"E-commerce Luxury",primary:"#1C1917",secondary:"#44403C",cta:"#CA8A04",bg:"#FAFAF9",text:"#0C0A09",note:"Dark + gold accent"},
-    {id:7,type:"Financial Dashboard",primary:"#0F172A",secondary:"#1E293B",cta:"#22C55E",bg:"#020617",text:"#F8FAFC",note:"Dark + green indicators"},
-    {id:10,type:"Fitness/Gym",primary:"#DC2626",secondary:"#EF4444",cta:"#F97316",bg:"#0F0F0F",text:"#FAFAFA",note:"Red energy + dark bg"},
-    {id:11,type:"Wellness/Yoga",primary:"#059669",secondary:"#6EE7B7",cta:"#F59E0B",bg:"#F0FDF4",text:"#14532D",note:"Natural green + gold CTA"},
-    {id:12,type:"Food Delivery",primary:"#DC2626",secondary:"#F97316",cta:"#16A34A",bg:"#FFF7ED",text:"#7C2D12",note:"Appetite red + order green"},
-    {id:14,type:"Education",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#F5F3FF",text:"#4C1D95",note:"Knowledge purple + orange"},
-    {id:16,type:"Fashion",primary:"#000000",secondary:"#404040",cta:"#B91C1C",bg:"#FFFFFF",text:"#171717",note:"B&W + red accent"},
-    {id:17,type:"Music/Entertainment",primary:"#7C3AED",secondary:"#A855F7",cta:"#EC4899",bg:"#0F0F0F",text:"#FAFAFA",note:"Purple + pink dark"},
-    {id:18,type:"Crypto/Web3",primary:"#6366F1",secondary:"#818CF8",cta:"#F59E0B",bg:"#0F0F0F",text:"#E0E7FF",note:"Indigo + gold dark"},
-    {id:25,type:"Startup Bold",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#FAFAFA",text:"#1E1B4B",note:"Purple + bold orange"},
-    {id:35,type:"Gaming",primary:"#7C3AED",secondary:"#A855F7",cta:"#EF4444",bg:"#09090B",text:"#FAFAFA",note:"Purple + red dark"},
-    {id:45,type:"Sports",primary:"#DC2626",secondary:"#1D4ED8",cta:"#F97316",bg:"#FAFAFA",text:"#111827",note:"Red + blue"},
+const COLORS=[
+{id:1,type:"SaaS",primary:"#2563EB",secondary:"#3B82F6",cta:"#F97316",bg:"#F8FAFC",text:"#1E293B",note:"Trust blue + orange CTA"},
+{id:3,type:"E-commerce",primary:"#059669",secondary:"#10B981",cta:"#F97316",bg:"#ECFDF5",text:"#064E3B",note:"Green + urgency orange"},
+{id:4,type:"E-commerce Luxury",primary:"#1C1917",secondary:"#44403C",cta:"#CA8A04",bg:"#FAFAF9",text:"#0C0A09",note:"Dark + gold accent"},
+{id:10,type:"Fitness/Gym",primary:"#DC2626",secondary:"#EF4444",cta:"#F97316",bg:"#0F0F0F",text:"#FAFAFA",note:"Red energy + dark bg"},
+{id:11,type:"Wellness",primary:"#059669",secondary:"#6EE7B7",cta:"#F59E0B",bg:"#F0FDF4",text:"#14532D",note:"Natural green + gold CTA"},
+{id:14,type:"Education",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#F5F3FF",text:"#4C1D95",note:"Purple + orange"},
+{id:16,type:"Fashion",primary:"#000000",secondary:"#404040",cta:"#B91C1C",bg:"#FFFFFF",text:"#171717",note:"B&W + red accent"},
+{id:17,type:"Music",primary:"#7C3AED",secondary:"#A855F7",cta:"#EC4899",bg:"#0F0F0F",text:"#FAFAFA",note:"Purple + pink dark"},
+{id:18,type:"Crypto/Web3",primary:"#6366F1",secondary:"#818CF8",cta:"#F59E0B",bg:"#0F0F0F",text:"#E0E7FF",note:"Indigo + gold dark"},
+{id:25,type:"Startup Bold",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#FAFAFA",text:"#1E1B4B",note:"Purple + bold orange"},
+{id:35,type:"Gaming",primary:"#7C3AED",secondary:"#A855F7",cta:"#EF4444",bg:"#09090B",text:"#FAFAFA",note:"Purple + red dark"},
+{id:45,type:"Sports",primary:"#DC2626",secondary:"#1D4ED8",cta:"#F97316",bg:"#FAFAFA",text:"#111827",note:"Red + blue"},
 ];
 
-const STYLES = [
-    {id:1,name:"Minimalism",keywords:"clean, simple, spacious, functional",best:"Dashboards, SaaS, docs",avoid:"Creative portfolios",perf:"⚡",access:"AAA",mobile:"✓"},
-    {id:2,name:"Neumorphism",keywords:"soft UI, embossed, rounded",best:"Health, meditation, fitness",avoid:"Data dashboards",perf:"⚡",access:"⚠",mobile:"✓"},
-    {id:3,name:"Glassmorphism",keywords:"frosted glass, blur, transparent",best:"Modern SaaS, modals",avoid:"Low contrast needed",perf:"⚠",access:"⚠",mobile:"✓"},
-    {id:4,name:"Brutalism",keywords:"raw, stark, high contrast",best:"Design portfolios, tech blogs",avoid:"Corporate, conservative",perf:"⚡",access:"AAA",mobile:"◐"},
-    {id:6,name:"Vibrant Blocks",keywords:"bold, energetic, geometric",best:"Startups, gaming, youth",avoid:"Finance, healthcare",perf:"⚡",access:"◐",mobile:"✓"},
-    {id:7,name:"Dark Mode OLED",keywords:"deep black, neon accents",best:"Night apps, coding, entertainment",avoid:"Print-first",perf:"⚡",access:"AAA",mobile:"✓"},
-    {id:9,name:"Claymorphism",keywords:"soft 3D, chunky, bubbly",best:"Educational, children, fun SaaS",avoid:"Corporate, medical",perf:"⚡",access:"⚠",mobile:"✓"},
+const STYLES=[
+{id:1,name:"Minimalism",keywords:"clean, simple, spacious",best:"Dashboards, SaaS",avoid:"Creative portfolios",perf:"⚡",access:"AAA",mobile:"✓",
+visual:`<div style="background:#fff;height:100%;padding:32px;font-family:Inter,sans-serif;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;"><span style="font-weight:700;font-size:1.2rem;color:#000;">Logo</span><div style="display:flex;gap:24px;font-size:.85rem;color:#666;"><span>Products</span><span>Pricing</span><span>About</span></div></div>
+<h1 style="font-size:2.2rem;font-weight:600;color:#000;margin-bottom:12px;max-width:400px;line-height:1.2;">Simple, clean, functional design.</h1>
+<p style="color:#666;font-size:.95rem;margin-bottom:20px;">Less is more. Focus on what matters.</p>
+<button style="background:#000;color:#fff;border:none;padding:10px 24px;border-radius:4px;font-size:.85rem;">Get Started</button>
+<div style="display:flex;gap:16px;margin-top:32px;"><div style="flex:1;padding:16px;border:1px solid #e5e5e5;border-radius:4px;"><div style="font-weight:600;font-size:1.4rem;">99%</div><div style="color:#888;font-size:.8rem;">Uptime</div></div><div style="flex:1;padding:16px;border:1px solid #e5e5e5;border-radius:4px;"><div style="font-weight:600;font-size:1.4rem;">50K+</div><div style="color:#888;font-size:.8rem;">Users</div></div></div>
+</div>`},
+
+{id:2,name:"Neumorphism",keywords:"soft UI, embossed, rounded",best:"Health, meditation",avoid:"Data dashboards",perf:"⚡",access:"⚠",mobile:"✓",
+visual:`<div style="background:#e8e8e8;height:100%;padding:28px;font-family:system-ui;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;">
+<div style="background:#e8e8e8;border-radius:20px;padding:24px 32px;box-shadow:-6px -6px 14px rgba(255,255,255,.7),6px 6px 14px rgba(0,0,0,.15);width:80%;text-align:center;">
+<div style="font-size:2rem;font-weight:700;color:#555;">42</div><div style="color:#888;font-size:.8rem;">Sessions today</div></div>
+<div style="display:flex;gap:16px;width:80%;">
+<div style="flex:1;background:#e8e8e8;border-radius:16px;padding:16px;box-shadow:-4px -4px 10px rgba(255,255,255,.7),4px 4px 10px rgba(0,0,0,.12);text-align:center;"><div style="font-size:1.2rem;font-weight:600;color:#666;">85%</div><div style="font-size:.7rem;color:#999;">Focus</div></div>
+<div style="flex:1;background:#e8e8e8;border-radius:16px;padding:16px;box-shadow:-4px -4px 10px rgba(255,255,255,.7),4px 4px 10px rgba(0,0,0,.12);text-align:center;"><div style="font-size:1.2rem;font-weight:600;color:#666;">12h</div><div style="font-size:.7rem;color:#999;">Sleep</div></div></div>
+<button style="background:#e8e8e8;border:none;border-radius:50px;padding:12px 32px;box-shadow:-4px -4px 10px rgba(255,255,255,.7),4px 4px 10px rgba(0,0,0,.15);color:#666;font-weight:600;font-size:.9rem;cursor:pointer;">Start Session</button>
+</div>`},
+
+{id:3,name:"Glassmorphism",keywords:"frosted glass, blur, transparent",best:"Modern SaaS, modals",avoid:"Low contrast",perf:"⚠",access:"⚠",mobile:"✓",
+visual:`<div style="background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);height:100%;padding:28px;display:flex;align-items:center;justify-content:center;">
+<div style="background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:28px;width:85%;color:#fff;">
+<h2 style="font-size:1.4rem;margin-bottom:8px;">Dashboard</h2>
+<p style="font-size:.85rem;opacity:.8;margin-bottom:16px;">Welcome back, Fred</p>
+<div style="display:flex;gap:12px;margin-bottom:16px;">
+<div style="flex:1;background:rgba(255,255,255,.1);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.15);"><div style="font-size:1.3rem;font-weight:700;">$24K</div><div style="font-size:.7rem;opacity:.7;">Revenue</div></div>
+<div style="flex:1;background:rgba(255,255,255,.1);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.15);"><div style="font-size:1.3rem;font-weight:700;">1.2K</div><div style="font-size:.7rem;opacity:.7;">Orders</div></div></div>
+<button style="background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 24px;border-radius:10px;font-size:.85rem;cursor:pointer;">View Details</button>
+</div></div>`},
+
+{id:4,name:"Brutalism",keywords:"raw, stark, high contrast",best:"Design portfolios, tech blogs",avoid:"Corporate",perf:"⚡",access:"AAA",mobile:"◐",
+visual:`<div style="background:#fff;height:100%;padding:20px;font-family:monospace;">
+<div style="border:3px solid #000;padding:16px;margin-bottom:12px;"><span style="font-weight:900;font-size:2rem;text-transform:uppercase;">BRUT.</span></div>
+<div style="background:#FF0000;color:#fff;padding:16px;font-weight:900;font-size:1.6rem;margin-bottom:12px;text-transform:uppercase;">No bullshit design</div>
+<div style="display:flex;gap:12px;margin-bottom:12px;">
+<div style="flex:1;background:#FFFF00;border:3px solid #000;padding:16px;font-weight:900;text-transform:uppercase;">WEB</div>
+<div style="flex:1;background:#0000FF;color:#fff;border:3px solid #000;padding:16px;font-weight:900;text-transform:uppercase;">APP</div></div>
+<button style="background:#000;color:#fff;border:3px solid #000;padding:12px 32px;font-family:monospace;font-weight:900;font-size:1rem;text-transform:uppercase;cursor:pointer;">ENTER →</button>
+</div>`},
+
+{id:6,name:"Vibrant Blocks",keywords:"bold, energetic, geometric",best:"Startups, gaming, youth",avoid:"Finance, healthcare",perf:"⚡",access:"◐",mobile:"✓",
+visual:`<div style="background:#1a1a2e;height:100%;padding:24px;font-family:system-ui;color:#fff;">
+<h1 style="font-size:2rem;font-weight:900;margin-bottom:8px;">Build <span style="color:#39FF14;">amazing</span> things.</h1>
+<p style="color:#888;font-size:.9rem;margin-bottom:20px;">For creators who ship fast.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+<div style="background:#39FF14;border-radius:16px;padding:20px;color:#000;"><div style="font-weight:800;font-size:1.5rem;">10x</div><div style="font-size:.8rem;">Faster</div></div>
+<div style="background:#BF00FF;border-radius:16px;padding:20px;color:#fff;"><div style="font-weight:800;font-size:1.5rem;">$0</div><div style="font-size:.8rem;">Setup</div></div>
+<div style="background:#FF1493;border-radius:16px;padding:20px;color:#fff;grid-column:span 2;text-align:center;"><div style="font-weight:800;font-size:1.1rem;">🚀 Start building now</div></div>
+</div></div>`},
+
+{id:7,name:"Dark Mode OLED",keywords:"deep black, neon accents",best:"Night apps, coding",avoid:"Print-first",perf:"⚡",access:"AAA",mobile:"✓",
+visual:`<div style="background:#000;height:100%;padding:28px;font-family:system-ui;color:#fff;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;"><span style="font-weight:700;font-size:1.1rem;">⚡ Dashboard</span><div style="width:32px;height:32px;border-radius:50%;background:#39FF14;"></div></div>
+<div style="background:#0a0a0a;border:1px solid #222;border-radius:16px;padding:20px;margin-bottom:16px;">
+<div style="font-size:.8rem;color:#666;margin-bottom:4px;">Revenue</div>
+<div style="font-size:2rem;font-weight:700;color:#39FF14;text-shadow:0 0 20px rgba(57,255,20,.3);">$48,290</div>
+<div style="font-size:.75rem;color:#39FF14;">↑ 12.5%</div></div>
+<div style="display:flex;gap:12px;">
+<div style="flex:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;padding:14px;"><div style="color:#0080FF;font-weight:700;font-size:1.1rem;">2.4K</div><div style="color:#555;font-size:.7rem;">Users</div></div>
+<div style="flex:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;padding:14px;"><div style="color:#BF00FF;font-weight:700;font-size:1.1rem;">98%</div><div style="color:#555;font-size:.7rem;">Uptime</div></div></div>
+</div>`},
+
+{id:9,name:"Claymorphism",keywords:"soft 3D, chunky, bubbly",best:"Educational, children, fun SaaS",avoid:"Corporate, medical",perf:"⚡",access:"⚠",mobile:"✓",
+visual:`<div style="background:#f0f0f5;height:100%;padding:28px;font-family:system-ui;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+<div style="background:linear-gradient(145deg,#FDBCB4,#f5a898);border-radius:24px;padding:24px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -3px -3px 8px rgba(0,0,0,.08),6px 6px 16px rgba(0,0,0,.1);width:80%;text-align:center;">
+<div style="font-size:2.5rem;">🎉</div><div style="font-weight:700;color:#333;font-size:1.1rem;">Great job!</div><div style="color:#666;font-size:.8rem;">You completed 5 lessons</div></div>
+<div style="display:flex;gap:12px;width:80%;">
+<div style="flex:1;background:linear-gradient(145deg,#ADD8E6,#98c8da);border-radius:18px;padding:14px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -2px -2px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08);text-align:center;"><div style="font-size:1.5rem;">📚</div><div style="font-weight:600;color:#333;font-size:.8rem;">12 Books</div></div>
+<div style="flex:1;background:linear-gradient(145deg,#98FF98,#88e888);border-radius:18px;padding:14px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -2px -2px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08);text-align:center;"><div style="font-size:1.5rem;">⭐</div><div style="font-weight:600;color:#333;font-size:.8rem;">4.9 Score</div></div></div>
+</div>`},
+
+{id:10,name:"Bento Grid",keywords:"cards, grid, modular, Apple-style",best:"Product pages, portfolios",avoid:"Text-heavy content",perf:"⚡",access:"✓",mobile:"✓",
+visual:`<div style="background:#f5f5f7;height:100%;padding:20px;font-family:system-ui;">
+<div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:10px;">
+<div style="grid-column:span 2;background:#1d1d1f;border-radius:16px;padding:24px;color:#fff;">
+<div style="font-size:.75rem;color:#999;margin-bottom:4px;">Featured</div>
+<div style="font-weight:700;font-size:1.4rem;">The new standard</div>
+<div style="color:#999;font-size:.85rem;">Reimagined from the ground up.</div></div>
+<div style="background:#fff;border-radius:16px;padding:20px;">
+<div style="font-size:2rem;margin-bottom:8px;">🎯</div>
+<div style="font-weight:600;font-size:.9rem;">Precision</div>
+<div style="color:#888;font-size:.75rem;">Pixel-perfect UI</div></div>
+<div style="background:#fff;border-radius:16px;padding:20px;">
+<div style="font-size:2rem;margin-bottom:8px;">⚡</div>
+<div style="font-weight:600;font-size:.9rem;">Speed</div>
+<div style="color:#888;font-size:.75rem;">Lightning fast</div></div>
+</div></div>`},
 ];
 
 // ===== STATE =====
-let project = { typos: [], colors: [], styles: [] };
-let typoCat = 'all';
+let project={typos:[],colors:[],styles:[]}, typoCat='all';
 
-// ===== RENDER TYPOS =====
-function renderTypos(search = '') {
-    const grid = document.getElementById('typo-grid');
-    const filtered = TYPOS.filter(t => {
-        const s = (t.name + t.mood + t.best + t.h + t.b).toLowerCase();
-        const matchSearch = !search || s.includes(search.toLowerCase());
-        const matchCat = typoCat === 'all' || t.cat.includes(typoCat);
-        return matchSearch && matchCat;
-    });
-    
-    // Load fonts
-    const urls = [...new Set(filtered.map(t => t.css.match(/url\('([^']+)'\)/)?.[1]).filter(Boolean))];
-    urls.forEach(u => { if (!document.querySelector(`link[href="${u}"]`)) { const l=document.createElement('link'); l.rel='stylesheet'; l.href=u; document.head.appendChild(l); }});
-    
-    const sel = new Set(project.typos.map(t=>t.id));
-    
-    grid.innerHTML = filtered.map(t => {
-        const hw = t._hw || 600;
-        const bw = t._bw || 400;
-        return `
-        <div class="typo-card ${sel.has(t.id)?'selected':''}" id="tc-${t.id}">
-            <div class="typo-preview">
-                <h2 style="font-family:'${t.h}',sans-serif;font-weight:${hw}">Le design parfait</h2>
-                <p style="font-family:'${t.b}',sans-serif;font-weight:${bw}">Créez des interfaces élégantes et modernes avec cette combinaison de polices.</p>
+// ===== RENDER =====
+function renderTypos(s=''){
+    const grid=document.getElementById('typo-grid');
+    const f=TYPOS.filter(t=>{const m=(t.name+t.mood+t.best+t.h+t.b).toLowerCase();return(!s||m.includes(s.toLowerCase()))&&(typoCat==='all'||t.cat.includes(typoCat));});
+    f.forEach(t=>{const u=t.css.match(/url\('([^']+)'\)/)?.[1];if(u&&!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}});
+    const sel=new Set(project.typos.map(t=>t.id));
+    grid.innerHTML=f.map(t=>{const hw=t._hw||600,bw=t._bw||400;return`
+    <div class="typo-card ${sel.has(t.id)?'selected':''}" id="tc-${t.id}">
+        <div class="typo-preview"><h2 style="font-family:'${t.h}',sans-serif;font-weight:${hw}">Le design parfait</h2><p style="font-family:'${t.b}',sans-serif;font-weight:${bw}">Créez des interfaces modernes avec cette combinaison de polices.</p></div>
+        <div class="typo-info">
+            <div class="typo-name">${t.name}</div><div class="typo-fonts"><b>${t.h}</b> + ${t.b} · ${t.cat}</div>
+            <div class="typo-tags">${t.mood.split(', ').map(m=>`<span class="tag">${m}</span>`).join('')}</div>
+            <div class="weight-controls">
+                <div class="weight-row"><label>Titre</label><input type="range" min="300" max="900" step="100" value="${hw}" oninput="chgW(${t.id},'h',this.value)"><span class="wv" id="wh-${t.id}">${hw}</span></div>
+                <div class="weight-row"><label>Corps</label><input type="range" min="300" max="900" step="100" value="${bw}" oninput="chgW(${t.id},'b',this.value)"><span class="wv" id="wb-${t.id}">${bw}</span></div>
+                <div class="weight-preview" id="wp-${t.id}"><div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.3rem;">Aa Bb Cc 123</div><div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:.85rem;">Le texte brun saute par-dessus le chien. 0123456789</div></div>
             </div>
-            <div class="typo-info">
-                <div class="typo-name">${t.name}</div>
-                <div class="typo-fonts"><strong>${t.h}</strong> + ${t.b} · ${t.cat}</div>
-                <div class="typo-tags">${t.mood.split(', ').map(m=>`<span class="tag">${m}</span>`).join('')}</div>
-                <div class="weight-controls">
-                    <div class="weight-row">
-                        <label>Titre</label>
-                        <input type="range" min="300" max="900" step="100" value="${hw}" oninput="changeWeight(${t.id},'h',this.value)">
-                        <span class="weight-val" id="wv-h-${t.id}">${hw}</span>
-                    </div>
-                    <div class="weight-row">
-                        <label>Corps</label>
-                        <input type="range" min="300" max="900" step="100" value="${bw}" oninput="changeWeight(${t.id},'b',this.value)">
-                        <span class="weight-val" id="wv-b-${t.id}">${bw}</span>
-                    </div>
-                    <div class="weight-preview" id="wp-${t.id}">
-                        <div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.4rem;margin-bottom:4px;">Aa Bb Cc 123</div>
-                        <div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:0.9rem;">Le texte rapide brun saute par-dessus le chien paresseux. 0123456789</div>
-                    </div>
-                </div>
-                <div class="typo-actions">
-                    <button class="btn ${sel.has(t.id)?'btn-green':'btn-accent'}" onclick="toggleTypo(${t.id})">
-                        ${sel.has(t.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}
-                    </button>
-                </div>
-            </div>
-        </div>`;
-    }).join('');
+            <div class="typo-actions"><button class="btn ${sel.has(t.id)?'btn-green':'btn-accent'}" onclick="togTypo(${t.id})">${sel.has(t.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div>
+        </div></div>`;}).join('');
 }
 
-function changeWeight(id, type, val) {
-    const t = TYPOS.find(x=>x.id===id);
-    if(type==='h') t._hw=+val; else t._bw=+val;
-    document.getElementById(`wv-${type}-${id}`).textContent = val;
-    const hw = t._hw||600, bw = t._bw||400;
-    document.getElementById(`wp-${id}`).innerHTML = `
-        <div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.4rem;margin-bottom:4px;">Aa Bb Cc 123</div>
-        <div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:0.9rem;">Le texte rapide brun saute par-dessus le chien paresseux. 0123456789</div>`;
-    // Update preview title too
-    const card = document.getElementById(`tc-${id}`);
-    card.querySelector('.typo-preview h2').style.fontWeight = hw;
-    card.querySelector('.typo-preview p').style.fontWeight = bw;
-    // Update project if selected
-    const pi = project.typos.findIndex(x=>x.id===id);
-    if(pi>=0) { project.typos[pi].hw=hw; project.typos[pi].bw=bw; updatePanel(); }
+function chgW(id,type,val){const t=TYPOS.find(x=>x.id===id);if(type==='h')t._hw=+val;else t._bw=+val;document.getElementById(`w${type}-${id}`).textContent=val;const hw=t._hw||600,bw=t._bw||400;
+document.getElementById(`wp-${id}`).innerHTML=`<div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.3rem;">Aa Bb Cc 123</div><div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:.85rem;">Le texte brun saute par-dessus le chien. 0123456789</div>`;
+const c=document.getElementById(`tc-${id}`);c.querySelector('.typo-preview h2').style.fontWeight=hw;c.querySelector('.typo-preview p').style.fontWeight=bw;
+const pi=project.typos.findIndex(x=>x.id===id);if(pi>=0){project.typos[pi].hw=hw;project.typos[pi].bw=bw;updatePanel();}}
+
+function renderColors(s=''){
+    const grid=document.getElementById('color-grid');const f=COLORS.filter(c=>!s||(c.type+c.note).toLowerCase().includes(s.toLowerCase()));const sel=new Set(project.colors.map(c=>c.id));
+    grid.innerHTML=f.map(c=>`
+    <div class="color-card ${sel.has(c.id)?'selected':''}" id="cc-${c.id}">
+        <div class="color-swatches">${['primary','secondary','cta','bg','text'].map(k=>`<div class="color-swatch" style="background:${c[k]}" data-label="${k} ${c[k]}"></div>`).join('')}</div>
+        <div class="color-live"><div class="color-live-inner" style="background:${c.bg}"><h3 style="color:${c.text}">Titre du projet</h3><p style="color:${c.text}">Description avec un exemple de texte.</p><button style="background:${c.cta};color:white;">Acheter</button></div></div>
+        <div class="color-info"><div class="color-name">${c.type}</div><div class="color-note">${c.note}</div>
+        ${['primary','secondary','cta','bg','text'].map(k=>`<div class="hex-edit-row"><span class="hex-label">${k}</span><input type="color" class="hex-color-input" value="${c[k]}" onchange="editCol(${c.id},'${k}',this.value)"><input type="text" class="hex-text-input" value="${c[k]}" onchange="editCol(${c.id},'${k}',this.value)"></div>`).join('')}
+        <div class="typo-actions" style="margin-top:10px;"><button class="btn ${sel.has(c.id)?'btn-green':'btn-accent'}" onclick="togColor(${c.id})">${sel.has(c.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div>
+    </div>`).join('');
 }
 
-// ===== RENDER COLORS =====
-function renderColors(search = '') {
-    const grid = document.getElementById('color-grid');
-    const filtered = COLORS.filter(c => !search || (c.type+c.note).toLowerCase().includes(search.toLowerCase()));
-    const sel = new Set(project.colors.map(c=>c.id));
+function editCol(id,key,val){const c=COLORS.find(x=>x.id===id);c[key]=val;const pi=project.colors.findIndex(x=>x.id===id);if(pi>=0)project.colors[pi]={...c};renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');updatePanel();}
+
+function renderStyles(s=''){
+    const grid=document.getElementById('style-grid');const f=STYLES.filter(x=>!s||(x.name+x.keywords+x.best).toLowerCase().includes(s.toLowerCase()));const sel=new Set(project.styles.map(x=>x.id));
+    grid.innerHTML=f.map(x=>`
+    <div class="style-card ${sel.has(x.id)?'selected':''}" id="sc-${x.id}">
+        <div class="style-visual">${x.visual}</div>
+        <div class="style-info"><div class="style-name">${x.name}</div>
+        <div class="typo-tags">${x.keywords.split(', ').map(k=>`<span class="tag">${k}</span>`).join('')}</div>
+        <div class="style-meta"><span>${x.perf} Perf</span><span>Access: ${x.access}</span><span>Mobile: ${x.mobile}</span></div>
+        <div class="style-best"><span class="good">✅ ${x.best}</span></div><div class="style-best"><span class="bad">❌ ${x.avoid}</span></div>
+        <div class="typo-actions" style="margin-top:10px;"><button class="btn ${sel.has(x.id)?'btn-green':'btn-accent'}" onclick="togStyle(${x.id})">${sel.has(x.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div>
+        </div></div>`).join('');
+}
+
+// ===== LIVE PREVIEW =====
+function renderPreview(){
+    const frame=document.getElementById('preview-frame');
+    const t=project.typos[0], c=project.colors[0], s=project.styles[0];
+    const hf=t?`'${t.h}',sans-serif`:'system-ui,sans-serif';
+    const bf=t?`'${t.b}',sans-serif`:'system-ui,sans-serif';
+    const hw=t?t.hw:700, bw=t?t.bw:400;
+    const bg=c?c.bg:'#FAFAFA', txt=c?c.text:'#111', pri=c?c.primary:'#2563EB', cta=c?c.cta:'#F97316', sec=c?c.secondary:'#3B82F6';
     
-    grid.innerHTML = filtered.map(c => `
-        <div class="color-card ${sel.has(c.id)?'selected':''}" id="cc-${c.id}">
-            <div class="color-swatches">
-                <div class="color-swatch" style="background:${c.primary}" data-label="Primary ${c.primary}"></div>
-                <div class="color-swatch" style="background:${c.secondary}" data-label="Secondary ${c.secondary}"></div>
-                <div class="color-swatch" style="background:${c.cta}" data-label="CTA ${c.cta}"></div>
-                <div class="color-swatch" style="background:${c.bg}" data-label="Bg ${c.bg}"></div>
-                <div class="color-swatch" style="background:${c.text}" data-label="Text ${c.text}"></div>
-            </div>
-            <div class="color-live-preview">
-                <div class="color-live-inner" style="background:${c.bg};border-radius:8px;">
-                    <h3 style="color:${c.text};font-weight:700;">Titre du projet</h3>
-                    <p style="color:${c.text}">Description du produit avec texte d'exemple.</p>
-                    <button style="background:${c.cta};color:white;">Acheter maintenant</button>
-                </div>
-            </div>
-            <div class="color-info">
-                <div class="color-name">${c.type}</div>
-                <div class="color-note">${c.note}</div>
-                <div style="margin-top:8px;">
-                    ${['primary','secondary','cta','bg','text'].map(k => `
-                    <div class="hex-edit-row">
-                        <span class="hex-label">${k}</span>
-                        <input type="color" class="hex-color-input" value="${c[k]}" onchange="editColor(${c.id},'${k}',this.value)">
-                        <input type="text" class="hex-text-input" value="${c[k]}" onchange="editColor(${c.id},'${k}',this.value)">
-                    </div>`).join('')}
-                </div>
-                <div class="typo-actions" style="margin-top:12px;">
-                    <button class="btn ${sel.has(c.id)?'btn-green':'btn-accent'}" onclick="toggleColor(${c.id})">
-                        ${sel.has(c.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}
-                    </button>
-                </div>
+    let styleCSS='';
+    if(s){
+        if(s.id===3) styleCSS=`backdrop-filter:blur(12px);background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.2);`;
+        if(s.id===2) styleCSS=`box-shadow:-6px -6px 14px rgba(255,255,255,.7),6px 6px 14px rgba(0,0,0,.15);`;
+    }
+    const radius = s&&(s.id===9||s.id===2)?'20px':s&&s.id===4?'0':'12px';
+    const cardBg = s&&s.id===3?`rgba(255,255,255,.1)`:s&&s.id===7?'#0a0a0a':'#fff';
+    const cardTxt = (s&&(s.id===3||s.id===7))||(!c&&!s)?'#fff':txt;
+    const pageBg = s&&s.id===3?`linear-gradient(135deg,${pri},${sec})`:s&&s.id===7?'#000':bg;
+
+    // Load typo font
+    if(t){const u=t.css.match(/url\('([^']+)'\)/)?.[1];if(u&&!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}}
+
+    frame.innerHTML=`
+    <div style="background:${pageBg};min-height:600px;padding:0;font-family:${bf};font-weight:${bw};color:${txt};">
+        <!-- NAV -->
+        <nav style="display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(128,128,128,.15);">
+            <span style="font-family:${hf};font-weight:800;font-size:1.3rem;color:${pri};">BRAND</span>
+            <div style="display:flex;gap:24px;font-size:.85rem;opacity:.7;"><span>Products</span><span>Pricing</span><span>Blog</span></div>
+            <button style="background:${cta};color:#fff;border:none;padding:8px 20px;border-radius:${radius};font-size:.82rem;font-weight:600;cursor:pointer;">Sign Up</button>
+        </nav>
+        <!-- HERO -->
+        <div style="padding:60px 32px 40px;max-width:600px;">
+            <h1 style="font-family:${hf};font-weight:${hw};font-size:2.4rem;line-height:1.15;margin-bottom:16px;">Transformez votre <span style="color:${pri};">business</span> aujourd'hui</h1>
+            <p style="font-size:1.05rem;opacity:.7;margin-bottom:24px;line-height:1.6;">La solution tout-en-un pour les entrepreneurs qui veulent passer au niveau supérieur.</p>
+            <div style="display:flex;gap:12px;">
+                <button style="background:${cta};color:#fff;border:none;padding:14px 28px;border-radius:${radius};font-size:.95rem;font-weight:600;cursor:pointer;">Commencer gratuitement</button>
+                <button style="background:transparent;color:${pri};border:2px solid ${pri};padding:14px 28px;border-radius:${radius};font-size:.95rem;font-weight:500;cursor:pointer;">En savoir plus</button>
             </div>
         </div>
-    `).join('');
-}
-
-function editColor(id, key, val) {
-    const c = COLORS.find(x=>x.id===id);
-    c[key] = val;
-    // Update project too
-    const pi = project.colors.findIndex(x=>x.id===id);
-    if(pi>=0) project.colors[pi] = {...c};
-    renderColors(document.querySelector('#sec-colors .search-bar')?.value || '');
-    updatePanel();
-}
-
-// ===== RENDER STYLES =====
-function renderStyles(search = '') {
-    const grid = document.getElementById('style-grid');
-    const filtered = STYLES.filter(s => !search || (s.name+s.keywords+s.best).toLowerCase().includes(search.toLowerCase()));
-    const sel = new Set(project.styles.map(s=>s.id));
-    
-    grid.innerHTML = filtered.map(s => `
-        <div class="style-card ${sel.has(s.id)?'selected':''}" id="sc-${s.id}">
-            <div class="style-name">${s.name}</div>
-            <div class="typo-tags">${s.keywords.split(', ').map(k=>`<span class="tag">${k}</span>`).join('')}</div>
-            <div class="style-meta">
-                <span>${s.perf} Perf</span>
-                <span>Access: ${s.access}</span>
-                <span>Mobile: ${s.mobile}</span>
+        <!-- CARDS -->
+        <div style="padding:0 32px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+            <div style="background:${cardBg};border-radius:${radius};padding:24px;${styleCSS};color:${s&&(s.id===3||s.id===7)?'#fff':txt};">
+                <div style="font-size:1.8rem;margin-bottom:8px;">🚀</div>
+                <div style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px;">Performance</div>
+                <div style="font-size:.85rem;opacity:.7;">Temps de chargement ultra-rapide pour une meilleure conversion.</div>
             </div>
-            <div class="style-best"><span class="good">✅ ${s.best}</span></div>
-            <div class="style-best"><span class="bad">❌ ${s.avoid}</span></div>
-            <div class="typo-actions" style="margin-top:12px;">
-                <button class="btn ${sel.has(s.id)?'btn-green':'btn-accent'}" onclick="toggleStyle(${s.id})">
-                    ${sel.has(s.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}
-                </button>
+            <div style="background:${cardBg};border-radius:${radius};padding:24px;${styleCSS};color:${s&&(s.id===3||s.id===7)?'#fff':txt};">
+                <div style="font-size:1.8rem;margin-bottom:8px;">🎨</div>
+                <div style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px;">Design</div>
+                <div style="font-size:.85rem;opacity:.7;">Interface élégante et intuitive, adaptée à votre marque.</div>
+            </div>
+            <div style="background:${cardBg};border-radius:${radius};padding:24px;${styleCSS};color:${s&&(s.id===3||s.id===7)?'#fff':txt};">
+                <div style="font-size:1.8rem;margin-bottom:8px;">📈</div>
+                <div style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px;">Analytics</div>
+                <div style="font-size:.85rem;opacity:.7;">Suivez vos métriques en temps réel avec des dashboards clairs.</div>
             </div>
         </div>
-    `).join('');
+        <!-- PRICING -->
+        <div style="padding:0 32px 40px;text-align:center;">
+            <h2 style="font-family:${hf};font-weight:${hw};font-size:1.6rem;margin-bottom:24px;">Tarifs <span style="color:${pri};">simples</span></h2>
+            <div style="display:inline-block;background:${s&&(s.id===3||s.id===7)?cardBg:pri};border-radius:${radius};padding:32px;color:#fff;${styleCSS};text-align:center;">
+                <div style="font-size:.85rem;opacity:.7;margin-bottom:4px;">Pro</div>
+                <div style="font-family:${hf};font-weight:${hw};font-size:2.4rem;">19€<span style="font-size:.9rem;opacity:.6;">/mois</span></div>
+                <button style="background:${cta};color:#fff;border:none;padding:12px 32px;border-radius:${radius};font-size:.9rem;font-weight:600;margin-top:16px;cursor:pointer;">Choisir ce plan</button>
+            </div>
+        </div>
+    </div>`;
 }
 
 // ===== SELECTIONS =====
-function toggleTypo(id) {
-    const i = project.typos.findIndex(t=>t.id===id);
-    if(i>=0) { project.typos.splice(i,1); } else {
-        const t = TYPOS.find(x=>x.id===id);
-        project.typos.push({...t, hw:t._hw||600, bw:t._bw||400});
-    }
-    renderTypos(document.querySelector('#sec-typo .search-bar')?.value||'');
-    updatePanel();
+function togTypo(id){const i=project.typos.findIndex(t=>t.id===id);if(i>=0)project.typos.splice(i,1);else{const t=TYPOS.find(x=>x.id===id);project.typos.push({...t,hw:t._hw||600,bw:t._bw||400});}renderTypos(document.querySelector('#sec-typo .search-bar')?.value||'');updatePanel();}
+function togColor(id){const i=project.colors.findIndex(c=>c.id===id);if(i>=0)project.colors.splice(i,1);else project.colors.push({...COLORS.find(x=>x.id===id)});renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');updatePanel();}
+function togStyle(id){const i=project.styles.findIndex(s=>s.id===id);if(i>=0)project.styles.splice(i,1);else project.styles.push({...STYLES.find(x=>x.id===id)});renderStyles(document.querySelector('#sec-styles .search-bar')?.value||'');updatePanel();}
+function removeTypo(id){project.typos=project.typos.filter(t=>t.id!==id);renderTypos();updatePanel();}
+function removeColor(id){project.colors=project.colors.filter(c=>c.id!==id);renderColors();updatePanel();}
+function removeStyle(id){project.styles=project.styles.filter(s=>s.id!==id);renderStyles();updatePanel();}
+function clearAll(){project={typos:[],colors:[],styles:[]};renderTypos();renderColors();renderStyles();updatePanel();}
+
+// ===== PANEL =====
+function updatePanel(){
+    document.getElementById('panel-typos').innerHTML=project.typos.length===0?'<div class="panel-empty">Aucune</div>':project.typos.map(t=>`<div class="panel-item"><div><div class="panel-item-name">${t.name}</div><div class="panel-item-detail">${t.h} (${t.hw}) + ${t.b} (${t.bw})</div></div><button class="panel-item-remove" onclick="removeTypo(${t.id})">✕</button></div>`).join('');
+    document.getElementById('panel-colors').innerHTML=project.colors.length===0?'<div class="panel-empty">Aucune</div>':project.colors.map(c=>`<div class="panel-item"><div><div class="panel-item-name">${c.type}</div><div class="panel-color-row">${[c.primary,c.secondary,c.cta,c.bg,c.text].map(h=>`<div class="panel-color-dot" style="background:${h}"></div>`).join('')}</div></div><button class="panel-item-remove" onclick="removeColor(${c.id})">✕</button></div>`).join('');
+    document.getElementById('panel-styles').innerHTML=project.styles.length===0?'<div class="panel-empty">Aucun</div>':project.styles.map(s=>`<div class="panel-item"><div><div class="panel-item-name">${s.name}</div><div class="panel-item-detail">${s.keywords}</div></div><button class="panel-item-remove" onclick="removeStyle(${s.id})">✕</button></div>`).join('');
+    updateExport(); renderPreview();
 }
 
-function toggleColor(id) {
-    const i = project.colors.findIndex(c=>c.id===id);
-    if(i>=0) { project.colors.splice(i,1); } else {
-        project.colors.push({...COLORS.find(x=>x.id===id)});
-    }
-    renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');
-    updatePanel();
+function updateExport(){
+    let css='';
+    project.typos.forEach(t=>{css+=`/* Typography: ${t.name} */\n${t.css}\nh1,h2,h3{font-family:'${t.h}',sans-serif;font-weight:${t.hw};}\nbody,p{font-family:'${t.b}',sans-serif;font-weight:${t.bw};}\n\n`;});
+    project.colors.forEach(c=>{css+=`/* Palette: ${c.type} */\n:root{\n  --primary:${c.primary};\n  --secondary:${c.secondary};\n  --cta:${c.cta};\n  --bg:${c.bg};\n  --text:${c.text};\n}\n\n`;});
+    project.styles.forEach(s=>{css+=`/* Style: ${s.name} — ${s.keywords} */\n/* Best for: ${s.best} */\n\n`;});
+    document.getElementById('export-css').textContent=css||'/* Sélectionne des éléments */';
 }
 
-function toggleStyle(id) {
-    const i = project.styles.findIndex(s=>s.id===id);
-    if(i>=0) { project.styles.splice(i,1); } else {
-        project.styles.push({...STYLES.find(x=>x.id===id)});
-    }
-    renderStyles(document.querySelector('#sec-styles .search-bar')?.value||'');
-    updatePanel();
+function generateBrief(){
+    let b='=== BRIEF DESIGN POUR IA ===\n\n';
+    if(project.typos.length){b+='## TYPOGRAPHIES\n';project.typos.forEach(t=>{b+=`- ${t.name}: Titres "${t.h}" (${t.hw}), Corps "${t.b}" (${t.bw})\n  ${t.css}\n`;});b+='\n';}
+    if(project.colors.length){b+='## COULEURS\n';project.colors.forEach(c=>{b+=`- ${c.type}: Primary ${c.primary}, Secondary ${c.secondary}, CTA ${c.cta}, BG ${c.bg}, Text ${c.text}\n`;});b+='\n';}
+    if(project.styles.length){b+='## STYLES UI\n';project.styles.forEach(s=>{b+=`- ${s.name}: ${s.keywords}\n  Best: ${s.best}\n`;});b+='\n';}
+    b+='## CSS\n```css\n'+document.getElementById('export-css').textContent+'\n```';return b;
 }
-
-function removeTypo(id) { project.typos = project.typos.filter(t=>t.id!==id); renderTypos(); updatePanel(); }
-function removeColor(id) { project.colors = project.colors.filter(c=>c.id!==id); renderColors(); updatePanel(); }
-function removeStyle(id) { project.styles = project.styles.filter(s=>s.id!==id); renderStyles(); updatePanel(); }
-function clearAll() { project={typos:[],colors:[],styles:[]}; renderTypos(); renderColors(); renderStyles(); updatePanel(); }
-
-// ===== PANEL UPDATE =====
-function updatePanel() {
-    // Typos
-    const pt = document.getElementById('panel-typos');
-    pt.innerHTML = project.typos.length === 0 ? '<div class="panel-empty">Aucune typo</div>' :
-        project.typos.map(t => `
-        <div class="panel-item">
-            <div><div class="panel-item-name">${t.name}</div><div class="panel-item-detail">${t.h} (${t.hw}) + ${t.b} (${t.bw})</div></div>
-            <button class="panel-item-remove" onclick="removeTypo(${t.id})">✕</button>
-        </div>`).join('');
-    
-    // Colors
-    const pc = document.getElementById('panel-colors');
-    pc.innerHTML = project.colors.length === 0 ? '<div class="panel-empty">Aucune palette</div>' :
-        project.colors.map(c => `
-        <div class="panel-item">
-            <div>
-                <div class="panel-item-name">${c.type}</div>
-                <div class="panel-color-row">
-                    ${[c.primary,c.secondary,c.cta,c.bg,c.text].map(h=>`<div class="panel-color-dot" style="background:${h}" title="${h}"></div>`).join('')}
-                </div>
-            </div>
-            <button class="panel-item-remove" onclick="removeColor(${c.id})">✕</button>
-        </div>`).join('');
-    
-    // Styles
-    const ps = document.getElementById('panel-styles');
-    ps.innerHTML = project.styles.length === 0 ? '<div class="panel-empty">Aucun style</div>' :
-        project.styles.map(s => `
-        <div class="panel-item">
-            <div><div class="panel-item-name">${s.name}</div><div class="panel-item-detail">${s.keywords}</div></div>
-            <button class="panel-item-remove" onclick="removeStyle(${s.id})">✕</button>
-        </div>`).join('');
-    
-    // CSS Export
-    updateExport();
-}
-
-function updateExport() {
-    let css = '';
-    
-    project.typos.forEach(t => {
-        css += `/* Typography: ${t.name} */\n${t.css}\nh1,h2,h3 { font-family: '${t.h}', sans-serif; font-weight: ${t.hw}; }\nbody,p { font-family: '${t.b}', sans-serif; font-weight: ${t.bw}; }\n\n`;
-    });
-    
-    project.colors.forEach(c => {
-        css += `/* Palette: ${c.type} — ${c.note} */\n:root {\n  --primary: ${c.primary};\n  --secondary: ${c.secondary};\n  --cta: ${c.cta};\n  --bg: ${c.bg};\n  --text: ${c.text};\n}\n\n`;
-    });
-    
-    project.styles.forEach(s => {
-        css += `/* Style: ${s.name} — ${s.keywords} */\n/* Best for: ${s.best} */\n\n`;
-    });
-    
-    document.getElementById('export-css').textContent = css || '/* Sélectionne des éléments pour générer le CSS */';
-}
-
-function generateBrief() {
-    let brief = '=== BRIEF DESIGN POUR IA ===\n\n';
-    
-    if (project.typos.length) {
-        brief += '## TYPOGRAPHIES\n';
-        project.typos.forEach(t => {
-            brief += `- ${t.name}: Titres en "${t.h}" (weight ${t.hw}), Corps en "${t.b}" (weight ${t.bw})\n`;
-            brief += `  Import: ${t.css}\n`;
-        });
-        brief += '\n';
-    }
-    
-    if (project.colors.length) {
-        brief += '## COULEURS\n';
-        project.colors.forEach(c => {
-            brief += `- ${c.type}: Primary ${c.primary}, Secondary ${c.secondary}, CTA ${c.cta}, BG ${c.bg}, Text ${c.text}\n`;
-            brief += `  Note: ${c.note}\n`;
-        });
-        brief += '\n';
-    }
-    
-    if (project.styles.length) {
-        brief += '## STYLES UI\n';
-        project.styles.forEach(s => {
-            brief += `- ${s.name}: ${s.keywords}\n  Best for: ${s.best}\n`;
-        });
-        brief += '\n';
-    }
-    
-    brief += '## CSS COMPLET\n```css\n' + document.getElementById('export-css').textContent + '\n```';
-    return brief;
-}
-
-function copyExport() {
-    navigator.clipboard.writeText(document.getElementById('export-css').textContent);
-    toast('CSS copié !');
-}
-
-function copyBrief() {
-    navigator.clipboard.writeText(generateBrief());
-    toast('Brief complet copié ! Colle-le dans Claude Code');
-}
+function copyExport(){navigator.clipboard.writeText(document.getElementById('export-css').textContent);toast('CSS copié !');}
+function copyBrief(){navigator.clipboard.writeText(generateBrief());toast('Brief copié ! Colle dans Claude Code');}
 
 // ===== UI =====
-function showTab(id, el) {
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('sec-'+id).classList.add('active');
-    el.classList.add('active');
-}
-
-function setTypoCat(el) {
-    typoCat = el.dataset.cat;
-    document.querySelectorAll('#typo-filters .filter-tag').forEach(f=>f.classList.remove('active'));
-    el.classList.add('active');
-    renderTypos(document.querySelector('#sec-typo .search-bar')?.value||'');
-}
-
-function toast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = '✅ ' + msg;
-    t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 2000);
-}
+function showTab(id,el){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');if(id==='preview')renderPreview();}
+function setTypoCat(el){typoCat=el.dataset.cat;document.querySelectorAll('#typo-filters .filter-tag').forEach(f=>f.classList.remove('active'));el.classList.add('active');renderTypos();}
+function setPreviewSize(el,w){document.getElementById('preview-frame').style.maxWidth=w;document.querySelectorAll('.preview-size-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function toast(msg){const t=document.getElementById('toast');t.textContent='✅ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 
 // INIT
-renderTypos(); renderColors(); renderStyles();
+renderTypos();renderColors();renderStyles();renderPreview();
 </script>
 </body>
 </html>
