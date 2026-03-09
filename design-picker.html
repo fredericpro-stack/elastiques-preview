@@ -3,173 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎨 Design Picker Pro</title>
+    <title>🎨 UX Design Studio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root { --bg:#0a0a0f; --bg2:#12121a; --bg3:#1a1a25; --border:#2a2a3a; --text:#e0e0e0; --text2:#888; --accent:#FF4D00; --accent2:#FF6B2C; --green:#22C55E; --radius:12px; }
+        :root{--bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a25;--border:#2a2a3a;--text:#e0e0e0;--text2:#888;--accent:#FF4D00;--accent2:#FF6B2C;--green:#22C55E;--radius:12px;}
         *{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);}
-        .app{display:grid;grid-template-columns:1fr 380px;min-height:100vh;}
-        @media(max-width:1024px){.app{grid-template-columns:1fr;}.project-panel{position:fixed;bottom:0;left:0;right:0;height:60px;overflow:hidden;transition:height .3s;z-index:200;border-top:1px solid var(--border);border-left:none;}.project-panel.expanded{height:85vh;}.panel-toggle{display:flex!important;}}
+        .app{display:grid;grid-template-columns:1fr 360px;min-height:100vh;}
+        @media(max-width:1100px){.app{grid-template-columns:1fr;}.project-panel{position:fixed;bottom:0;left:0;right:0;height:54px;overflow:hidden;transition:height .3s;z-index:200;border-top:1px solid var(--border);border-left:none;}.project-panel.expanded{height:85vh;}.panel-toggle{display:flex!important;}}
         .main{overflow-y:auto;max-height:100vh;}
-        .app-header{padding:20px 28px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;}
-        .app-header h1{font-size:1.5rem;}.app-header h1 span{color:var(--accent);}
-        .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:49;overflow-x:auto;}
-        .tab{padding:13px 22px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;font-size:.88rem;transition:.2s;}
+        .app-header{padding:16px 24px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;}
+        .app-header h1{font-size:1.3rem;}.app-header h1 span{color:var(--accent);}
+        .header-badge{font-size:.65rem;background:var(--accent);color:#fff;padding:2px 8px;border-radius:100px;}
+        .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:56px;z-index:49;overflow-x:auto;}
+        .tab{padding:11px 18px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;font-size:.82rem;transition:.2s;}
         .tab:hover{color:var(--text);}.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
-        .section{display:none;padding:24px 28px;}.section.active{display:block;}
-        .section-title{font-size:1.2rem;margin-bottom:4px;}.section-desc{color:var(--text2);font-size:.82rem;margin-bottom:16px;}
-        .search-bar{width:100%;padding:11px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:.9rem;margin-bottom:14px;}.search-bar:focus{outline:none;border-color:var(--accent);}
-        .filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
-        .filter-tag{padding:5px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:100px;font-size:.78rem;cursor:pointer;color:var(--text2);}.filter-tag:hover,.filter-tag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-        .btn{padding:8px 16px;border-radius:8px;border:none;font-size:.8rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s;}
-        .btn-accent{background:var(--accent);color:#fff;}.btn-accent:hover{background:var(--accent2);}
-        .btn-green{background:var(--green);color:#fff;}
-        .btn-outline{background:none;border:1px solid var(--border);color:var(--text2);}.btn-outline:hover{border-color:var(--text);color:var(--text);}
-        .tag{font-size:.68rem;padding:2px 7px;background:var(--bg3);border-radius:4px;color:var(--text2);}
+        .section{display:none;padding:20px 24px;}.section.active{display:block;}
+        .section-title{font-size:1.15rem;margin-bottom:4px;}.section-desc{color:var(--text2);font-size:.8rem;margin-bottom:14px;}
+        .search-bar{width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);font-size:.85rem;margin-bottom:12px;}.search-bar:focus{outline:none;border-color:var(--accent);}
+        .filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px;}
+        .ftag{padding:4px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:100px;font-size:.72rem;cursor:pointer;color:var(--text2);}.ftag:hover,.ftag.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+        .btn{padding:7px 14px;border-radius:8px;border:none;font-size:.78rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:.2s;}
+        .btn-a{background:var(--accent);color:#fff;}.btn-a:hover{background:var(--accent2);}
+        .btn-g{background:var(--green);color:#fff;}
+        .btn-o{background:none;border:1px solid var(--border);color:var(--text2);}.btn-o:hover{border-color:var(--text);color:var(--text);}
+        .tag{font-size:.65rem;padding:2px 6px;background:var(--bg3);border-radius:3px;color:var(--text2);}
+        .tags{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:6px;}
+
+        /* GRIDS */
+        .grid{display:grid;gap:16px;}
+        .g2{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));}
+        .g3{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));}
+
+        /* CARDS */
+        .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
+        .card:hover{border-color:var(--accent);}.card.sel{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
+        .card-visual{height:200px;overflow:hidden;position:relative;}
+        .card-info{padding:14px 16px;}
+        .card-name{font-weight:700;color:var(--accent);font-size:.92rem;margin-bottom:4px;}
+        .card-desc{font-size:.78rem;color:var(--text2);margin-bottom:6px;}
+        .card-meta{display:flex;gap:10px;font-size:.72rem;color:var(--text2);margin:6px 0;}
+        .card-actions{margin-top:8px;}
 
         /* TYPO */
-        .typo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:18px;}
-        .typo-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
-        .typo-card:hover{border-color:var(--accent);}.typo-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
-        .typo-preview{padding:24px 20px;background:#fff;color:#111;min-height:120px;}
-        .typo-preview h2{font-size:1.7rem;margin-bottom:4px;line-height:1.2;}
-        .typo-preview p{font-size:.9rem;color:#555;line-height:1.5;}
-        .typo-info{padding:14px 18px;}
-        .typo-name{font-weight:700;color:var(--accent);margin-bottom:2px;font-size:.95rem;}
-        .typo-fonts{font-size:.78rem;color:var(--text2);margin-bottom:6px;}
-        .typo-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;}
-        .weight-controls{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
-        .weight-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.82rem;}
-        .weight-row label{width:50px;color:var(--text2);font-size:.75rem;}
-        .weight-row input[type=range]{flex:1;accent-color:var(--accent);}
-        .weight-row .wv{width:28px;text-align:center;font-weight:600;font-size:.75rem;}
-        .weight-preview{margin-top:6px;padding:10px;background:#fff;border-radius:6px;color:#111;}
-        .typo-actions{display:flex;gap:8px;margin-top:10px;}
+        .typo-preview{padding:20px 18px;background:#fff;color:#111;min-height:100px;}
+        .typo-preview h2{font-size:1.5rem;margin-bottom:3px;line-height:1.2;}
+        .typo-preview p{font-size:.85rem;color:#555;line-height:1.4;}
+        .wr{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:.78rem;}
+        .wr label{width:44px;color:var(--text2);font-size:.7rem;}
+        .wr input[type=range]{flex:1;accent-color:var(--accent);}
+        .wr .wv{width:26px;text-align:center;font-weight:600;font-size:.7rem;}
+        .wp{margin-top:5px;padding:8px;background:#fff;border-radius:5px;color:#111;}
+        .wc{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
 
         /* COLOR */
-        .color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;}
-        .color-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
-        .color-card:hover{border-color:var(--accent);}.color-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
-        .color-swatches{display:flex;height:50px;}
-        .color-swatch{flex:1;cursor:pointer;position:relative;}
-        .color-swatch:hover::after{content:attr(data-label);position:absolute;bottom:2px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:2px 6px;border-radius:3px;font-size:.6rem;white-space:nowrap;}
-        .color-live{padding:14px;}
-        .color-live-inner{padding:14px;border-radius:8px;}
-        .color-live-inner h3{font-size:1rem;margin-bottom:4px;}
-        .color-live-inner p{font-size:.82rem;opacity:.8;margin-bottom:8px;}
-        .color-live-inner button{padding:7px 18px;border:none;border-radius:6px;font-weight:600;font-size:.82rem;cursor:pointer;}
-        .color-info{padding:12px 16px;}
-        .color-name{font-weight:700;color:var(--accent);font-size:.9rem;}
-        .color-note{font-size:.75rem;color:var(--text2);margin-bottom:8px;}
-        .hex-edit-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;font-size:.75rem;}
-        .hex-label{width:60px;color:var(--text2);}
-        .hex-color-input{width:28px;height:22px;border:none;border-radius:3px;cursor:pointer;background:none;padding:0;}
-        .hex-text-input{width:72px;padding:3px 6px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:.75rem;font-family:monospace;}.hex-text-input:focus{border-color:var(--accent);outline:none;}
+        .cswatches{display:flex;height:44px;}
+        .csw{flex:1;cursor:pointer;position:relative;}
+        .csw:hover::after{content:attr(data-l);position:absolute;bottom:2px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:1px 5px;border-radius:3px;font-size:.55rem;white-space:nowrap;}
+        .clive{padding:12px;}.clive-in{padding:12px;border-radius:8px;}
+        .hr{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-size:.72rem;}
+        .hr .hl{width:54px;color:var(--text2);}.hr input[type=color]{width:24px;height:20px;border:none;border-radius:2px;cursor:pointer;padding:0;background:none;}
+        .hr .ht{width:68px;padding:2px 5px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text);font-size:.7rem;font-family:monospace;}.hr .ht:focus{border-color:var(--accent);outline:none;}
 
-        /* STYLE - visual previews */
-        .style-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
-        .style-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;}
-        .style-card:hover{border-color:var(--accent);}.style-card.selected{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.3);}
-        .style-visual{height:200px;overflow:hidden;position:relative;}
-        .style-info{padding:16px 18px;}
-        .style-name{font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:6px;}
-        .style-meta{display:flex;gap:12px;font-size:.78rem;color:var(--text2);margin:8px 0;}
-        .style-best{font-size:.8rem;margin-bottom:3px;}.good{color:var(--green);}.bad{color:#EF4444;}
-
-        /* LIVE PREVIEW */
-        .preview-frame{width:100%;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;min-height:600px;}
-        .preview-toolbar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap;}
-        .preview-size-btn{padding:6px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:.8rem;}
-        .preview-size-btn.active{border-color:var(--accent);color:var(--accent);}
+        /* PREVIEW */
+        .preview-frame{width:100%;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;min-height:700px;transition:max-width .3s;}
+        .ptoolbar{display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap;}
+        .psbtn{padding:5px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;font-size:.75rem;}.psbtn.active{border-color:var(--accent);color:var(--accent);}
 
         /* PANEL */
         .project-panel{background:var(--bg2);border-left:1px solid var(--border);overflow-y:auto;max-height:100vh;position:sticky;top:0;}
-        .panel-toggle{display:none;justify-content:center;padding:10px;cursor:pointer;font-weight:600;color:var(--accent);font-size:.85rem;}
-        .panel-header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-        .panel-header h2{font-size:1rem;}
-        .panel-section{padding:14px 18px;border-bottom:1px solid var(--border);}
-        .panel-section-title{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:8px;}
-        .panel-item{background:var(--bg3);border-radius:8px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;}
-        .panel-item-name{font-weight:600;font-size:.82rem;}.panel-item-detail{font-size:.7rem;color:var(--text2);}
-        .panel-item-remove{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.85rem;}
-        .panel-empty{color:var(--text2);font-size:.8rem;font-style:italic;}
-        .panel-color-row{display:flex;gap:3px;margin-top:4px;}
-        .panel-color-dot{width:16px;height:16px;border-radius:50%;border:1px solid var(--border);}
-        .export-box{background:var(--bg);border-radius:8px;padding:12px;font-family:monospace;font-size:.7rem;line-height:1.5;white-space:pre-wrap;max-height:250px;overflow-y:auto;border:1px solid var(--border);color:#ccc;}
-        .export-actions{display:flex;gap:8px;margin-top:10px;}
-        .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:10px 24px;border-radius:100px;font-size:.85rem;font-weight:600;opacity:0;transition:.3s;z-index:999;pointer-events:none;}.toast.show{opacity:1;}
-        @media(max-width:768px){.typo-grid,.color-grid,.style-grid{grid-template-columns:1fr;}.section{padding:16px;}}
+        .panel-toggle{display:none;justify-content:center;padding:10px;cursor:pointer;font-weight:600;color:var(--accent);font-size:.82rem;}
+        .panel-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+        .panel-header h2{font-size:.95rem;}
+        .ps{padding:12px 16px;border-bottom:1px solid var(--border);}
+        .ps-title{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:6px;}
+        .pi{background:var(--bg3);border-radius:6px;padding:8px 10px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;}
+        .pi-name{font-weight:600;font-size:.78rem;}.pi-det{font-size:.65rem;color:var(--text2);}
+        .pi-rm{background:none;border:none;color:#EF4444;cursor:pointer;font-size:.8rem;}
+        .pe{color:var(--text2);font-size:.75rem;font-style:italic;}
+        .pcd{display:flex;gap:2px;margin-top:3px;}.pcdot{width:14px;height:14px;border-radius:50%;border:1px solid var(--border);}
+        .ebox{background:var(--bg);border-radius:6px;padding:10px;font-family:monospace;font-size:.65rem;line-height:1.4;white-space:pre-wrap;max-height:200px;overflow-y:auto;border:1px solid var(--border);color:#ccc;}
+        .eacts{display:flex;gap:6px;margin-top:8px;}
+        .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:9px 22px;border-radius:100px;font-size:.82rem;font-weight:600;opacity:0;transition:.3s;z-index:999;pointer-events:none;}.toast.show{opacity:1;}
+        @media(max-width:768px){.g2,.g3{grid-template-columns:1fr;}.section{padding:14px;}}
+        /* anim keyframes for preview */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+        @keyframes slideL{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
+        @keyframes slideR{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);}}
+        @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+        @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+        @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+        @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
     </style>
 </head>
 <body>
 <div class="app">
 <div class="main">
-    <header class="app-header"><h1>🎨 Design <span>Picker Pro</span></h1></header>
+    <header class="app-header">
+        <h1>🎨 <span>UX</span> Design Studio</h1>
+        <span class="header-badge">v4 — Complet</span>
+    </header>
     <div class="tabs">
         <div class="tab active" onclick="showTab('typo',this)">🔤 Typos</div>
         <div class="tab" onclick="showTab('colors',this)">🎨 Couleurs</div>
         <div class="tab" onclick="showTab('styles',this)">✨ Styles</div>
-        <div class="tab" onclick="showTab('preview',this)">👁️ Preview Live</div>
+        <div class="tab" onclick="showTab('heroes',this)">🦸 Héros</div>
+        <div class="tab" onclick="showTab('blocks',this)">🧱 Blocs</div>
+        <div class="tab" onclick="showTab('anims',this)">🎬 Animations</div>
+        <div class="tab" onclick="showTab('preview',this)">👁️ Preview</div>
     </div>
 
     <!-- TYPO -->
     <div class="section active" id="sec-typo">
         <h2 class="section-title">Typographies</h2>
-        <p class="section-desc">Ajuste les graisses avec les sliders. Ajoute au projet.</p>
-        <input class="search-bar" placeholder="Rechercher (luxury, startup, fitness...)" oninput="renderTypos(this.value)">
-        <div class="filters" id="typo-filters">
-            <span class="filter-tag active" data-cat="all" onclick="setTypoCat(this)">Tous</span>
-            <span class="filter-tag" data-cat="Sans" onclick="setTypoCat(this)">Sans</span>
-            <span class="filter-tag" data-cat="Serif" onclick="setTypoCat(this)">Serif</span>
-            <span class="filter-tag" data-cat="Display" onclick="setTypoCat(this)">Display</span>
-            <span class="filter-tag" data-cat="Mono" onclick="setTypoCat(this)">Mono</span>
+        <p class="section-desc">Ajuste les graisses avec les sliders, ajoute au projet.</p>
+        <input class="search-bar" placeholder="Rechercher (luxe, sport, fitness, startup...)" oninput="renderTypos(this.value)">
+        <div class="filters" id="tf">
+            <span class="ftag active" data-c="all" onclick="setTCat(this)">Tous</span>
+            <span class="ftag" data-c="Sans" onclick="setTCat(this)">Sans</span>
+            <span class="ftag" data-c="Serif" onclick="setTCat(this)">Serif</span>
+            <span class="ftag" data-c="Display" onclick="setTCat(this)">Display</span>
         </div>
-        <div class="typo-grid" id="typo-grid"></div>
+        <div class="grid g2" id="typo-grid"></div>
     </div>
 
     <!-- COLORS -->
     <div class="section" id="sec-colors">
         <h2 class="section-title">Palettes de couleurs</h2>
         <p class="section-desc">Clique sur les color pickers pour personnaliser chaque couleur.</p>
-        <input class="search-bar" placeholder="Rechercher (e-commerce, saas, fitness...)" oninput="renderColors(this.value)">
-        <div class="color-grid" id="color-grid"></div>
+        <input class="search-bar" placeholder="Rechercher (e-commerce, fitness, luxe...)" oninput="renderColors(this.value)">
+        <div class="grid g3" id="color-grid"></div>
     </div>
 
     <!-- STYLES -->
     <div class="section" id="sec-styles">
         <h2 class="section-title">Styles UI</h2>
-        <p class="section-desc">Chaque style a un visuel. Clique pour l'ajouter au projet.</p>
-        <input class="search-bar" placeholder="Rechercher (glass, brutal, minimal...)" oninput="renderStyles(this.value)">
-        <div class="style-grid" id="style-grid"></div>
+        <p class="section-desc">Chaque style a un visuel. Clique pour ajouter au projet.</p>
+        <input class="search-bar" placeholder="Rechercher (glass, brutal, néon...)" oninput="renderStyles(this.value)">
+        <div class="grid g2" id="style-grid"></div>
     </div>
 
-    <!-- LIVE PREVIEW -->
+    <!-- HEROES -->
+    <div class="section" id="sec-heroes">
+        <h2 class="section-title">Sections Héro</h2>
+        <p class="section-desc">Le premier écran que voit ton visiteur. Choisis un layout.</p>
+        <input class="search-bar" placeholder="Rechercher (centré, split, vidéo...)" oninput="renderHeroes(this.value)">
+        <div class="grid g2" id="hero-grid"></div>
+    </div>
+
+    <!-- BLOCKS -->
+    <div class="section" id="sec-blocks">
+        <h2 class="section-title">Blocs de contenu</h2>
+        <p class="section-desc">Les sections qui composent ta page. Ajoute-en plusieurs.</p>
+        <input class="search-bar" placeholder="Rechercher (features, prix, témoignages...)" oninput="renderBlocks(this.value)">
+        <div class="grid g2" id="block-grid"></div>
+    </div>
+
+    <!-- ANIMATIONS -->
+    <div class="section" id="sec-anims">
+        <h2 class="section-title">Animations</h2>
+        <p class="section-desc">Choisis les animations pour tes sections. Clique "Rejouer" pour voir l'effet.</p>
+        <div class="grid g3" id="anim-grid"></div>
+    </div>
+
+    <!-- PREVIEW -->
     <div class="section" id="sec-preview">
-        <h2 class="section-title">👁️ Preview Live</h2>
-        <p class="section-desc">Voici le rendu combiné de tes sélections. Change en temps réel.</p>
-        <div class="preview-toolbar">
-            <button class="preview-size-btn active" onclick="setPreviewSize(this,'100%')">Desktop</button>
-            <button class="preview-size-btn" onclick="setPreviewSize(this,'768px')">Tablette</button>
-            <button class="preview-size-btn" onclick="setPreviewSize(this,'375px')">Mobile</button>
+        <h2 class="section-title">👁️ Preview combinée</h2>
+        <p class="section-desc">Tout ce que tu as sélectionné, combiné sur une vraie page.</p>
+        <div class="ptoolbar">
+            <button class="psbtn active" onclick="setPSize(this,'100%')">💻 Desktop</button>
+            <button class="psbtn" onclick="setPSize(this,'768px')">📱 Tablette</button>
+            <button class="psbtn" onclick="setPSize(this,'375px')">📱 Mobile</button>
         </div>
         <div class="preview-frame" id="preview-frame"></div>
     </div>
 </div>
 
-<!-- PROJECT PANEL -->
+<!-- PANEL -->
 <aside class="project-panel" id="panel">
     <div class="panel-toggle" onclick="document.getElementById('panel').classList.toggle('expanded')">▲ Mon projet ▲</div>
-    <div class="panel-header"><h2>📁 Mon Projet</h2><button class="btn btn-outline" onclick="clearAll()" style="font-size:.7rem;">Vider</button></div>
-    <div class="panel-section"><div class="panel-section-title">🔤 Typographies</div><div id="panel-typos"><div class="panel-empty">Aucune</div></div></div>
-    <div class="panel-section"><div class="panel-section-title">🎨 Couleurs</div><div id="panel-colors"><div class="panel-empty">Aucune</div></div></div>
-    <div class="panel-section"><div class="panel-section-title">✨ Styles</div><div id="panel-styles"><div class="panel-empty">Aucun</div></div></div>
-    <div class="panel-section">
-        <div class="panel-section-title">📋 Export</div>
-        <div class="export-box" id="export-css">/* Sélectionne des éléments */</div>
-        <div class="export-actions">
-            <button class="btn btn-accent" onclick="copyExport()"><i class="fa-solid fa-copy"></i> CSS</button>
-            <button class="btn btn-green" onclick="copyBrief()"><i class="fa-solid fa-paper-plane"></i> Brief IA</button>
+    <div class="panel-header"><h2>📁 Mon Projet</h2><button class="btn btn-o" onclick="clearAll()" style="font-size:.65rem;">Vider tout</button></div>
+    <div class="ps"><div class="ps-title">🔤 Typos</div><div id="p-typos"><div class="pe">—</div></div></div>
+    <div class="ps"><div class="ps-title">🎨 Couleurs</div><div id="p-colors"><div class="pe">—</div></div></div>
+    <div class="ps"><div class="ps-title">✨ Style</div><div id="p-styles"><div class="pe">—</div></div></div>
+    <div class="ps"><div class="ps-title">🦸 Héro</div><div id="p-heroes"><div class="pe">—</div></div></div>
+    <div class="ps"><div class="ps-title">🧱 Blocs</div><div id="p-blocks"><div class="pe">—</div></div></div>
+    <div class="ps"><div class="ps-title">🎬 Animation</div><div id="p-anims"><div class="pe">—</div></div></div>
+    <div class="ps">
+        <div class="ps-title">📋 Export</div>
+        <div class="ebox" id="export-css">/* Sélectionne des éléments */</div>
+        <div class="eacts">
+            <button class="btn btn-a" onclick="copyCSS()"><i class="fa-solid fa-copy"></i> CSS</button>
+            <button class="btn btn-g" onclick="copyBrief()"><i class="fa-solid fa-paper-plane"></i> Brief IA</button>
         </div>
     </div>
 </aside>
@@ -177,297 +204,257 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== DATA =====
+// ==================== DATA ====================
+
 const TYPOS=[
-{id:1,name:"Classic Elegant",cat:"Serif + Sans",h:"Playfair Display",b:"Inter",mood:"elegant, luxury, sophisticated",best:"Luxury, fashion, spa",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');"},
-{id:2,name:"Modern Professional",cat:"Sans + Sans",h:"Poppins",b:"Open Sans",mood:"modern, professional, clean",best:"SaaS, corporate, startups",css:"@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');"},
-{id:3,name:"Tech Startup",cat:"Sans + Sans",h:"Space Grotesk",b:"DM Sans",mood:"tech, startup, innovative",best:"Tech, SaaS, AI",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');"},
-{id:5,name:"Minimal Swiss",cat:"Sans + Sans",h:"Inter",b:"Inter",mood:"minimal, clean, functional",best:"Dashboards, admin, docs",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');"},
-{id:7,name:"Bold Statement",cat:"Display + Sans",h:"Bebas Neue",b:"Source Sans 3",mood:"bold, impactful, dramatic",best:"Marketing, portfolios",css:"@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');"},
-{id:8,name:"Wellness Calm",cat:"Serif + Sans",h:"Lora",b:"Raleway",mood:"calm, wellness, natural",best:"Health, spa, yoga",css:"@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');"},
-{id:11,name:"Geometric Modern",cat:"Sans + Sans",h:"Outfit",b:"Work Sans",mood:"geometric, modern, balanced",best:"Portfolios, agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');"},
-{id:12,name:"Luxury Serif",cat:"Serif + Sans",h:"Cormorant",b:"Montserrat",mood:"luxury, high-end, elegant",best:"Fashion, luxury e-commerce",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');"},
-{id:13,name:"Friendly SaaS",cat:"Sans + Sans",h:"Plus Jakarta Sans",b:"Plus Jakarta Sans",mood:"friendly, modern, clean",best:"SaaS, web apps",css:"@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');"},
-{id:18,name:"Fashion Forward",cat:"Sans + Sans",h:"Syne",b:"Manrope",mood:"fashion, avant-garde, bold",best:"Fashion, creative agencies",css:"@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');"},
-{id:39,name:"Startup Bold",cat:"Sans + Sans",h:"Outfit",b:"Rubik",mood:"startup, bold, innovative",best:"Startups, launches",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
-{id:40,name:"E-commerce Clean",cat:"Sans + Sans",h:"Rubik",b:"Nunito Sans",mood:"ecommerce, clean, shopping",best:"E-commerce, retail",css:"@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
-{id:49,name:"Sports/Fitness",cat:"Sans + Sans",h:"Barlow Condensed",b:"Barlow",mood:"sports, fitness, athletic",best:"Sports, fitness, gyms",css:"@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');"},
-{id:57,name:"Gen Z Brutal",cat:"Display + Sans",h:"Anton",b:"Epilogue",mood:"brutal, loud, bold",best:"Gen Z, streetwear",css:"@import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap');"},
+{id:1,name:"Classique Élégant",cat:"Serif + Sans",h:"Playfair Display",b:"Inter",mood:"élégant, luxe, raffiné",best:"Luxe, mode, spa",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');"},
+{id:2,name:"Pro Moderne",cat:"Sans + Sans",h:"Poppins",b:"Open Sans",mood:"moderne, professionnel, clean",best:"SaaS, corporate, startup",css:"@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');"},
+{id:3,name:"Tech Startup",cat:"Sans + Sans",h:"Space Grotesk",b:"DM Sans",mood:"tech, startup, innovant",best:"Tech, SaaS, IA",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');"},
+{id:5,name:"Minimal Suisse",cat:"Sans + Sans",h:"Inter",b:"Inter",mood:"minimal, épuré, fonctionnel",best:"Dashboards, admin, docs",css:"@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');"},
+{id:7,name:"Impact Bold",cat:"Display + Sans",h:"Bebas Neue",b:"Source Sans 3",mood:"impact, puissant, dramatique",best:"Marketing, événements",css:"@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');"},
+{id:8,name:"Bien-être",cat:"Serif + Sans",h:"Lora",b:"Raleway",mood:"calme, naturel, zen",best:"Santé, yoga, bio",css:"@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap');"},
+{id:11,name:"Géométrique Moderne",cat:"Sans + Sans",h:"Outfit",b:"Work Sans",mood:"géométrique, équilibré",best:"Portfolios, agences",css:"@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');"},
+{id:12,name:"Luxe Serif",cat:"Serif + Sans",h:"Cormorant",b:"Montserrat",mood:"luxe, haut de gamme",best:"Mode luxe, bijouterie",css:"@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');"},
+{id:13,name:"SaaS Friendly",cat:"Sans + Sans",h:"Plus Jakarta Sans",b:"Plus Jakarta Sans",mood:"amical, moderne, propre",best:"SaaS, apps web",css:"@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');"},
+{id:18,name:"Mode Avant-garde",cat:"Sans + Sans",h:"Syne",b:"Manrope",mood:"mode, audacieux, avant-garde",best:"Mode, agences créa",css:"@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap');"},
+{id:40,name:"E-commerce Clean",cat:"Sans + Sans",h:"Rubik",b:"Nunito Sans",mood:"e-commerce, propre, vente",best:"Boutique en ligne, retail",css:"@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');"},
+{id:49,name:"Sport / Fitness",cat:"Sans + Sans",h:"Barlow Condensed",b:"Barlow",mood:"sport, fitness, athlétique",best:"Sport, fitness, salle",css:"@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&display=swap');"},
+{id:57,name:"Gen Z Brutal",cat:"Display + Sans",h:"Anton",b:"Epilogue",mood:"brutal, fort, street",best:"Streetwear, Gen Z",css:"@import url('https://fonts.googleapis.com/css2?family=Anton&family=Epilogue:wght@400;500;600;700&display=swap');"},
+{id:60,name:"Éditorial Chic",cat:"Serif + Sans",h:"DM Serif Display",b:"DM Sans",mood:"éditorial, magazine, chic",best:"Blog, magazine, media",css:"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap');"},
 ];
 
 const COLORS=[
-{id:1,type:"SaaS",primary:"#2563EB",secondary:"#3B82F6",cta:"#F97316",bg:"#F8FAFC",text:"#1E293B",note:"Trust blue + orange CTA"},
-{id:3,type:"E-commerce",primary:"#059669",secondary:"#10B981",cta:"#F97316",bg:"#ECFDF5",text:"#064E3B",note:"Green + urgency orange"},
-{id:4,type:"E-commerce Luxury",primary:"#1C1917",secondary:"#44403C",cta:"#CA8A04",bg:"#FAFAF9",text:"#0C0A09",note:"Dark + gold accent"},
-{id:10,type:"Fitness/Gym",primary:"#DC2626",secondary:"#EF4444",cta:"#F97316",bg:"#0F0F0F",text:"#FAFAFA",note:"Red energy + dark bg"},
-{id:11,type:"Wellness",primary:"#059669",secondary:"#6EE7B7",cta:"#F59E0B",bg:"#F0FDF4",text:"#14532D",note:"Natural green + gold CTA"},
-{id:14,type:"Education",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#F5F3FF",text:"#4C1D95",note:"Purple + orange"},
-{id:16,type:"Fashion",primary:"#000000",secondary:"#404040",cta:"#B91C1C",bg:"#FFFFFF",text:"#171717",note:"B&W + red accent"},
-{id:17,type:"Music",primary:"#7C3AED",secondary:"#A855F7",cta:"#EC4899",bg:"#0F0F0F",text:"#FAFAFA",note:"Purple + pink dark"},
-{id:18,type:"Crypto/Web3",primary:"#6366F1",secondary:"#818CF8",cta:"#F59E0B",bg:"#0F0F0F",text:"#E0E7FF",note:"Indigo + gold dark"},
-{id:25,type:"Startup Bold",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#FAFAFA",text:"#1E1B4B",note:"Purple + bold orange"},
-{id:35,type:"Gaming",primary:"#7C3AED",secondary:"#A855F7",cta:"#EF4444",bg:"#09090B",text:"#FAFAFA",note:"Purple + red dark"},
-{id:45,type:"Sports",primary:"#DC2626",secondary:"#1D4ED8",cta:"#F97316",bg:"#FAFAFA",text:"#111827",note:"Red + blue"},
+{id:1,type:"SaaS Confiance",primary:"#2563EB",secondary:"#3B82F6",cta:"#F97316",bg:"#F8FAFC",text:"#1E293B",note:"Bleu confiance + CTA orange"},
+{id:3,type:"E-commerce Vert",primary:"#059669",secondary:"#10B981",cta:"#F97316",bg:"#ECFDF5",text:"#064E3B",note:"Vert nature + urgence orange"},
+{id:4,type:"E-commerce Luxe",primary:"#1C1917",secondary:"#44403C",cta:"#CA8A04",bg:"#FAFAF9",text:"#0C0A09",note:"Noir + or"},
+{id:10,type:"Fitness / Gym",primary:"#DC2626",secondary:"#EF4444",cta:"#F97316",bg:"#0F0F0F",text:"#FAFAFA",note:"Rouge énergie + fond noir"},
+{id:11,type:"Bien-être",primary:"#059669",secondary:"#6EE7B7",cta:"#F59E0B",bg:"#F0FDF4",text:"#14532D",note:"Vert naturel + or"},
+{id:14,type:"Éducation",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#F5F3FF",text:"#4C1D95",note:"Violet savoir + orange"},
+{id:16,type:"Mode",primary:"#000000",secondary:"#404040",cta:"#B91C1C",bg:"#FFFFFF",text:"#171717",note:"Noir & blanc + rouge"},
+{id:25,type:"Startup Audacieux",primary:"#7C3AED",secondary:"#A78BFA",cta:"#F97316",bg:"#FAFAFA",text:"#1E1B4B",note:"Violet + orange bold"},
+{id:45,type:"Sport",primary:"#DC2626",secondary:"#1D4ED8",cta:"#F97316",bg:"#FAFAFA",text:"#111827",note:"Rouge + bleu sport"},
+{id:50,type:"Orange Énergie",primary:"#FF4D00",secondary:"#FF6B2C",cta:"#FF4D00",bg:"#FFF7ED",text:"#1A1A1A",note:"Orange BANDFIT"},
+{id:51,type:"Noir Premium",primary:"#FF4D00",secondary:"#FF6B2C",cta:"#FF4D00",bg:"#0A0A0A",text:"#F5F5F5",note:"Dark + orange BANDFIT"},
+{id:52,type:"Bleu Marine Pro",primary:"#1E3A5F",secondary:"#2563EB",cta:"#FF4D00",bg:"#F0F4F8",text:"#1E293B",note:"Marine + accent orange"},
 ];
 
 const STYLES=[
-{id:1,name:"Minimalism",keywords:"clean, simple, spacious",best:"Dashboards, SaaS",avoid:"Creative portfolios",perf:"⚡",access:"AAA",mobile:"✓",
-visual:`<div style="background:#fff;height:100%;padding:32px;font-family:Inter,sans-serif;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;"><span style="font-weight:700;font-size:1.2rem;color:#000;">Logo</span><div style="display:flex;gap:24px;font-size:.85rem;color:#666;"><span>Products</span><span>Pricing</span><span>About</span></div></div>
-<h1 style="font-size:2.2rem;font-weight:600;color:#000;margin-bottom:12px;max-width:400px;line-height:1.2;">Simple, clean, functional design.</h1>
-<p style="color:#666;font-size:.95rem;margin-bottom:20px;">Less is more. Focus on what matters.</p>
-<button style="background:#000;color:#fff;border:none;padding:10px 24px;border-radius:4px;font-size:.85rem;">Get Started</button>
-<div style="display:flex;gap:16px;margin-top:32px;"><div style="flex:1;padding:16px;border:1px solid #e5e5e5;border-radius:4px;"><div style="font-weight:600;font-size:1.4rem;">99%</div><div style="color:#888;font-size:.8rem;">Uptime</div></div><div style="flex:1;padding:16px;border:1px solid #e5e5e5;border-radius:4px;"><div style="font-weight:600;font-size:1.4rem;">50K+</div><div style="color:#888;font-size:.8rem;">Users</div></div></div>
-</div>`},
+{id:1,name:"Minimalisme",kw:"épuré, simple, spacieux",best:"SaaS, dashboards",avoid:"Portfolios créa",perf:"⚡",acc:"AAA",mob:"✓",
+v:`<div style="background:#fff;height:100%;padding:28px;font-family:system-ui"><div style="display:flex;justify-content:space-between;margin-bottom:28px"><span style="font-weight:700;font-size:1.1rem">Logo</span><div style="display:flex;gap:20px;font-size:.82rem;color:#666"><span>Produits</span><span>Prix</span></div></div><h1 style="font-size:2rem;font-weight:600;color:#000;margin-bottom:10px;line-height:1.2">Design simple et fonctionnel.</h1><p style="color:#666;font-size:.9rem;margin-bottom:16px">L'essentiel, rien de plus.</p><button style="background:#000;color:#fff;border:none;padding:10px 22px;border-radius:4px;font-size:.82rem">Commencer</button><div style="display:flex;gap:12px;margin-top:24px"><div style="flex:1;padding:14px;border:1px solid #e5e5e5;border-radius:4px"><div style="font-weight:600;font-size:1.3rem">99%</div><div style="color:#888;font-size:.75rem">Dispo</div></div><div style="flex:1;padding:14px;border:1px solid #e5e5e5;border-radius:4px"><div style="font-weight:600;font-size:1.3rem">50K+</div><div style="color:#888;font-size:.75rem">Utilisateurs</div></div></div></div>`},
+{id:2,name:"Neumorphisme",kw:"soft UI, embossé, arrondi",best:"Santé, méditation",avoid:"Dashboards data",perf:"⚡",acc:"⚠",mob:"✓",
+v:`<div style="background:#e8e8e8;height:100%;padding:24px;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center"><div style="background:#e8e8e8;border-radius:20px;padding:22px 28px;box-shadow:-6px -6px 14px rgba(255,255,255,.7),6px 6px 14px rgba(0,0,0,.15);width:80%;text-align:center"><div style="font-size:1.8rem;font-weight:700;color:#555">42</div><div style="color:#888;font-size:.75rem">Sessions</div></div><div style="display:flex;gap:12px;width:80%"><div style="flex:1;background:#e8e8e8;border-radius:14px;padding:14px;box-shadow:-4px -4px 8px rgba(255,255,255,.7),4px 4px 8px rgba(0,0,0,.12);text-align:center"><div style="font-size:1.1rem;font-weight:600;color:#666">85%</div><div style="font-size:.65rem;color:#999">Focus</div></div><div style="flex:1;background:#e8e8e8;border-radius:14px;padding:14px;box-shadow:-4px -4px 8px rgba(255,255,255,.7),4px 4px 8px rgba(0,0,0,.12);text-align:center"><div style="font-size:1.1rem;font-weight:600;color:#666">12h</div><div style="font-size:.65rem;color:#999">Sommeil</div></div></div><button style="background:#e8e8e8;border:none;border-radius:50px;padding:10px 28px;box-shadow:-4px -4px 8px rgba(255,255,255,.7),4px 4px 8px rgba(0,0,0,.15);color:#666;font-weight:600;font-size:.85rem">Démarrer</button></div>`},
+{id:3,name:"Glassmorphisme",kw:"verre givré, flou, transparent",best:"SaaS moderne, modals",avoid:"Faible contraste",perf:"⚠",acc:"⚠",mob:"✓",
+v:`<div style="background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);height:100%;padding:24px;display:flex;align-items:center;justify-content:center"><div style="background:rgba(255,255,255,.15);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:24px;width:85%;color:#fff"><h2 style="font-size:1.2rem;margin-bottom:6px">Tableau de bord</h2><p style="font-size:.8rem;opacity:.8;margin-bottom:14px">Bienvenue, Fred</p><div style="display:flex;gap:10px;margin-bottom:14px"><div style="flex:1;background:rgba(255,255,255,.1);border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,.15)"><div style="font-size:1.2rem;font-weight:700">24K€</div><div style="font-size:.65rem;opacity:.7">Revenus</div></div><div style="flex:1;background:rgba(255,255,255,.1);border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,.15)"><div style="font-size:1.2rem;font-weight:700">1.2K</div><div style="font-size:.65rem;opacity:.7">Commandes</div></div></div><button style="background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 20px;border-radius:10px;font-size:.8rem">Voir détails</button></div></div>`},
+{id:4,name:"Brutalisme",kw:"brut, contrasté, punk",best:"Portfolios design, blogs",avoid:"Corporate",perf:"⚡",acc:"AAA",mob:"◐",
+v:`<div style="background:#fff;height:100%;padding:18px;font-family:monospace"><div style="border:3px solid #000;padding:14px;margin-bottom:10px"><span style="font-weight:900;font-size:1.8rem;text-transform:uppercase">BRUT.</span></div><div style="background:#FF0000;color:#fff;padding:14px;font-weight:900;font-size:1.4rem;margin-bottom:10px;text-transform:uppercase">Du design sans filtre</div><div style="display:flex;gap:10px;margin-bottom:10px"><div style="flex:1;background:#FFFF00;border:3px solid #000;padding:14px;font-weight:900;text-transform:uppercase">WEB</div><div style="flex:1;background:#0000FF;color:#fff;border:3px solid #000;padding:14px;font-weight:900;text-transform:uppercase">APP</div></div><button style="background:#000;color:#fff;border:3px solid #000;padding:10px 28px;font-family:monospace;font-weight:900;font-size:.9rem;text-transform:uppercase">ENTRER →</button></div>`},
+{id:6,name:"Blocs Vibrants",kw:"coloré, énergique, géométrique",best:"Startups, gaming, jeunesse",avoid:"Finance, santé",perf:"⚡",acc:"◐",mob:"✓",
+v:`<div style="background:#1a1a2e;height:100%;padding:22px;font-family:system-ui;color:#fff"><h1 style="font-size:1.7rem;font-weight:900;margin-bottom:6px">Créez des trucs <span style="color:#39FF14">incroyables</span>.</h1><p style="color:#888;font-size:.85rem;margin-bottom:16px">Pour les créateurs qui livrent vite.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div style="background:#39FF14;border-radius:14px;padding:18px;color:#000"><div style="font-weight:800;font-size:1.3rem">10x</div><div style="font-size:.75rem">Plus rapide</div></div><div style="background:#BF00FF;border-radius:14px;padding:18px;color:#fff"><div style="font-weight:800;font-size:1.3rem">0€</div><div style="font-size:.75rem">Gratuit</div></div><div style="background:#FF1493;border-radius:14px;padding:18px;color:#fff;grid-column:span 2;text-align:center"><div style="font-weight:800;font-size:1rem">🚀 Commencer maintenant</div></div></div></div>`},
+{id:7,name:"Dark OLED",kw:"noir profond, néon, sombre",best:"Apps nocturnes, coding",avoid:"Print",perf:"⚡",acc:"AAA",mob:"✓",
+v:`<div style="background:#000;height:100%;padding:24px;font-family:system-ui;color:#fff"><div style="display:flex;justify-content:space-between;margin-bottom:24px"><span style="font-weight:700;font-size:1rem">⚡ Dashboard</span><div style="width:28px;height:28px;border-radius:50%;background:#39FF14"></div></div><div style="background:#0a0a0a;border:1px solid #222;border-radius:14px;padding:18px;margin-bottom:12px"><div style="font-size:.75rem;color:#666;margin-bottom:3px">Revenus</div><div style="font-size:1.8rem;font-weight:700;color:#39FF14;text-shadow:0 0 20px rgba(57,255,20,.3)">48 290€</div><div style="font-size:.7rem;color:#39FF14">↑ 12.5%</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:12px"><div style="color:#0080FF;font-weight:700;font-size:1rem">2.4K</div><div style="color:#555;font-size:.65rem">Visiteurs</div></div><div style="flex:1;background:#0a0a0a;border:1px solid #222;border-radius:10px;padding:12px"><div style="color:#BF00FF;font-weight:700;font-size:1rem">98%</div><div style="color:#555;font-size:.65rem">Dispo</div></div></div></div>`},
+{id:9,name:"Claymorphisme",kw:"3D doux, bulle, arrondi",best:"Éducation, enfants, fun",avoid:"Corporate, médical",perf:"⚡",acc:"⚠",mob:"✓",
+v:`<div style="background:#f0f0f5;height:100%;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px"><div style="background:linear-gradient(145deg,#FDBCB4,#f5a898);border-radius:22px;padding:22px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -3px -3px 8px rgba(0,0,0,.08),6px 6px 16px rgba(0,0,0,.1);width:80%;text-align:center"><div style="font-size:2.2rem">🎉</div><div style="font-weight:700;color:#333;font-size:1rem">Bravo !</div><div style="color:#666;font-size:.75rem">5 leçons terminées</div></div><div style="display:flex;gap:10px;width:80%"><div style="flex:1;background:linear-gradient(145deg,#ADD8E6,#98c8da);border-radius:16px;padding:12px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -2px -2px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08);text-align:center"><div style="font-size:1.3rem">📚</div><div style="font-weight:600;color:#333;font-size:.75rem">12 Livres</div></div><div style="flex:1;background:linear-gradient(145deg,#98FF98,#88e888);border-radius:16px;padding:12px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -2px -2px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08);text-align:center"><div style="font-size:1.3rem">⭐</div><div style="font-weight:600;color:#333;font-size:.75rem">4.9 Score</div></div></div></div>`},
+{id:10,name:"Bento Grid",kw:"cartes, grille, modulaire, Apple",best:"Pages produit, portfolios",avoid:"Texte long",perf:"⚡",acc:"✓",mob:"✓",
+v:`<div style="background:#f5f5f7;height:100%;padding:18px;font-family:system-ui"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="grid-column:span 2;background:#1d1d1f;border-radius:14px;padding:20px;color:#fff"><div style="font-size:.7rem;color:#999;margin-bottom:3px">En vedette</div><div style="font-weight:700;font-size:1.2rem">Le nouveau standard</div><div style="color:#999;font-size:.8rem">Repensé depuis zéro.</div></div><div style="background:#fff;border-radius:14px;padding:16px"><div style="font-size:1.8rem;margin-bottom:6px">🎯</div><div style="font-weight:600;font-size:.85rem">Précision</div><div style="color:#888;font-size:.7rem">UI pixel-perfect</div></div><div style="background:#fff;border-radius:14px;padding:16px"><div style="font-size:1.8rem;margin-bottom:6px">⚡</div><div style="font-weight:600;font-size:.85rem">Vitesse</div><div style="color:#888;font-size:.7rem">Ultra rapide</div></div></div></div>`},
+{id:11,name:"Gradient Moderne",kw:"dégradé, coloré, moderne",best:"Landing pages, apps",avoid:"Sites pro conservateurs",perf:"⚡",acc:"⚠",mob:"✓",
+v:`<div style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);height:100%;padding:28px;color:#fff;font-family:system-ui"><h1 style="font-size:1.8rem;font-weight:800;margin-bottom:8px">Le futur est <span style="background:linear-gradient(90deg,#f093fb,#f5576c);-webkit-background-clip:text;-webkit-text-fill-color:transparent">maintenant</span></h1><p style="opacity:.7;font-size:.85rem;margin-bottom:20px">Créez des expériences extraordinaires.</p><button style="background:linear-gradient(90deg,#f093fb,#f5576c);border:none;color:#fff;padding:12px 28px;border-radius:50px;font-weight:600;font-size:.9rem">Découvrir</button><div style="display:flex;gap:10px;margin-top:24px"><div style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px"><div style="font-weight:700;font-size:1.2rem">2M+</div><div style="font-size:.7rem;opacity:.6">Téléchargements</div></div><div style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px"><div style="font-weight:700;font-size:1.2rem">4.8★</div><div style="font-size:.7rem;opacity:.6">Note moyenne</div></div></div></div>`},
+{id:12,name:"Rétro / Vintage",kw:"rétro, vintage, nostalgique",best:"Restaurants, cafés",avoid:"Tech, SaaS",perf:"⚡",acc:"✓",mob:"✓",
+v:`<div style="background:#FDF6E3;height:100%;padding:24px;font-family:Georgia,serif;color:#3C2A14"><div style="text-align:center;margin-bottom:20px"><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:4px;color:#8B6914;margin-bottom:6px">★ Depuis 1952 ★</div><h1 style="font-size:2rem;font-weight:700;line-height:1.1">Le Vieux<br>Comptoir</h1><div style="width:60px;height:2px;background:#8B6914;margin:10px auto"></div></div><div style="display:flex;gap:12px"><div style="flex:1;border:2px solid #D4A843;border-radius:8px;padding:16px;text-align:center"><div style="font-size:1.4rem">☕</div><div style="font-weight:700;font-size:.9rem;margin-top:4px">Café</div><div style="font-size:.7rem;color:#8B6914">Torréfié maison</div></div><div style="flex:1;border:2px solid #D4A843;border-radius:8px;padding:16px;text-align:center"><div style="font-size:1.4rem">🥐</div><div style="font-weight:700;font-size:.9rem;margin-top:4px">Pâtisserie</div><div style="font-size:.7rem;color:#8B6914">Fait main</div></div></div></div>`},
+];
 
-{id:2,name:"Neumorphism",keywords:"soft UI, embossed, rounded",best:"Health, meditation",avoid:"Data dashboards",perf:"⚡",access:"⚠",mobile:"✓",
-visual:`<div style="background:#e8e8e8;height:100%;padding:28px;font-family:system-ui;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;">
-<div style="background:#e8e8e8;border-radius:20px;padding:24px 32px;box-shadow:-6px -6px 14px rgba(255,255,255,.7),6px 6px 14px rgba(0,0,0,.15);width:80%;text-align:center;">
-<div style="font-size:2rem;font-weight:700;color:#555;">42</div><div style="color:#888;font-size:.8rem;">Sessions today</div></div>
-<div style="display:flex;gap:16px;width:80%;">
-<div style="flex:1;background:#e8e8e8;border-radius:16px;padding:16px;box-shadow:-4px -4px 10px rgba(255,255,255,.7),4px 4px 10px rgba(0,0,0,.12);text-align:center;"><div style="font-size:1.2rem;font-weight:600;color:#666;">85%</div><div style="font-size:.7rem;color:#999;">Focus</div></div>
-<div style="flex:1;background:#e8e8e8;border-radius:16px;padding:16px;box-shadow:-4px -4px 10px rgba(255,255,255,.7),4px 4px 10px rgba(0,0,0,.12);text-align:center;"><div style="font-size:1.2rem;font-weight:600;color:#666;">12h</div><div style="font-size:.7rem;color:#999;">Sleep</div></div></div>
-<button style="background:#e8e8e8;border:none;border-radius:50px;padding:12px 32px;box-shadow:-4px -4px 10px rgba(255,255,255,.7),4px 4px 10px rgba(0,0,0,.15);color:#666;font-weight:600;font-size:.9rem;cursor:pointer;">Start Session</button>
-</div>`},
+const HEROES=[
+{id:1,name:"Centré classique",desc:"Titre centré avec sous-titre et CTA. Le plus universel.",cat:"universel",
+v:`<div style="background:linear-gradient(180deg,#f8f9fa,#e9ecef);height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:32px"><h1 style="font-size:2.2rem;font-weight:800;color:#111;line-height:1.15;max-width:500px">Transformez votre potentiel en résultats</h1><p style="color:#666;font-size:1rem;margin:14px 0 24px;max-width:400px;line-height:1.5">La solution tout-en-un pour les entrepreneurs ambitieux.</p><div style="display:flex;gap:10px"><button style="background:#FF4D00;color:#fff;border:none;padding:14px 28px;border-radius:8px;font-weight:600;font-size:.95rem">Commencer</button><button style="background:transparent;border:2px solid #333;padding:14px 28px;border-radius:8px;font-weight:500;font-size:.95rem">En savoir +</button></div></div>`},
+{id:2,name:"Split gauche/droite",desc:"Texte à gauche, image à droite. Idéal e-commerce.",cat:"e-commerce",
+v:`<div style="background:#fff;height:100%;display:grid;grid-template-columns:1fr 1fr"><div style="padding:32px;display:flex;flex-direction:column;justify-content:center"><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:#FF4D00;font-weight:600;margin-bottom:8px">Nouveau</div><h1 style="font-size:1.8rem;font-weight:800;color:#111;line-height:1.15;margin-bottom:10px">Élastiques de résistance pro</h1><p style="color:#666;font-size:.9rem;margin-bottom:20px;line-height:1.5">Performance, durabilité et design. Transformez votre entraînement.</p><button style="background:#FF4D00;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-weight:600;width:fit-content">Découvrir →</button></div><div style="background:linear-gradient(135deg,#FFE0CC,#FFB380);display:flex;align-items:center;justify-content:center;font-size:4rem">💪</div></div>`},
+{id:3,name:"Hero sombre plein écran",desc:"Fond sombre immersif avec texte clair.",cat:"premium",
+v:`<div style="background:linear-gradient(135deg,#0a0a0a,#1a1a2e);height:100%;display:flex;flex-direction:column;justify-content:center;padding:40px;color:#fff"><div style="font-size:.7rem;text-transform:uppercase;letter-spacing:3px;color:#FF4D00;margin-bottom:12px;font-weight:500">● Performance maximale</div><h1 style="font-size:2.4rem;font-weight:900;line-height:1.1;max-width:500px;margin-bottom:14px">Dépassez vos <span style="color:#FF4D00">limites</span></h1><p style="color:#888;font-size:1rem;max-width:420px;line-height:1.5;margin-bottom:24px">Des équipements conçus pour ceux qui refusent la moyenne.</p><button style="background:#FF4D00;color:#fff;border:none;padding:14px 32px;border-radius:8px;font-size:1rem;font-weight:700;width:fit-content">Commander maintenant</button></div>`},
+{id:4,name:"Hero avec stats",desc:"Titre + ligne de stats/badges de confiance.",cat:"conversion",
+v:`<div style="background:#fff;height:100%;padding:32px;display:flex;flex-direction:column;justify-content:center"><h1 style="font-size:2rem;font-weight:800;color:#111;margin-bottom:10px;line-height:1.15">La marque #1 des <span style="color:#FF4D00">sportifs exigeants</span></h1><p style="color:#666;font-size:.95rem;margin-bottom:20px">Rejoignez 50 000+ athlètes qui nous font confiance.</p><button style="background:#FF4D00;color:#fff;border:none;padding:12px 28px;border-radius:8px;font-weight:600;width:fit-content;margin-bottom:28px">Voir les produits</button><div style="display:flex;gap:20px;padding-top:20px;border-top:1px solid #eee"><div><div style="font-size:1.5rem;font-weight:800;color:#111">50K+</div><div style="font-size:.75rem;color:#888">Clients</div></div><div><div style="font-size:1.5rem;font-weight:800;color:#111">4.9★</div><div style="font-size:.75rem;color:#888">Note moyenne</div></div><div><div style="font-size:1.5rem;font-weight:800;color:#111">98%</div><div style="font-size:.75rem;color:#888">Satisfaction</div></div><div><div style="font-size:1.5rem;font-weight:800;color:#111">24h</div><div style="font-size:.75rem;color:#888">Livraison</div></div></div></div>`},
+{id:5,name:"Hero vidéo/gradient animé",desc:"Fond gradient animé qui bouge. Effet premium.",cat:"premium",
+v:`<div style="background:linear-gradient(270deg,#FF4D00,#FF6B2C,#FF8F5E,#FF4D00);background-size:600% 600%;animation:gradientMove 6s ease infinite;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:32px;color:#fff"><style>@keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}</style><h1 style="font-size:2.4rem;font-weight:900;line-height:1.1;text-shadow:0 2px 20px rgba(0,0,0,.3)">BANDFIT</h1><p style="font-size:1.2rem;margin:12px 0 24px;opacity:.9;text-shadow:0 1px 10px rgba(0,0,0,.2)">L'équipement des champions</p><button style="background:#fff;color:#FF4D00;border:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:1rem;box-shadow:0 4px 20px rgba(0,0,0,.2)">Découvrir la collection</button></div>`},
+{id:6,name:"Hero minimal typographique",desc:"Juste du texte, très grand. Impact max.",cat:"minimal",
+v:`<div style="background:#fff;height:100%;display:flex;flex-direction:column;justify-content:center;padding:40px"><h1 style="font-size:3rem;font-weight:900;color:#000;line-height:1.05;letter-spacing:-2px">ENTRAÎNEZ-<br>VOUS<br><span style="color:#FF4D00">PARTOUT.</span></h1><p style="color:#888;font-size:.9rem;margin-top:16px">Élastiques de résistance professionnels. Livrés chez vous en 24h.</p></div>`},
+];
 
-{id:3,name:"Glassmorphism",keywords:"frosted glass, blur, transparent",best:"Modern SaaS, modals",avoid:"Low contrast",perf:"⚠",access:"⚠",mobile:"✓",
-visual:`<div style="background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);height:100%;padding:28px;display:flex;align-items:center;justify-content:center;">
-<div style="background:rgba(255,255,255,.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:28px;width:85%;color:#fff;">
-<h2 style="font-size:1.4rem;margin-bottom:8px;">Dashboard</h2>
-<p style="font-size:.85rem;opacity:.8;margin-bottom:16px;">Welcome back, Fred</p>
-<div style="display:flex;gap:12px;margin-bottom:16px;">
-<div style="flex:1;background:rgba(255,255,255,.1);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.15);"><div style="font-size:1.3rem;font-weight:700;">$24K</div><div style="font-size:.7rem;opacity:.7;">Revenue</div></div>
-<div style="flex:1;background:rgba(255,255,255,.1);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.15);"><div style="font-size:1.3rem;font-weight:700;">1.2K</div><div style="font-size:.7rem;opacity:.7;">Orders</div></div></div>
-<button style="background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);color:#fff;padding:10px 24px;border-radius:10px;font-size:.85rem;cursor:pointer;">View Details</button>
-</div></div>`},
+const BLOCKS=[
+{id:1,name:"Grille de fonctionnalités",desc:"3 colonnes avec icônes. Pour avantages produit.",cat:"features",
+v:`<div style="background:#fff;height:100%;padding:24px;font-family:system-ui"><h2 style="text-align:center;font-size:1.3rem;font-weight:700;margin-bottom:20px;color:#111">Pourquoi nous choisir</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><div style="text-align:center;padding:16px"><div style="font-size:1.8rem;margin-bottom:8px">🏋️</div><div style="font-weight:600;font-size:.9rem;margin-bottom:4px">Résistance pro</div><div style="font-size:.78rem;color:#666;line-height:1.4">De 5 à 80kg de résistance. Pour tous les niveaux.</div></div><div style="text-align:center;padding:16px"><div style="font-size:1.8rem;margin-bottom:8px">🚚</div><div style="font-weight:600;font-size:.9rem;margin-bottom:4px">Livraison 24h</div><div style="font-size:.78rem;color:#666;line-height:1.4">Expédié le jour même. Livré demain chez vous.</div></div><div style="text-align:center;padding:16px"><div style="font-size:1.8rem;margin-bottom:8px">💰</div><div style="font-weight:600;font-size:.9rem;margin-bottom:4px">Satisfait ou remboursé</div><div style="font-size:.78rem;color:#666;line-height:1.4">30 jours pour changer d'avis. Garanti.</div></div></div></div>`},
+{id:2,name:"Témoignages clients",desc:"Avis avec photo, note étoiles, nom.",cat:"social proof",
+v:`<div style="background:#f8f9fa;height:100%;padding:24px;font-family:system-ui"><h2 style="text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:18px;color:#111">Ce que disent nos clients</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">${[{n:"Marie L.",t:"Parfait pour le home training ! Qualité au top.",s:"⭐⭐⭐⭐⭐"},{n:"Thomas R.",t:"Je les emmène partout. Résistance incroyable.",s:"⭐⭐⭐⭐⭐"},{n:"Sophie M.",t:"Bien mieux que ce que j'avais avant. Je recommande !",s:"⭐⭐⭐⭐⭐"}].map(r=>`<div style="background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)"><div style="font-size:.8rem;margin-bottom:6px">${r.s}</div><p style="font-size:.82rem;color:#444;line-height:1.4;margin-bottom:8px">"${r.t}"</p><div style="font-size:.78rem;font-weight:600;color:#111">${r.n}</div></div>`).join('')}</div></div>`},
+{id:3,name:"Grille de prix",desc:"3 plans avec mise en avant du populaire.",cat:"pricing",
+v:`<div style="background:#fff;height:100%;padding:24px;font-family:system-ui"><h2 style="text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:16px">Nos packs</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:.8rem">${[{n:"Starter",p:"19€",f:["1 élastique","Guide PDF","Livraison standard"],pop:false},{n:"Pro",p:"39€",f:["3 élastiques","Programmes vidéo","Livraison express","Sac transport"],pop:true},{n:"Athlète",p:"69€",f:["6 élastiques","Coaching 1 mois","Tout inclus","Ancrage porte"],pop:false}].map(x=>`<div style="border:${x.pop?'2px solid #FF4D00':'1px solid #e5e5e5'};border-radius:12px;padding:16px;text-align:center;${x.pop?'transform:scale(1.03);box-shadow:0 4px 20px rgba(255,77,0,.15);':''}"><div style="font-weight:600;color:#FF4D00;font-size:.75rem;margin-bottom:2px">${x.pop?'⭐ POPULAIRE':''}</div><div style="font-weight:700;font-size:1rem;margin-bottom:2px">${x.n}</div><div style="font-size:1.6rem;font-weight:800;margin-bottom:8px">${x.p}</div>${x.f.map(f=>`<div style="padding:3px 0;color:#555">✓ ${f}</div>`).join('')}<button style="background:${x.pop?'#FF4D00':'#f0f0f0'};color:${x.pop?'#fff':'#333'};border:none;padding:8px 16px;border-radius:6px;font-weight:600;margin-top:10px;width:100%;font-size:.8rem">Choisir</button></div>`).join('')}</div></div>`},
+{id:4,name:"CTA Banner",desc:"Bandeau d'appel à l'action coloré.",cat:"conversion",
+v:`<div style="background:linear-gradient(135deg,#FF4D00,#FF6B2C);height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:32px;color:#fff"><h2 style="font-size:1.8rem;font-weight:800;margin-bottom:10px">Prêt à transformer votre entraînement ?</h2><p style="opacity:.9;font-size:.95rem;margin-bottom:20px">Livraison gratuite sur votre première commande.</p><button style="background:#fff;color:#FF4D00;border:none;padding:14px 32px;border-radius:50px;font-weight:700;font-size:1rem;box-shadow:0 4px 15px rgba(0,0,0,.2)">Commander maintenant →</button></div>`},
+{id:5,name:"FAQ Accordéon",desc:"Questions fréquentes en accordéon. SEO friendly.",cat:"contenu",
+v:`<div style="background:#fff;height:100%;padding:24px;font-family:system-ui"><h2 style="font-size:1.2rem;font-weight:700;margin-bottom:16px;text-align:center">Questions fréquentes</h2>${["Quelle résistance choisir ?","Les élastiques sont-ils garantis ?","Comment les utiliser correctement ?","Livrez-vous en Europe ?"].map((q,i)=>`<div style="border-bottom:1px solid #eee;padding:12px 0"><div style="display:flex;justify-content:space-between;font-weight:600;font-size:.9rem;color:#111"><span>${q}</span><span style="color:#FF4D00">${i===0?'−':'+'}</span></div>${i===0?`<p style="font-size:.82rem;color:#666;margin-top:8px;line-height:1.5">Débutant : 5-15kg. Intermédiaire : 15-35kg. Avancé : 35-80kg. Nos packs incluent un guide de sélection.</p>`:''}</div>`).join('')}</div>`},
+{id:6,name:"Avant/Après",desc:"Comparaison visuelle. Parfait pour résultats.",cat:"social proof",
+v:`<div style="background:#f8f9fa;height:100%;padding:24px;font-family:system-ui"><h2 style="text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:16px">Résultats en 8 semaines</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div style="background:#eee;border-radius:12px;padding:40px;text-align:center"><div style="font-size:2.5rem;margin-bottom:8px">😐</div><div style="font-weight:700;color:#888">AVANT</div><div style="font-size:.8rem;color:#999;margin-top:4px">Sédentaire, peu de tonus</div></div><div style="background:linear-gradient(135deg,#FFE0CC,#FFB380);border-radius:12px;padding:40px;text-align:center"><div style="font-size:2.5rem;margin-bottom:8px">💪</div><div style="font-weight:700;color:#FF4D00">APRÈS</div><div style="font-size:.8rem;color:#CC3D00;margin-top:4px">Tonique, en forme, confiant</div></div></div></div>`},
+{id:7,name:"Newsletter CTA",desc:"Inscription email avec champ et bouton.",cat:"conversion",
+v:`<div style="background:#0a0a0a;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:32px;color:#fff"><div style="font-size:2rem;margin-bottom:10px">📧</div><h2 style="font-size:1.3rem;font-weight:700;margin-bottom:8px">-10% sur votre première commande</h2><p style="color:#888;font-size:.85rem;margin-bottom:18px">Inscrivez-vous et recevez votre code promo.</p><div style="display:flex;gap:8px;width:100%;max-width:400px"><input style="flex:1;padding:12px 16px;border:1px solid #333;background:#1a1a1a;border-radius:8px;color:#fff;font-size:.9rem" placeholder="votre@email.com"><button style="background:#FF4D00;color:#fff;border:none;padding:12px 24px;border-radius:8px;font-weight:600;white-space:nowrap">S'inscrire</button></div></div>`},
+{id:8,name:"Logos partenaires",desc:"Bande de logos de confiance.",cat:"social proof",
+v:`<div style="background:#fff;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px"><div style="font-size:.8rem;color:#999;margin-bottom:14px;text-transform:uppercase;letter-spacing:2px">Ils nous font confiance</div><div style="display:flex;gap:32px;align-items:center;opacity:.4;font-size:1.6rem;font-weight:900;font-family:system-ui"><span>NIKE</span><span>ADIDAS</span><span>PUMA</span><span>REEBOK</span><span>UNDER ARMOUR</span></div></div>`},
+];
 
-{id:4,name:"Brutalism",keywords:"raw, stark, high contrast",best:"Design portfolios, tech blogs",avoid:"Corporate",perf:"⚡",access:"AAA",mobile:"◐",
-visual:`<div style="background:#fff;height:100%;padding:20px;font-family:monospace;">
-<div style="border:3px solid #000;padding:16px;margin-bottom:12px;"><span style="font-weight:900;font-size:2rem;text-transform:uppercase;">BRUT.</span></div>
-<div style="background:#FF0000;color:#fff;padding:16px;font-weight:900;font-size:1.6rem;margin-bottom:12px;text-transform:uppercase;">No bullshit design</div>
-<div style="display:flex;gap:12px;margin-bottom:12px;">
-<div style="flex:1;background:#FFFF00;border:3px solid #000;padding:16px;font-weight:900;text-transform:uppercase;">WEB</div>
-<div style="flex:1;background:#0000FF;color:#fff;border:3px solid #000;padding:16px;font-weight:900;text-transform:uppercase;">APP</div></div>
-<button style="background:#000;color:#fff;border:3px solid #000;padding:12px 32px;font-family:monospace;font-weight:900;font-size:1rem;text-transform:uppercase;cursor:pointer;">ENTER →</button>
-</div>`},
-
-{id:6,name:"Vibrant Blocks",keywords:"bold, energetic, geometric",best:"Startups, gaming, youth",avoid:"Finance, healthcare",perf:"⚡",access:"◐",mobile:"✓",
-visual:`<div style="background:#1a1a2e;height:100%;padding:24px;font-family:system-ui;color:#fff;">
-<h1 style="font-size:2rem;font-weight:900;margin-bottom:8px;">Build <span style="color:#39FF14;">amazing</span> things.</h1>
-<p style="color:#888;font-size:.9rem;margin-bottom:20px;">For creators who ship fast.</p>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
-<div style="background:#39FF14;border-radius:16px;padding:20px;color:#000;"><div style="font-weight:800;font-size:1.5rem;">10x</div><div style="font-size:.8rem;">Faster</div></div>
-<div style="background:#BF00FF;border-radius:16px;padding:20px;color:#fff;"><div style="font-weight:800;font-size:1.5rem;">$0</div><div style="font-size:.8rem;">Setup</div></div>
-<div style="background:#FF1493;border-radius:16px;padding:20px;color:#fff;grid-column:span 2;text-align:center;"><div style="font-weight:800;font-size:1.1rem;">🚀 Start building now</div></div>
-</div></div>`},
-
-{id:7,name:"Dark Mode OLED",keywords:"deep black, neon accents",best:"Night apps, coding",avoid:"Print-first",perf:"⚡",access:"AAA",mobile:"✓",
-visual:`<div style="background:#000;height:100%;padding:28px;font-family:system-ui;color:#fff;">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;"><span style="font-weight:700;font-size:1.1rem;">⚡ Dashboard</span><div style="width:32px;height:32px;border-radius:50%;background:#39FF14;"></div></div>
-<div style="background:#0a0a0a;border:1px solid #222;border-radius:16px;padding:20px;margin-bottom:16px;">
-<div style="font-size:.8rem;color:#666;margin-bottom:4px;">Revenue</div>
-<div style="font-size:2rem;font-weight:700;color:#39FF14;text-shadow:0 0 20px rgba(57,255,20,.3);">$48,290</div>
-<div style="font-size:.75rem;color:#39FF14;">↑ 12.5%</div></div>
-<div style="display:flex;gap:12px;">
-<div style="flex:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;padding:14px;"><div style="color:#0080FF;font-weight:700;font-size:1.1rem;">2.4K</div><div style="color:#555;font-size:.7rem;">Users</div></div>
-<div style="flex:1;background:#0a0a0a;border:1px solid #222;border-radius:12px;padding:14px;"><div style="color:#BF00FF;font-weight:700;font-size:1.1rem;">98%</div><div style="color:#555;font-size:.7rem;">Uptime</div></div></div>
-</div>`},
-
-{id:9,name:"Claymorphism",keywords:"soft 3D, chunky, bubbly",best:"Educational, children, fun SaaS",avoid:"Corporate, medical",perf:"⚡",access:"⚠",mobile:"✓",
-visual:`<div style="background:#f0f0f5;height:100%;padding:28px;font-family:system-ui;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
-<div style="background:linear-gradient(145deg,#FDBCB4,#f5a898);border-radius:24px;padding:24px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -3px -3px 8px rgba(0,0,0,.08),6px 6px 16px rgba(0,0,0,.1);width:80%;text-align:center;">
-<div style="font-size:2.5rem;">🎉</div><div style="font-weight:700;color:#333;font-size:1.1rem;">Great job!</div><div style="color:#666;font-size:.8rem;">You completed 5 lessons</div></div>
-<div style="display:flex;gap:12px;width:80%;">
-<div style="flex:1;background:linear-gradient(145deg,#ADD8E6,#98c8da);border-radius:18px;padding:14px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -2px -2px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08);text-align:center;"><div style="font-size:1.5rem;">📚</div><div style="font-weight:600;color:#333;font-size:.8rem;">12 Books</div></div>
-<div style="flex:1;background:linear-gradient(145deg,#98FF98,#88e888);border-radius:18px;padding:14px;border:3px solid rgba(0,0,0,.05);box-shadow:inset -2px -2px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08);text-align:center;"><div style="font-size:1.5rem;">⭐</div><div style="font-weight:600;color:#333;font-size:.8rem;">4.9 Score</div></div></div>
-</div>`},
-
-{id:10,name:"Bento Grid",keywords:"cards, grid, modular, Apple-style",best:"Product pages, portfolios",avoid:"Text-heavy content",perf:"⚡",access:"✓",mobile:"✓",
-visual:`<div style="background:#f5f5f7;height:100%;padding:20px;font-family:system-ui;">
-<div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:10px;">
-<div style="grid-column:span 2;background:#1d1d1f;border-radius:16px;padding:24px;color:#fff;">
-<div style="font-size:.75rem;color:#999;margin-bottom:4px;">Featured</div>
-<div style="font-weight:700;font-size:1.4rem;">The new standard</div>
-<div style="color:#999;font-size:.85rem;">Reimagined from the ground up.</div></div>
-<div style="background:#fff;border-radius:16px;padding:20px;">
-<div style="font-size:2rem;margin-bottom:8px;">🎯</div>
-<div style="font-weight:600;font-size:.9rem;">Precision</div>
-<div style="color:#888;font-size:.75rem;">Pixel-perfect UI</div></div>
-<div style="background:#fff;border-radius:16px;padding:20px;">
-<div style="font-size:2rem;margin-bottom:8px;">⚡</div>
-<div style="font-weight:600;font-size:.9rem;">Speed</div>
-<div style="color:#888;font-size:.75rem;">Lightning fast</div></div>
-</div></div>`},
+const ANIMS=[
+{id:1,name:"Fondu vers le haut",desc:"L'élément apparaît en montant depuis le bas. Le plus utilisé.",css:"fadeUp",dur:".6s",timing:"ease-out",kw:"entrée, scroll, universel",
+v:`<div style="background:#fff;height:100%;display:flex;align-items:center;justify-content:center;padding:20px"><div id="a-1" style="background:#FF4D00;color:#fff;padding:20px 32px;border-radius:12px;font-weight:700;font-size:1.1rem;animation:fadeUp .6s ease-out">Fondu vers le haut ↑</div></div>`},
+{id:2,name:"Fondu simple",desc:"Apparition progressive en opacité.",css:"fadeIn",dur:".5s",timing:"ease",kw:"subtil, élégant, texte",
+v:`<div style="background:#fff;height:100%;display:flex;align-items:center;justify-content:center"><div id="a-2" style="font-size:1.5rem;font-weight:800;color:#111;animation:fadeIn .8s ease">Apparition douce</div></div>`},
+{id:3,name:"Glissement gauche",desc:"Entre depuis la gauche. Bon pour les images.",css:"slideL",dur:".5s",timing:"ease-out",kw:"entrée, image, carte",
+v:`<div style="background:#f5f5f5;height:100%;display:flex;align-items:center;justify-content:center;padding:20px"><div id="a-3" style="background:#1a1a2e;color:#fff;padding:20px 28px;border-radius:10px;font-weight:600;animation:slideL .5s ease-out">← Glissement gauche</div></div>`},
+{id:4,name:"Glissement droite",desc:"Entre depuis la droite.",css:"slideR",dur:".5s",timing:"ease-out",kw:"entrée, alternance",
+v:`<div style="background:#f5f5f5;height:100%;display:flex;align-items:center;justify-content:center;padding:20px"><div id="a-4" style="background:#059669;color:#fff;padding:20px 28px;border-radius:10px;font-weight:600;animation:slideR .5s ease-out">Glissement droite →</div></div>`},
+{id:5,name:"Zoom entrant",desc:"L'élément grossit depuis un point central.",css:"scaleIn",dur:".4s",timing:"ease-out",kw:"modal, popup, carte",
+v:`<div style="background:#e8e8e8;height:100%;display:flex;align-items:center;justify-content:center;padding:20px"><div id="a-5" style="background:#fff;padding:24px;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,.1);font-weight:700;font-size:1.1rem;animation:scaleIn .4s ease-out">🔍 Zoom entrant</div></div>`},
+{id:6,name:"Rebond",desc:"L'élément rebondit. Pour attirer l'attention sur un CTA.",css:"bounce",dur:"1s",timing:"infinite",kw:"CTA, bouton, attention",
+v:`<div style="background:#fff;height:100%;display:flex;align-items:center;justify-content:center"><button id="a-6" style="background:#FF4D00;color:#fff;border:none;padding:16px 32px;border-radius:50px;font-weight:700;font-size:1rem;animation:bounce 1s ease infinite;cursor:pointer">Acheter maintenant ↓</button></div>`},
+{id:7,name:"Pulsation",desc:"Effet de pulsation. Pour badges ou notifications.",css:"pulse",dur:"1.5s",timing:"infinite",kw:"badge, notif, live",
+v:`<div style="background:#0a0a0a;height:100%;display:flex;align-items:center;justify-content:center;gap:10px"><div id="a-7" style="width:12px;height:12px;border-radius:50%;background:#22C55E;animation:pulse 1.5s ease infinite"></div><span style="color:#22C55E;font-weight:600;font-size:.9rem">En ligne</span></div>`},
+{id:8,name:"Flottement",desc:"L'élément flotte doucement. Pour illustrations.",css:"float",dur:"3s",timing:"infinite",kw:"illustration, icône, déco",
+v:`<div style="background:linear-gradient(180deg,#EEF2FF,#fff);height:100%;display:flex;align-items:center;justify-content:center"><div id="a-8" style="font-size:3rem;animation:float 3s ease-in-out infinite">🏋️</div></div>`},
+{id:9,name:"Shimmer / Skeleton",desc:"Effet de chargement brillant. Pour loading states.",css:"shimmer",dur:"2s",timing:"infinite",kw:"loading, skeleton, attente",
+v:`<div style="background:#fff;height:100%;padding:24px;display:flex;flex-direction:column;gap:12px;justify-content:center"><div style="height:20px;border-radius:6px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 2s linear infinite;width:60%"></div><div style="height:14px;border-radius:6px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 2s linear infinite;width:90%"></div><div style="height:14px;border-radius:6px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 2s linear infinite;width:75%"></div><div style="height:40px;border-radius:8px;background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 2s linear infinite;width:40%"></div></div>`},
 ];
 
 // ===== STATE =====
-let project={typos:[],colors:[],styles:[]}, typoCat='all';
+let P={typos:[],colors:[],styles:[],heroes:[],blocks:[],anims:[]}, tCat='all';
 
-// ===== RENDER =====
+// ===== RENDER FUNCTIONS =====
 function renderTypos(s=''){
-    const grid=document.getElementById('typo-grid');
-    const f=TYPOS.filter(t=>{const m=(t.name+t.mood+t.best+t.h+t.b).toLowerCase();return(!s||m.includes(s.toLowerCase()))&&(typoCat==='all'||t.cat.includes(typoCat));});
+    const g=document.getElementById('typo-grid');
+    const f=TYPOS.filter(t=>{const m=(t.name+t.mood+t.best+t.h+t.b).toLowerCase();return(!s||m.includes(s.toLowerCase()))&&(tCat==='all'||t.cat.includes(tCat));});
     f.forEach(t=>{const u=t.css.match(/url\('([^']+)'\)/)?.[1];if(u&&!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}});
-    const sel=new Set(project.typos.map(t=>t.id));
-    grid.innerHTML=f.map(t=>{const hw=t._hw||600,bw=t._bw||400;return`
-    <div class="typo-card ${sel.has(t.id)?'selected':''}" id="tc-${t.id}">
-        <div class="typo-preview"><h2 style="font-family:'${t.h}',sans-serif;font-weight:${hw}">Le design parfait</h2><p style="font-family:'${t.b}',sans-serif;font-weight:${bw}">Créez des interfaces modernes avec cette combinaison de polices.</p></div>
-        <div class="typo-info">
-            <div class="typo-name">${t.name}</div><div class="typo-fonts"><b>${t.h}</b> + ${t.b} · ${t.cat}</div>
-            <div class="typo-tags">${t.mood.split(', ').map(m=>`<span class="tag">${m}</span>`).join('')}</div>
-            <div class="weight-controls">
-                <div class="weight-row"><label>Titre</label><input type="range" min="300" max="900" step="100" value="${hw}" oninput="chgW(${t.id},'h',this.value)"><span class="wv" id="wh-${t.id}">${hw}</span></div>
-                <div class="weight-row"><label>Corps</label><input type="range" min="300" max="900" step="100" value="${bw}" oninput="chgW(${t.id},'b',this.value)"><span class="wv" id="wb-${t.id}">${bw}</span></div>
-                <div class="weight-preview" id="wp-${t.id}"><div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.3rem;">Aa Bb Cc 123</div><div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:.85rem;">Le texte brun saute par-dessus le chien. 0123456789</div></div>
-            </div>
-            <div class="typo-actions"><button class="btn ${sel.has(t.id)?'btn-green':'btn-accent'}" onclick="togTypo(${t.id})">${sel.has(t.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div>
-        </div></div>`;}).join('');
+    const sel=new Set(P.typos.map(t=>t.id));
+    g.innerHTML=f.map(t=>{const hw=t._hw||600,bw=t._bw||400;return`
+    <div class="card ${sel.has(t.id)?'sel':''}" id="tc-${t.id}">
+        <div class="typo-preview"><h2 style="font-family:'${t.h}',sans-serif;font-weight:${hw}">Le design parfait</h2><p style="font-family:'${t.b}',sans-serif;font-weight:${bw}">Créez des interfaces modernes avec ces polices.</p></div>
+        <div class="card-info"><div class="card-name">${t.name}</div><div style="font-size:.75rem;color:var(--text2);margin-bottom:4px"><b>${t.h}</b> + ${t.b} · ${t.cat}</div>
+        <div class="tags">${t.mood.split(', ').map(m=>`<span class="tag">${m}</span>`).join('')}</div>
+        <div class="wc"><div class="wr"><label>Titre</label><input type="range" min="300" max="900" step="100" value="${hw}" oninput="chgW(${t.id},'h',this.value)"><span class="wv" id="wh-${t.id}">${hw}</span></div>
+        <div class="wr"><label>Corps</label><input type="range" min="300" max="900" step="100" value="${bw}" oninput="chgW(${t.id},'b',this.value)"><span class="wv" id="wb-${t.id}">${bw}</span></div>
+        <div class="wp" id="wp-${t.id}"><div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.2rem">Aa Bb Cc 123</div><div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:.82rem">Le texte brun saute par-dessus le chien. 0123456789</div></div></div>
+        <div class="card-actions"><button class="btn ${sel.has(t.id)?'btn-g':'btn-a'}" onclick="tog('typos',${t.id})">${sel.has(t.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div></div>`;}).join('');
 }
-
-function chgW(id,type,val){const t=TYPOS.find(x=>x.id===id);if(type==='h')t._hw=+val;else t._bw=+val;document.getElementById(`w${type}-${id}`).textContent=val;const hw=t._hw||600,bw=t._bw||400;
-document.getElementById(`wp-${id}`).innerHTML=`<div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.3rem;">Aa Bb Cc 123</div><div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:.85rem;">Le texte brun saute par-dessus le chien. 0123456789</div>`;
-const c=document.getElementById(`tc-${id}`);c.querySelector('.typo-preview h2').style.fontWeight=hw;c.querySelector('.typo-preview p').style.fontWeight=bw;
-const pi=project.typos.findIndex(x=>x.id===id);if(pi>=0){project.typos[pi].hw=hw;project.typos[pi].bw=bw;updatePanel();}}
+function chgW(id,type,val){const t=TYPOS.find(x=>x.id===id);if(type==='h')t._hw=+val;else t._bw=+val;document.getElementById(`w${type}-${id}`).textContent=val;const hw=t._hw||600,bw=t._bw||400;document.getElementById(`wp-${id}`).innerHTML=`<div style="font-family:'${t.h}',sans-serif;font-weight:${hw};font-size:1.2rem">Aa Bb Cc 123</div><div style="font-family:'${t.b}',sans-serif;font-weight:${bw};font-size:.82rem">Le texte brun saute par-dessus le chien. 0123456789</div>`;const c=document.getElementById(`tc-${id}`);c.querySelector('.typo-preview h2').style.fontWeight=hw;c.querySelector('.typo-preview p').style.fontWeight=bw;const pi=P.typos.findIndex(x=>x.id===id);if(pi>=0){P.typos[pi].hw=hw;P.typos[pi].bw=bw;upd();}}
 
 function renderColors(s=''){
-    const grid=document.getElementById('color-grid');const f=COLORS.filter(c=>!s||(c.type+c.note).toLowerCase().includes(s.toLowerCase()));const sel=new Set(project.colors.map(c=>c.id));
-    grid.innerHTML=f.map(c=>`
-    <div class="color-card ${sel.has(c.id)?'selected':''}" id="cc-${c.id}">
-        <div class="color-swatches">${['primary','secondary','cta','bg','text'].map(k=>`<div class="color-swatch" style="background:${c[k]}" data-label="${k} ${c[k]}"></div>`).join('')}</div>
-        <div class="color-live"><div class="color-live-inner" style="background:${c.bg}"><h3 style="color:${c.text}">Titre du projet</h3><p style="color:${c.text}">Description avec un exemple de texte.</p><button style="background:${c.cta};color:white;">Acheter</button></div></div>
-        <div class="color-info"><div class="color-name">${c.type}</div><div class="color-note">${c.note}</div>
-        ${['primary','secondary','cta','bg','text'].map(k=>`<div class="hex-edit-row"><span class="hex-label">${k}</span><input type="color" class="hex-color-input" value="${c[k]}" onchange="editCol(${c.id},'${k}',this.value)"><input type="text" class="hex-text-input" value="${c[k]}" onchange="editCol(${c.id},'${k}',this.value)"></div>`).join('')}
-        <div class="typo-actions" style="margin-top:10px;"><button class="btn ${sel.has(c.id)?'btn-green':'btn-accent'}" onclick="togColor(${c.id})">${sel.has(c.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div>
-    </div>`).join('');
+    const g=document.getElementById('color-grid');const f=COLORS.filter(c=>!s||(c.type+c.note).toLowerCase().includes(s.toLowerCase()));const sel=new Set(P.colors.map(c=>c.id));
+    g.innerHTML=f.map(c=>`
+    <div class="card ${sel.has(c.id)?'sel':''}" id="cc-${c.id}">
+        <div class="cswatches">${['primary','secondary','cta','bg','text'].map(k=>`<div class="csw" style="background:${c[k]}" data-l="${k} ${c[k]}"></div>`).join('')}</div>
+        <div class="clive"><div class="clive-in" style="background:${c.bg}"><h3 style="color:${c.text};font-size:1rem">Titre du projet</h3><p style="color:${c.text};font-size:.8rem;opacity:.8">Description exemple.</p><button style="background:${c.cta};color:white;border:none;padding:6px 16px;border-radius:6px;font-size:.8rem;font-weight:600">Acheter</button></div></div>
+        <div class="card-info"><div class="card-name">${c.type}</div><div class="card-desc">${c.note}</div>
+        ${['primary','secondary','cta','bg','text'].map(k=>`<div class="hr"><span class="hl">${k}</span><input type="color" value="${c[k]}" onchange="editC(${c.id},'${k}',this.value)"><input class="ht" value="${c[k]}" onchange="editC(${c.id},'${k}',this.value)"></div>`).join('')}
+        <div class="card-actions" style="margin-top:8px"><button class="btn ${sel.has(c.id)?'btn-g':'btn-a'}" onclick="tog('colors',${c.id})">${sel.has(c.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div></div>`).join('');
 }
-
-function editCol(id,key,val){const c=COLORS.find(x=>x.id===id);c[key]=val;const pi=project.colors.findIndex(x=>x.id===id);if(pi>=0)project.colors[pi]={...c};renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');updatePanel();}
+function editC(id,key,val){const c=COLORS.find(x=>x.id===id);c[key]=val;const pi=P.colors.findIndex(x=>x.id===id);if(pi>=0)P.colors[pi]={...c};renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');upd();}
 
 function renderStyles(s=''){
-    const grid=document.getElementById('style-grid');const f=STYLES.filter(x=>!s||(x.name+x.keywords+x.best).toLowerCase().includes(s.toLowerCase()));const sel=new Set(project.styles.map(x=>x.id));
-    grid.innerHTML=f.map(x=>`
-    <div class="style-card ${sel.has(x.id)?'selected':''}" id="sc-${x.id}">
-        <div class="style-visual">${x.visual}</div>
-        <div class="style-info"><div class="style-name">${x.name}</div>
-        <div class="typo-tags">${x.keywords.split(', ').map(k=>`<span class="tag">${k}</span>`).join('')}</div>
-        <div class="style-meta"><span>${x.perf} Perf</span><span>Access: ${x.access}</span><span>Mobile: ${x.mobile}</span></div>
-        <div class="style-best"><span class="good">✅ ${x.best}</span></div><div class="style-best"><span class="bad">❌ ${x.avoid}</span></div>
-        <div class="typo-actions" style="margin-top:10px;"><button class="btn ${sel.has(x.id)?'btn-green':'btn-accent'}" onclick="togStyle(${x.id})">${sel.has(x.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div>
-        </div></div>`).join('');
+    const g=document.getElementById('style-grid');const f=STYLES.filter(x=>!s||(x.name+x.kw+x.best).toLowerCase().includes(s.toLowerCase()));const sel=new Set(P.styles.map(x=>x.id));
+    g.innerHTML=f.map(x=>`<div class="card ${sel.has(x.id)?'sel':''}" id="sc-${x.id}"><div class="card-visual">${x.v}</div><div class="card-info"><div class="card-name">${x.name}</div><div class="tags">${x.kw.split(', ').map(k=>`<span class="tag">${k}</span>`).join('')}</div><div class="card-meta"><span>${x.perf} Perf</span><span>Accès: ${x.acc}</span><span>Mobile: ${x.mob}</span></div><div style="font-size:.78rem"><span class="good">✅ ${x.best}</span> · <span class="bad">❌ ${x.avoid}</span></div><div class="card-actions"><button class="btn ${sel.has(x.id)?'btn-g':'btn-a'}" onclick="tog('styles',${x.id})">${sel.has(x.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div></div>`).join('');
 }
 
-// ===== LIVE PREVIEW =====
-function renderPreview(){
-    const frame=document.getElementById('preview-frame');
-    const t=project.typos[0], c=project.colors[0], s=project.styles[0];
-    const hf=t?`'${t.h}',sans-serif`:'system-ui,sans-serif';
-    const bf=t?`'${t.b}',sans-serif`:'system-ui,sans-serif';
-    const hw=t?t.hw:700, bw=t?t.bw:400;
-    const bg=c?c.bg:'#FAFAFA', txt=c?c.text:'#111', pri=c?c.primary:'#2563EB', cta=c?c.cta:'#F97316', sec=c?c.secondary:'#3B82F6';
-    
-    let styleCSS='';
-    if(s){
-        if(s.id===3) styleCSS=`backdrop-filter:blur(12px);background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.2);`;
-        if(s.id===2) styleCSS=`box-shadow:-6px -6px 14px rgba(255,255,255,.7),6px 6px 14px rgba(0,0,0,.15);`;
-    }
-    const radius = s&&(s.id===9||s.id===2)?'20px':s&&s.id===4?'0':'12px';
-    const cardBg = s&&s.id===3?`rgba(255,255,255,.1)`:s&&s.id===7?'#0a0a0a':'#fff';
-    const cardTxt = (s&&(s.id===3||s.id===7))||(!c&&!s)?'#fff':txt;
-    const pageBg = s&&s.id===3?`linear-gradient(135deg,${pri},${sec})`:s&&s.id===7?'#000':bg;
-
-    // Load typo font
-    if(t){const u=t.css.match(/url\('([^']+)'\)/)?.[1];if(u&&!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}}
-
-    frame.innerHTML=`
-    <div style="background:${pageBg};min-height:600px;padding:0;font-family:${bf};font-weight:${bw};color:${txt};">
-        <!-- NAV -->
-        <nav style="display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(128,128,128,.15);">
-            <span style="font-family:${hf};font-weight:800;font-size:1.3rem;color:${pri};">BRAND</span>
-            <div style="display:flex;gap:24px;font-size:.85rem;opacity:.7;"><span>Products</span><span>Pricing</span><span>Blog</span></div>
-            <button style="background:${cta};color:#fff;border:none;padding:8px 20px;border-radius:${radius};font-size:.82rem;font-weight:600;cursor:pointer;">Sign Up</button>
-        </nav>
-        <!-- HERO -->
-        <div style="padding:60px 32px 40px;max-width:600px;">
-            <h1 style="font-family:${hf};font-weight:${hw};font-size:2.4rem;line-height:1.15;margin-bottom:16px;">Transformez votre <span style="color:${pri};">business</span> aujourd'hui</h1>
-            <p style="font-size:1.05rem;opacity:.7;margin-bottom:24px;line-height:1.6;">La solution tout-en-un pour les entrepreneurs qui veulent passer au niveau supérieur.</p>
-            <div style="display:flex;gap:12px;">
-                <button style="background:${cta};color:#fff;border:none;padding:14px 28px;border-radius:${radius};font-size:.95rem;font-weight:600;cursor:pointer;">Commencer gratuitement</button>
-                <button style="background:transparent;color:${pri};border:2px solid ${pri};padding:14px 28px;border-radius:${radius};font-size:.95rem;font-weight:500;cursor:pointer;">En savoir plus</button>
-            </div>
-        </div>
-        <!-- CARDS -->
-        <div style="padding:0 32px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
-            <div style="background:${cardBg};border-radius:${radius};padding:24px;${styleCSS};color:${s&&(s.id===3||s.id===7)?'#fff':txt};">
-                <div style="font-size:1.8rem;margin-bottom:8px;">🚀</div>
-                <div style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px;">Performance</div>
-                <div style="font-size:.85rem;opacity:.7;">Temps de chargement ultra-rapide pour une meilleure conversion.</div>
-            </div>
-            <div style="background:${cardBg};border-radius:${radius};padding:24px;${styleCSS};color:${s&&(s.id===3||s.id===7)?'#fff':txt};">
-                <div style="font-size:1.8rem;margin-bottom:8px;">🎨</div>
-                <div style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px;">Design</div>
-                <div style="font-size:.85rem;opacity:.7;">Interface élégante et intuitive, adaptée à votre marque.</div>
-            </div>
-            <div style="background:${cardBg};border-radius:${radius};padding:24px;${styleCSS};color:${s&&(s.id===3||s.id===7)?'#fff':txt};">
-                <div style="font-size:1.8rem;margin-bottom:8px;">📈</div>
-                <div style="font-family:${hf};font-weight:${hw};font-size:1.1rem;margin-bottom:6px;">Analytics</div>
-                <div style="font-size:.85rem;opacity:.7;">Suivez vos métriques en temps réel avec des dashboards clairs.</div>
-            </div>
-        </div>
-        <!-- PRICING -->
-        <div style="padding:0 32px 40px;text-align:center;">
-            <h2 style="font-family:${hf};font-weight:${hw};font-size:1.6rem;margin-bottom:24px;">Tarifs <span style="color:${pri};">simples</span></h2>
-            <div style="display:inline-block;background:${s&&(s.id===3||s.id===7)?cardBg:pri};border-radius:${radius};padding:32px;color:#fff;${styleCSS};text-align:center;">
-                <div style="font-size:.85rem;opacity:.7;margin-bottom:4px;">Pro</div>
-                <div style="font-family:${hf};font-weight:${hw};font-size:2.4rem;">19€<span style="font-size:.9rem;opacity:.6;">/mois</span></div>
-                <button style="background:${cta};color:#fff;border:none;padding:12px 32px;border-radius:${radius};font-size:.9rem;font-weight:600;margin-top:16px;cursor:pointer;">Choisir ce plan</button>
-            </div>
-        </div>
-    </div>`;
+function renderHeroes(s=''){
+    const g=document.getElementById('hero-grid');const f=HEROES.filter(x=>!s||(x.name+x.desc+x.cat).toLowerCase().includes(s.toLowerCase()));const sel=new Set(P.heroes.map(x=>x.id));
+    g.innerHTML=f.map(x=>`<div class="card ${sel.has(x.id)?'sel':''}" id="hc-${x.id}"><div class="card-visual">${x.v}</div><div class="card-info"><div class="card-name">${x.name}</div><div class="card-desc">${x.desc}</div><div class="tags"><span class="tag">${x.cat}</span></div><div class="card-actions"><button class="btn ${sel.has(x.id)?'btn-g':'btn-a'}" onclick="tog('heroes',${x.id})">${sel.has(x.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div></div>`).join('');
 }
 
-// ===== SELECTIONS =====
-function togTypo(id){const i=project.typos.findIndex(t=>t.id===id);if(i>=0)project.typos.splice(i,1);else{const t=TYPOS.find(x=>x.id===id);project.typos.push({...t,hw:t._hw||600,bw:t._bw||400});}renderTypos(document.querySelector('#sec-typo .search-bar')?.value||'');updatePanel();}
-function togColor(id){const i=project.colors.findIndex(c=>c.id===id);if(i>=0)project.colors.splice(i,1);else project.colors.push({...COLORS.find(x=>x.id===id)});renderColors(document.querySelector('#sec-colors .search-bar')?.value||'');updatePanel();}
-function togStyle(id){const i=project.styles.findIndex(s=>s.id===id);if(i>=0)project.styles.splice(i,1);else project.styles.push({...STYLES.find(x=>x.id===id)});renderStyles(document.querySelector('#sec-styles .search-bar')?.value||'');updatePanel();}
-function removeTypo(id){project.typos=project.typos.filter(t=>t.id!==id);renderTypos();updatePanel();}
-function removeColor(id){project.colors=project.colors.filter(c=>c.id!==id);renderColors();updatePanel();}
-function removeStyle(id){project.styles=project.styles.filter(s=>s.id!==id);renderStyles();updatePanel();}
-function clearAll(){project={typos:[],colors:[],styles:[]};renderTypos();renderColors();renderStyles();updatePanel();}
+function renderBlocks(s=''){
+    const g=document.getElementById('block-grid');const f=BLOCKS.filter(x=>!s||(x.name+x.desc+x.cat).toLowerCase().includes(s.toLowerCase()));const sel=new Set(P.blocks.map(x=>x.id));
+    g.innerHTML=f.map(x=>`<div class="card ${sel.has(x.id)?'sel':''}" id="bc-${x.id}"><div class="card-visual">${x.v}</div><div class="card-info"><div class="card-name">${x.name}</div><div class="card-desc">${x.desc}</div><div class="tags"><span class="tag">${x.cat}</span></div><div class="card-actions"><button class="btn ${sel.has(x.id)?'btn-g':'btn-a'}" onclick="tog('blocks',${x.id})">${sel.has(x.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div></div>`).join('');
+}
 
-// ===== PANEL =====
-function updatePanel(){
-    document.getElementById('panel-typos').innerHTML=project.typos.length===0?'<div class="panel-empty">Aucune</div>':project.typos.map(t=>`<div class="panel-item"><div><div class="panel-item-name">${t.name}</div><div class="panel-item-detail">${t.h} (${t.hw}) + ${t.b} (${t.bw})</div></div><button class="panel-item-remove" onclick="removeTypo(${t.id})">✕</button></div>`).join('');
-    document.getElementById('panel-colors').innerHTML=project.colors.length===0?'<div class="panel-empty">Aucune</div>':project.colors.map(c=>`<div class="panel-item"><div><div class="panel-item-name">${c.type}</div><div class="panel-color-row">${[c.primary,c.secondary,c.cta,c.bg,c.text].map(h=>`<div class="panel-color-dot" style="background:${h}"></div>`).join('')}</div></div><button class="panel-item-remove" onclick="removeColor(${c.id})">✕</button></div>`).join('');
-    document.getElementById('panel-styles').innerHTML=project.styles.length===0?'<div class="panel-empty">Aucun</div>':project.styles.map(s=>`<div class="panel-item"><div><div class="panel-item-name">${s.name}</div><div class="panel-item-detail">${s.keywords}</div></div><button class="panel-item-remove" onclick="removeStyle(${s.id})">✕</button></div>`).join('');
-    updateExport(); renderPreview();
+function renderAnims(){
+    const g=document.getElementById('anim-grid');const sel=new Set(P.anims.map(x=>x.id));
+    g.innerHTML=ANIMS.map(x=>`<div class="card ${sel.has(x.id)?'sel':''}" id="ac-${x.id}"><div class="card-visual" id="av-${x.id}">${x.v}</div><div class="card-info"><div class="card-name">${x.name}</div><div class="card-desc">${x.desc}</div><div class="tags">${x.kw.split(', ').map(k=>`<span class="tag">${k}</span>`).join('')}</div><div class="card-meta"><span>⏱ ${x.dur}</span><span>${x.timing}</span></div><div class="card-actions"><button class="btn btn-o" onclick="replay(${x.id})"><i class="fa-solid fa-rotate-right"></i> Rejouer</button> <button class="btn ${sel.has(x.id)?'btn-g':'btn-a'}" onclick="tog('anims',${x.id})">${sel.has(x.id)?'<i class="fa-solid fa-check"></i> Ajouté':'<i class="fa-solid fa-plus"></i> Ajouter'}</button></div></div></div>`).join('');
+}
+
+function replay(id){const el=document.getElementById(`av-${id}`);const a=ANIMS.find(x=>x.id===id);el.innerHTML='';setTimeout(()=>{el.innerHTML=a.v;},50);}
+
+// ===== TOGGLE / REMOVE =====
+const DATA_MAP={typos:TYPOS,colors:COLORS,styles:STYLES,heroes:HEROES,blocks:BLOCKS,anims:ANIMS};
+function tog(cat,id){
+    const i=P[cat].findIndex(x=>x.id===id);
+    if(i>=0)P[cat].splice(i,1);
+    else{const item={...DATA_MAP[cat].find(x=>x.id===id)};if(cat==='typos'){const t=TYPOS.find(x=>x.id===id);item.hw=t._hw||600;item.bw=t._bw||400;}P[cat].push(item);}
+    rerender(cat);upd();
+}
+function rem(cat,id){P[cat]=P[cat].filter(x=>x.id!==id);rerender(cat);upd();}
+function rerender(cat){const sb=document.querySelector(`#sec-${cat==='typos'?'typo':cat} .search-bar`);const s=sb?sb.value:'';
+    if(cat==='typos')renderTypos(s);else if(cat==='colors')renderColors(s);else if(cat==='styles')renderStyles(s);else if(cat==='heroes')renderHeroes(s);else if(cat==='blocks')renderBlocks(s);else if(cat==='anims')renderAnims();}
+function clearAll(){P={typos:[],colors:[],styles:[],heroes:[],blocks:[],anims:[]};renderTypos();renderColors();renderStyles();renderHeroes();renderBlocks();renderAnims();upd();}
+
+// ===== PANEL UPDATE =====
+function upd(){
+    document.getElementById('p-typos').innerHTML=P.typos.length===0?'<div class="pe">—</div>':P.typos.map(t=>`<div class="pi"><div><div class="pi-name">${t.name}</div><div class="pi-det">${t.h} (${t.hw}) + ${t.b} (${t.bw})</div></div><button class="pi-rm" onclick="rem('typos',${t.id})">✕</button></div>`).join('');
+    document.getElementById('p-colors').innerHTML=P.colors.length===0?'<div class="pe">—</div>':P.colors.map(c=>`<div class="pi"><div><div class="pi-name">${c.type}</div><div class="pcd">${[c.primary,c.secondary,c.cta,c.bg,c.text].map(h=>`<div class="pcdot" style="background:${h}"></div>`).join('')}</div></div><button class="pi-rm" onclick="rem('colors',${c.id})">✕</button></div>`).join('');
+    document.getElementById('p-styles').innerHTML=P.styles.length===0?'<div class="pe">—</div>':P.styles.map(s=>`<div class="pi"><div><div class="pi-name">${s.name}</div></div><button class="pi-rm" onclick="rem('styles',${s.id})">✕</button></div>`).join('');
+    document.getElementById('p-heroes').innerHTML=P.heroes.length===0?'<div class="pe">—</div>':P.heroes.map(h=>`<div class="pi"><div><div class="pi-name">${h.name}</div></div><button class="pi-rm" onclick="rem('heroes',${h.id})">✕</button></div>`).join('');
+    document.getElementById('p-blocks').innerHTML=P.blocks.length===0?'<div class="pe">—</div>':P.blocks.map(b=>`<div class="pi"><div><div class="pi-name">${b.name}</div></div><button class="pi-rm" onclick="rem('blocks',${b.id})">✕</button></div>`).join('');
+    document.getElementById('p-anims').innerHTML=P.anims.length===0?'<div class="pe">—</div>':P.anims.map(a=>`<div class="pi"><div><div class="pi-name">${a.name}</div></div><button class="pi-rm" onclick="rem('anims',${a.id})">✕</button></div>`).join('');
+    updateExport();renderPreview();
 }
 
 function updateExport(){
     let css='';
-    project.typos.forEach(t=>{css+=`/* Typography: ${t.name} */\n${t.css}\nh1,h2,h3{font-family:'${t.h}',sans-serif;font-weight:${t.hw};}\nbody,p{font-family:'${t.b}',sans-serif;font-weight:${t.bw};}\n\n`;});
-    project.colors.forEach(c=>{css+=`/* Palette: ${c.type} */\n:root{\n  --primary:${c.primary};\n  --secondary:${c.secondary};\n  --cta:${c.cta};\n  --bg:${c.bg};\n  --text:${c.text};\n}\n\n`;});
-    project.styles.forEach(s=>{css+=`/* Style: ${s.name} — ${s.keywords} */\n/* Best for: ${s.best} */\n\n`;});
+    P.typos.forEach(t=>{css+=`/* Typo: ${t.name} */\n${t.css}\nh1,h2,h3{font-family:'${t.h}',sans-serif;font-weight:${t.hw};}\nbody,p{font-family:'${t.b}',sans-serif;font-weight:${t.bw};}\n\n`;});
+    P.colors.forEach(c=>{css+=`/* Palette: ${c.type} */\n:root{\n  --primary:${c.primary};\n  --secondary:${c.secondary};\n  --cta:${c.cta};\n  --bg:${c.bg};\n  --text:${c.text};\n}\n\n`;});
+    P.styles.forEach(s=>{css+=`/* Style: ${s.name} — ${s.kw} */\n`;});
+    P.heroes.forEach(h=>{css+=`/* Héro: ${h.name} — ${h.desc} */\n`;});
+    P.blocks.forEach(b=>{css+=`/* Bloc: ${b.name} — ${b.desc} */\n`;});
+    P.anims.forEach(a=>{css+=`/* Animation: ${a.name} */\n@keyframes ${a.css}{/* ${a.dur} ${a.timing} */}\n`;});
     document.getElementById('export-css').textContent=css||'/* Sélectionne des éléments */';
 }
 
-function generateBrief(){
-    let b='=== BRIEF DESIGN POUR IA ===\n\n';
-    if(project.typos.length){b+='## TYPOGRAPHIES\n';project.typos.forEach(t=>{b+=`- ${t.name}: Titres "${t.h}" (${t.hw}), Corps "${t.b}" (${t.bw})\n  ${t.css}\n`;});b+='\n';}
-    if(project.colors.length){b+='## COULEURS\n';project.colors.forEach(c=>{b+=`- ${c.type}: Primary ${c.primary}, Secondary ${c.secondary}, CTA ${c.cta}, BG ${c.bg}, Text ${c.text}\n`;});b+='\n';}
-    if(project.styles.length){b+='## STYLES UI\n';project.styles.forEach(s=>{b+=`- ${s.name}: ${s.keywords}\n  Best: ${s.best}\n`;});b+='\n';}
-    b+='## CSS\n```css\n'+document.getElementById('export-css').textContent+'\n```';return b;
+function genBrief(){
+    let b='=== BRIEF DESIGN COMPLET POUR IA ===\n\n';
+    if(P.typos.length){b+='## TYPOGRAPHIES\n';P.typos.forEach(t=>{b+=`- ${t.name}: Titres "${t.h}" (${t.hw}), Corps "${t.b}" (${t.bw})\n  ${t.css}\n`;});b+='\n';}
+    if(P.colors.length){b+='## COULEURS\n';P.colors.forEach(c=>{b+=`- ${c.type}: --primary:${c.primary} --secondary:${c.secondary} --cta:${c.cta} --bg:${c.bg} --text:${c.text}\n`;});b+='\n';}
+    if(P.styles.length){b+='## STYLES UI\n';P.styles.forEach(s=>{b+=`- ${s.name}: ${s.kw} (Best: ${s.best})\n`;});b+='\n';}
+    if(P.heroes.length){b+='## SECTIONS HÉRO\n';P.heroes.forEach(h=>{b+=`- ${h.name}: ${h.desc}\n`;});b+='\n';}
+    if(P.blocks.length){b+='## BLOCS DE CONTENU\n';P.blocks.forEach(x=>{b+=`- ${x.name}: ${x.desc}\n`;});b+='\n';}
+    if(P.anims.length){b+='## ANIMATIONS\n';P.anims.forEach(a=>{b+=`- ${a.name} (${a.css}, ${a.dur}, ${a.timing}): ${a.desc}\n`;});b+='\n';}
+    b+='## CSS COMPLET\n```css\n'+document.getElementById('export-css').textContent+'\n```';return b;
 }
-function copyExport(){navigator.clipboard.writeText(document.getElementById('export-css').textContent);toast('CSS copié !');}
-function copyBrief(){navigator.clipboard.writeText(generateBrief());toast('Brief copié ! Colle dans Claude Code');}
+
+// ===== LIVE PREVIEW =====
+function renderPreview(){
+    const frame=document.getElementById('preview-frame');if(!frame)return;
+    const t=P.typos[0],c=P.colors[0],s=P.styles[0],h=P.heroes[0];
+    const hf=t?`'${t.h}',sans-serif`:'system-ui';const bf=t?`'${t.b}',sans-serif`:'system-ui';
+    const hw=t?t.hw:700,bw=t?t.bw:400;
+    const bg=c?c.bg:'#FAFAFA',txt=c?c.text:'#111',pri=c?c.primary:'#FF4D00',cta=c?c.cta:'#FF4D00',sec=c?c.secondary:'#FF6B2C';
+    if(t){const u=t.css.match(/url\('([^']+)'\)/)?.[1];if(u&&!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}}
+    const animCSS=P.anims.length?P.anims.map(a=>`animation:${a.css} ${a.dur} ${a.timing}`).join(';'):'';
+    const entryAnim=P.anims.find(a=>['fadeUp','fadeIn','slideL','slideR','scaleIn'].includes(a.css));
+    const ea=entryAnim?`animation:${entryAnim.css} ${entryAnim.dur} ${entryAnim.timing}`:'';
+    
+    let html=`<div style="font-family:${bf};font-weight:${bw};color:${txt};background:${bg};">`;
+    // Nav
+    html+=`<nav style="display:flex;justify-content:space-between;align-items:center;padding:14px 28px;border-bottom:1px solid rgba(128,128,128,.12)"><span style="font-family:${hf};font-weight:800;font-size:1.2rem;color:${pri}">BANDFIT</span><div style="display:flex;gap:20px;font-size:.82rem;opacity:.6"><span>Produits</span><span>Guides</span><span>Blog</span></div><button style="background:${cta};color:#fff;border:none;padding:7px 18px;border-radius:8px;font-size:.8rem;font-weight:600">Panier (0)</button></nav>`;
+    // Hero
+    if(h){html+=`<div style="${ea}">${h.v}</div>`;}
+    else{html+=`<div style="padding:50px 28px;${ea}"><h1 style="font-family:${hf};font-weight:${hw};font-size:2.2rem;line-height:1.12;margin-bottom:12px">Transformez votre <span style="color:${pri}">entraînement</span></h1><p style="font-size:1rem;opacity:.7;margin-bottom:20px;line-height:1.5">Des élastiques de résistance professionnels, livrés en 24h.</p><button style="background:${cta};color:#fff;border:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:.9rem">Découvrir →</button></div>`;}
+    // Blocks
+    P.blocks.forEach(bl=>{html+=`<div style="${ea}">${bl.v}</div>`;});
+    // Default blocks if none
+    if(P.blocks.length===0){
+        html+=`<div style="padding:32px 28px;${ea}"><h2 style="font-family:${hf};font-weight:${hw};font-size:1.4rem;text-align:center;margin-bottom:20px">Pourquoi <span style="color:${pri}">BANDFIT</span> ?</h2><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">${[{i:'🏋️',t:'Pro',d:'5 à 80kg de résistance'},{i:'🚚',t:'24h',d:'Livraison express'},{i:'💰',t:'Garanti',d:'Satisfait ou remboursé'}].map(x=>`<div style="text-align:center;padding:16px"><div style="font-size:1.6rem;margin-bottom:6px">${x.i}</div><div style="font-family:${hf};font-weight:${hw};font-size:.95rem;margin-bottom:4px">${x.t}</div><div style="font-size:.82rem;opacity:.6">${x.d}</div></div>`).join('')}</div></div>`;
+    }
+    html+=`</div>`;
+    frame.innerHTML=html;
+}
 
 // ===== UI =====
 function showTab(id,el){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');if(id==='preview')renderPreview();}
-function setTypoCat(el){typoCat=el.dataset.cat;document.querySelectorAll('#typo-filters .filter-tag').forEach(f=>f.classList.remove('active'));el.classList.add('active');renderTypos();}
-function setPreviewSize(el,w){document.getElementById('preview-frame').style.maxWidth=w;document.querySelectorAll('.preview-size-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function setTCat(el){tCat=el.dataset.c;document.querySelectorAll('#tf .ftag').forEach(f=>f.classList.remove('active'));el.classList.add('active');renderTypos();}
+function setPSize(el,w){document.getElementById('preview-frame').style.maxWidth=w;document.querySelectorAll('.psbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function copyCSS(){navigator.clipboard.writeText(document.getElementById('export-css').textContent);toast('CSS copié !');}
+function copyBrief(){navigator.clipboard.writeText(genBrief());toast('Brief complet copié !');}
 function toast(msg){const t=document.getElementById('toast');t.textContent='✅ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 
 // INIT
-renderTypos();renderColors();renderStyles();renderPreview();
+renderTypos();renderColors();renderStyles();renderHeroes();renderBlocks();renderAnims();renderPreview();
 </script>
 </body>
 </html>
