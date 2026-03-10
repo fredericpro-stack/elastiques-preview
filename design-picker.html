@@ -46,6 +46,37 @@
 .pe{color:var(--text2);font-size:.7rem;font-style:italic}.pcd{display:flex;gap:2px;margin-top:2px}.pcdot{width:12px;height:12px;border-radius:50%;border:1px solid var(--border)}
 .EB{background:var(--bg);border-radius:5px;padding:8px;font-family:monospace;font-size:.6rem;line-height:1.3;white-space:pre-wrap;max-height:180px;overflow-y:auto;border:1px solid var(--border);color:#ccc}
 .EA{display:flex;gap:5px;margin-top:6px}
+/* BUILDER TOOLBAR */
+.btbar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--R);padding:12px 16px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;position:sticky;top:56px;z-index:40}
+.btbar label{font-size:.65rem;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.btbar select{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:4px 8px;font-size:.72rem;max-width:160px}
+.btbar select:focus{outline:none;border-color:var(--accent)}
+.btbar input[type=range]{width:80px;accent-color:var(--accent)}
+.btbar input[type=color]{width:28px;height:22px;border:none;border-radius:4px;cursor:pointer;padding:0}
+.btbar .btgrp{display:flex;flex-direction:column;gap:2px}
+.btbar .btrow{display:flex;align-items:center;gap:4px}
+.btbar .btsep{width:1px;height:30px;background:var(--border);margin:0 4px}
+/* DRAG & DROP */
+.builder-block{position:relative;border:2px dashed transparent;transition:border-color .2s}
+.builder-block:hover{border-color:var(--accent)44}
+.builder-block .bhandle{position:absolute;top:8px;right:8px;display:none;gap:4px;z-index:10}
+.builder-block:hover .bhandle{display:flex}
+.bhandle button{background:var(--bg2);border:1px solid var(--border);color:var(--text2);width:28px;height:28px;border-radius:6px;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center}
+.bhandle button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.builder-block.dragging{opacity:.4;border-color:var(--accent)}
+.builder-block.drag-over{border-color:var(--green);border-style:solid}
+.block-insert{display:flex;justify-content:center;padding:6px 0}
+.block-insert button{background:var(--bg3);border:1px dashed var(--border);border-radius:50%;width:28px;height:28px;color:var(--accent);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.block-insert button:hover{background:var(--accent);color:#fff;border-color:var(--accent);border-style:solid}
+/* Block picker modal */
+.bpicker{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;display:none;align-items:center;justify-content:center}
+.bpicker.open{display:flex}
+.bpicker-inner{background:var(--bg2);border:1px solid var(--border);border-radius:var(--R);width:90%;max-width:700px;max-height:80vh;overflow-y:auto;padding:20px}
+.bpicker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.bpicker-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px;cursor:pointer;transition:.2s}
+.bpicker-item:hover{border-color:var(--accent)}
+.bpicker-item .bpi-name{font-weight:600;font-size:.78rem;color:var(--accent);margin-bottom:2px}
+.bpicker-item .bpi-desc{font-size:.65rem;color:var(--text2)}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:8px 20px;border-radius:100px;font-size:.8rem;font-weight:600;opacity:0;transition:.3s;z-index:999;pointer-events:none}.toast.show{opacity:1}
 @media(max-width:768px){.G2,.G3{grid-template-columns:1fr}.S{padding:10px}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
@@ -111,9 +142,44 @@
 <div class="S" id="sec-anims"><h2 class="ST">Animations (20)</h2><p class="SD">Clique "Rejouer" pour voir l'effet.</p>
 <div class="G G3" id="ag"></div></div>
 
-<div class="S" id="sec-preview"><h2 class="ST">👁️ Preview combinée</h2><p class="SD">Toutes tes sélections combinées sur une vraie page.</p>
-<div class="PTB"><button class="psb a" onclick="spz(this,'100%')">💻 Desktop</button><button class="psb" onclick="spz(this,'768px')">📱 Tablette</button><button class="psb" onclick="spz(this,'375px')">📱 Mobile</button></div>
-<div class="PF" id="pf"></div></div>
+<div class="S" id="sec-preview"><h2 class="ST">👁️ Preview & Builder</h2><p class="SD">Change tout en direct : typo, couleurs, style, animation. Glisse les blocs pour les réorganiser.</p>
+
+<!-- TOOLBAR FLOTTANTE -->
+<div class="btbar" id="btbar">
+<div class="btgrp"><label>Typo</label><select id="bt-typo" onchange="btChTypo(this.value)"><option value="">— Choisir —</option></select></div>
+<div class="btgrp"><label>Palette</label><select id="bt-color" onchange="btChColor(this.value)"><option value="">— Choisir —</option></select></div>
+<div class="btgrp"><label>Style</label><select id="bt-style" onchange="btChStyle(this.value)"><option value="">— Choisir —</option></select></div>
+<div class="btgrp"><label>Héro</label><select id="bt-hero" onchange="btChHero(this.value)"><option value="">— Choisir —</option></select></div>
+<div class="btgrp"><label>Animation</label><select id="bt-anim" onchange="btChAnim(this.value)"><option value="">— Choisir —</option></select></div>
+<div class="btsep"></div>
+<div class="btgrp"><label>Couleurs live</label><div class="btrow">
+<input type="color" id="bt-pri" value="#FF4D00" onchange="btChLiveColor()" title="Primary">
+<input type="color" id="bt-sec" value="#FF6B2C" onchange="btChLiveColor()" title="Secondary">
+<input type="color" id="bt-cta" value="#FF4D00" onchange="btChLiveColor()" title="CTA">
+<input type="color" id="bt-bg" value="#FAFAFA" onchange="btChLiveColor()" title="Background">
+<input type="color" id="bt-txt" value="#1A1A1A" onchange="btChLiveColor()" title="Text">
+</div></div>
+<div class="btsep"></div>
+<div class="btgrp"><label>Graisse titre</label><div class="btrow"><input type="range" min="300" max="900" step="100" value="700" id="bt-hw" oninput="btChWeight()"><span id="bt-hw-val" style="font-size:.7rem;width:24px">700</span></div></div>
+<div class="btsep"></div>
+<div class="btrow">
+<button class="psb a" onclick="spz(this,'100%')">💻</button>
+<button class="psb" onclick="spz(this,'768px')">📱</button>
+<button class="psb" onclick="spz(this,'375px')">📲</button>
+</div>
+</div>
+
+<div class="PF" id="pf"></div>
+
+<!-- BLOCK PICKER MODAL -->
+<div class="bpicker" id="bpicker" onclick="if(event.target===this)closeBP()">
+<div class="bpicker-inner">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h3 style="font-size:1rem">Ajouter un bloc</h3><button class="btn bo" onclick="closeBP()">✕ Fermer</button></div>
+<input class="SB" id="bp-search" placeholder="Rechercher un bloc..." oninput="renderBP(this.value)">
+<div class="bpicker-grid" id="bp-grid"></div>
+</div>
+</div>
+</div>
 </div>
 
 <aside class="PP" id="panel">
@@ -659,8 +725,211 @@ function rPrev(){
     fr.innerHTML=html;
 }
 
+// ===================== BUILDER TOOLBAR =====================
+function initToolbar(){
+    // Populate dropdowns
+    const tSel=document.getElementById('bt-typo');
+    T.forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=`${t.n} (${t.h})`;tSel.appendChild(o);});
+    const cSel=document.getElementById('bt-color');
+    CO.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.t;cSel.appendChild(o);});
+    const sSel=document.getElementById('bt-style');
+    ST.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.n;sSel.appendChild(o);});
+    const hSel=document.getElementById('bt-hero');
+    H.forEach(h=>{const o=document.createElement('option');o.value=h.id;o.textContent=h.n;hSel.appendChild(o);});
+    const aSel=document.getElementById('bt-anim');
+    AN.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.textContent=a.n;aSel.appendChild(o);});
+}
+
+function btChTypo(id){
+    if(!id)return;
+    const t=T.find(x=>x.id==id);if(!t)return;
+    // Remove existing typo selection, add new
+    P.typos=[{...t,hw:t._hw||+document.getElementById('bt-hw').value,bw:t._bw||400}];
+    syncToolbar();rPrev();upd();
+}
+function btChColor(id){
+    if(!id)return;
+    const c=CO.find(x=>x.id==id);if(!c)return;
+    P.colors=[{...c}];
+    // Sync color pickers
+    document.getElementById('bt-pri').value=c.p;
+    document.getElementById('bt-sec').value=c.s;
+    document.getElementById('bt-cta').value=c.a;
+    document.getElementById('bt-bg').value=c.g;
+    document.getElementById('bt-txt').value=c.x;
+    rPrev();upd();
+}
+function btChStyle(id){
+    if(!id)return;
+    P.styles=[{...ST.find(x=>x.id==id)}];
+    rPrev();upd();
+}
+function btChHero(id){
+    if(!id)return;
+    P.heroes=[{...H.find(x=>x.id==id)}];
+    rPrev();upd();
+}
+function btChAnim(id){
+    if(!id)return;
+    P.anims=[{...AN.find(x=>x.id==id)}];
+    rPrev();upd();
+}
+function btChLiveColor(){
+    const c={
+        id:999,t:'Custom',n:'Palette personnalisée',
+        p:document.getElementById('bt-pri').value,
+        s:document.getElementById('bt-sec').value,
+        a:document.getElementById('bt-cta').value,
+        g:document.getElementById('bt-bg').value,
+        x:document.getElementById('bt-txt').value,
+    };
+    P.colors=[c];
+    document.getElementById('bt-color').value='';
+    rPrev();upd();
+}
+function btChWeight(){
+    const v=+document.getElementById('bt-hw').value;
+    document.getElementById('bt-hw-val').textContent=v;
+    if(P.typos[0]){P.typos[0].hw=v;}
+    rPrev();upd();
+}
+function syncToolbar(){
+    if(P.typos[0]){document.getElementById('bt-typo').value=P.typos[0].id;document.getElementById('bt-hw').value=P.typos[0].hw||700;document.getElementById('bt-hw-val').textContent=P.typos[0].hw||700;}
+    if(P.colors[0]){
+        const c=P.colors[0];
+        document.getElementById('bt-color').value=c.id||'';
+        document.getElementById('bt-pri').value=c.p;
+        document.getElementById('bt-sec').value=c.s;
+        document.getElementById('bt-cta').value=c.a;
+        document.getElementById('bt-bg').value=c.g;
+        document.getElementById('bt-txt').value=c.x;
+    }
+    if(P.styles[0])document.getElementById('bt-style').value=P.styles[0].id;
+    if(P.heroes[0])document.getElementById('bt-hero').value=P.heroes[0].id;
+    if(P.anims[0])document.getElementById('bt-anim').value=P.anims[0].id;
+}
+
+// ===================== BLOCK PICKER MODAL =====================
+let bpInsertIdx=-1;
+function openBP(idx){bpInsertIdx=idx;document.getElementById('bpicker').classList.add('open');renderBP('');}
+function closeBP(){document.getElementById('bpicker').classList.remove('open');}
+function renderBP(s){
+    const g=document.getElementById('bp-grid');
+    const f=BL.filter(x=>!s||(x.n+x.d+x.ct).toLowerCase().includes(s.toLowerCase()));
+    g.innerHTML=f.map(x=>`<div class="bpicker-item" onclick="insertBlock(${x.id})"><div class="bpi-name">${x.n}</div><div class="bpi-desc">${x.d}</div></div>`).join('');
+}
+function insertBlock(bid){
+    const bl={...BL.find(x=>x.id===bid)};
+    if(bpInsertIdx>=0&&bpInsertIdx<P.blocks.length){P.blocks.splice(bpInsertIdx,0,bl);}
+    else{P.blocks.push(bl);}
+    closeBP();rPrev();upd();reR('blocks');
+}
+
+// ===================== DRAG & DROP =====================
+let dragIdx=null;
+function dragStart(idx,e){dragIdx=idx;e.dataTransfer.effectAllowed='move';e.target.closest('.builder-block').classList.add('dragging');}
+function dragEnd(e){dragIdx=null;document.querySelectorAll('.builder-block').forEach(b=>{b.classList.remove('dragging','drag-over');});}
+function dragOver(idx,e){e.preventDefault();e.dataTransfer.dropEffect='move';document.querySelectorAll('.builder-block').forEach(b=>b.classList.remove('drag-over'));e.target.closest('.builder-block')?.classList.add('drag-over');}
+function drop(idx,e){
+    e.preventDefault();
+    if(dragIdx===null||dragIdx===idx)return;
+    const item=P.blocks.splice(dragIdx,1)[0];
+    P.blocks.splice(idx>dragIdx?idx-1:idx,0,item);
+    dragIdx=null;
+    rPrev();upd();reR('blocks');
+}
+function moveBlock(idx,dir){
+    const ni=idx+dir;
+    if(ni<0||ni>=P.blocks.length)return;
+    [P.blocks[idx],P.blocks[ni]]=[P.blocks[ni],P.blocks[idx]];
+    rPrev();upd();
+}
+function removeBlockFromBuilder(idx){
+    P.blocks.splice(idx,1);
+    rPrev();upd();reR('blocks');
+}
+
+// ===================== LIVE PREVIEW (BUILDER) =====================
+function rPrev(){
+    const fr=document.getElementById('pf');if(!fr)return;
+    const t=P.typos[0],c=P.colors[0],s=P.styles[0],hr=P.heroes[0];
+    const hf=t?`'${t.h}',sans-serif`:'system-ui';const bf=t?`'${t.b}',sans-serif`:'system-ui';
+    const hw=t?t.hw:700,bw=t?t.bw:400;
+    const bg=c?c.g:'#FAFAFA',txt=c?c.x:'#111',pri=c?c.p:'#FF4D00',cta=c?c.a:'#FF4D00',sec=c?c.s:'#FF6B2C';
+    
+    if(t){const u=`https://fonts.googleapis.com/css2?${t.u}&display=swap`;if(!document.querySelector(`link[href="${u}"]`)){const l=document.createElement('link');l.rel='stylesheet';l.href=u;document.head.appendChild(l);}}
+    
+    let radius='10px',cardBg='#fff',cardBorder='1px solid rgba(0,0,0,.06)',shadow='0 2px 8px rgba(0,0,0,.06)',cardTxt=txt;
+    if(s){
+        if(s.id===1){radius='4px';shadow='none';cardBorder='1px solid #e5e5e5';}
+        if(s.id===2){radius='18px';shadow='-4px -4px 8px rgba(255,255,255,.7),4px 4px 8px rgba(0,0,0,.12)';cardBorder='none';cardBg='#e8e8e8';}
+        if(s.id===3){radius='18px';cardBg='rgba(255,255,255,.12)';shadow='none';cardBorder='1px solid rgba(255,255,255,.2)';cardTxt='#fff';}
+        if(s.id===4){radius='0';shadow='none';cardBorder='3px solid '+txt;}
+        if(s.id===5||s.id===6||s.id===13){radius='12px';cardBg=txt+'15';cardBorder='1px solid '+txt+'20';cardTxt=txt;}
+        if(s.id===7){radius='22px';shadow='inset -3px -3px 6px rgba(0,0,0,.06),4px 4px 12px rgba(0,0,0,.08)';}
+        if(s.id===8){radius='14px';cardBorder='none';}
+        if(s.id===9){radius='16px';}
+        if(s.id===18){radius='14px';shadow='0 6px 20px rgba(0,0,0,.08)';}
+    }
+    
+    const ea=P.anims.find(a=>['fadeUp','fadeIn','slideL','slideR','scaleIn','blurIn','flipIn','elastic','slideUp','slideDown','rotateIn'].includes(a.css));
+    const anim=ea?`animation:${ea.css} ${ea.dur} ${ea.tm}`:'';
+    const btnAnim=P.anims.find(a=>['bounce','glow','pulse','swing','wobble'].includes(a.css));
+    const bAnim=btnAnim?`animation:${btnAnim.css} ${btnAnim.dur} ${btnAnim.tm}`:'';
+    
+    const D={hf,bf,hw,bw,pri,sec,cta,bg,txt,radius,shadow,cardBg,cardBorder,cardTxt,anim,bAnim};
+    
+    let pageBg=bg;
+    if(s&&s.id===2)pageBg='#e8e8e8';
+    
+    let html=`<div style="font-family:${bf};font-weight:${bw};color:${txt};background:${pageBg};min-height:700px">`;
+    
+    // NAV
+    html+=`<nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid ${txt}12;${anim}">
+        <span style="font-family:${hf};font-weight:800;font-size:1.15rem;color:${pri}">BANDFIT</span>
+        <div style="display:flex;gap:18px;font-size:.78rem;color:${txt};opacity:.5"><span>Produits</span><span>Guides</span><span>Blog</span></div>
+        <button style="background:${cta};color:#fff;border:none;padding:6px 16px;border-radius:${radius};font-size:.75rem;font-weight:600;${bAnim}">Panier (0)</button></nav>`;
+    
+    // HERO
+    if(hr){
+        html+=`<div class="builder-block" draggable="false"><div class="bhandle"><button onclick="P.heroes=[];rPrev();upd()" title="Retirer">✕</button></div>${genHero(hr.id,D)}</div>`;
+    } else {
+        html+=`<div style="padding:48px 24px;${anim}"><h1 style="font-family:${hf};font-weight:${hw};font-size:2rem;line-height:1.1;color:${txt};margin-bottom:10px">Transformez votre <span style="color:${pri}">entraînement</span></h1>
+        <p style="font-size:.95rem;color:${txt};opacity:.7;margin-bottom:18px;font-family:${bf}">Élastiques de résistance pro. Livrés en 24h.</p>
+        <button style="background:${cta};color:#fff;border:none;padding:12px 24px;border-radius:${radius};font-weight:600;font-size:.9rem;${bAnim}">Découvrir →</button></div>`;
+    }
+    
+    // INSERT POINT
+    html+=`<div class="block-insert"><button onclick="openBP(0)" title="Insérer un bloc ici">+</button></div>`;
+    
+    // BLOCKS with drag & drop
+    if(P.blocks.length>0){
+        P.blocks.forEach((bl,i)=>{
+            const delay=ea?`animation:${ea.css} ${ea.dur} ${ea.tm} ${i*0.1}s both`:'';
+            html+=`<div class="builder-block" draggable="true" ondragstart="dragStart(${i},event)" ondragend="dragEnd(event)" ondragover="dragOver(${i},event)" ondrop="drop(${i},event)">
+                <div class="bhandle">
+                    <button onclick="moveBlock(${i},-1)" title="Monter">↑</button>
+                    <button onclick="moveBlock(${i},1)" title="Descendre">↓</button>
+                    <button onclick="removeBlockFromBuilder(${i})" title="Retirer">✕</button>
+                </div>
+                <div style="${delay}">${genBlock(bl.id,D)}</div>
+            </div>`;
+            html+=`<div class="block-insert"><button onclick="openBP(${i+1})" title="Insérer un bloc ici">+</button></div>`;
+        });
+    } else {
+        // Default blocks
+        html+=`<div style="${anim}">${genBlock(1,D)}</div>`;
+        html+=`<div class="block-insert"><button onclick="openBP(0)" title="Insérer un bloc">+</button></div>`;
+        html+=`<div style="${anim}">${genBlock(4,D)}</div>`;
+    }
+    
+    html+=`</div>`;
+    fr.innerHTML=html;
+    syncToolbar();
+}
+
 // ===================== UI =====================
-function showTab(id,el){document.querySelectorAll('.S').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');if(id==='preview')rPrev();}
+function showTab(id,el){document.querySelectorAll('.S').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');el.classList.add('active');if(id==='preview'){rPrev();syncToolbar();}}
 function stc(el){tCat=el.dataset.c;document.querySelectorAll('#tf .ft').forEach(f=>f.classList.remove('a'));el.classList.add('a');rT();}
 function spz(el,w){document.getElementById('pf').style.maxWidth=w;document.querySelectorAll('.psb').forEach(b=>b.classList.remove('a'));el.classList.add('a');}
 function cpCSS(){navigator.clipboard.writeText(document.getElementById('ex').textContent);toast('CSS copié !');}
@@ -668,7 +937,7 @@ function cpBrief(){navigator.clipboard.writeText(genBrief());toast('Brief comple
 function toast(msg){const t=document.getElementById('toast');t.textContent='✅ '+msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 
 // INIT
-rT();rC();rS();rH();rB();rA();rPrev();
+rT();rC();rS();rH();rB();rA();initToolbar();rPrev();
 </script>
 </body>
 </html>
